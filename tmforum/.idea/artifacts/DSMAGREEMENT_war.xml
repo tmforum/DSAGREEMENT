@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="DSMAGREEMENT:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="agreement.war">
+      <element id="artifact" artifact-name="DSMAGREEMENT:war exploded" />
+    </root>
+  </artifact>
+</component>
