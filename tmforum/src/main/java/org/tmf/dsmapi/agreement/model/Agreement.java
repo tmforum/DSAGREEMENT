@@ -4,15 +4,46 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by atinsingh on 3/20/17.
- */
-public class Agreement implements Serializable {
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.CollectionTable;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ElementCollection;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
+@Entity
+@Table(name="AGREEMENT")
+public class Agreement implements Serializable {
+	@Transient
     private static final long serialVersionUID = 11L;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="AGREEMENT_ID")
+    protected String id;
+
+	@Embedded
     protected TimePeriod agreementPeriod;
 
+	@Embedded
     protected TimePeriod completionPeriod;
 
     protected String description;
@@ -20,8 +51,6 @@ public class Agreement implements Serializable {
     protected int documentNumber;
 
     protected String href;
-
-    protected String id;
 
     protected Date intialDate;
 
@@ -35,18 +64,32 @@ public class Agreement implements Serializable {
 
     protected String version;
 
+	@Embedded
     protected AgreementSpecificationRef agreementSpecification;
 
+	@OneToMany(cascade=CascadeType.ALL)
+	@ElementCollection
+	@CollectionTable(name="AGREEMENT_ITEM", joinColumns=@JoinColumn(name="AGREEMENT_ID"))
     protected List<AgreementItem> agreementItem;
 
+	@ElementCollection
+	@CollectionTable(name="PARTY_ROLE_REF")
+	@Column(name="ENGAGED_PARTY_ROLE")
     protected List<PartyRoleRef> engagedPartyRole;
 
+	@ElementCollection
+	@CollectionTable(name="AGREEMENT_AUTH")
+	@Column(name="AGREEMENT_AUTH")
     protected List<AgreementAuthorization> agreementAuthorization;
 
+	@ElementCollection
+	@CollectionTable(name="CHARACTERISTIC")
     protected List<Characteristic> characteristic;
 
+	@ElementCollection
+	@CollectionTable(name="AGREEMENT_REF")
+	@Column(name="ASSOC_AGREEMENT")
     protected List<AgreementRef> associatedAgreement;
-
 
     public TimePeriod getAgreementPeriod() {
         return agreementPeriod;
