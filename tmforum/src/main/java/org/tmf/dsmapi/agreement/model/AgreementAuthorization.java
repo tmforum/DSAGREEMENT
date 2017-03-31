@@ -24,17 +24,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- * Created by atinsingh on 3/20/17.
- */
-
-@Embeddable
+@Entity
+@Table(name = "AGREEMENT_AUTH")
 public class AgreementAuthorization {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "AGREEMENT_AUTH_ID")
+	String agrAuthId;
 
     protected Date date;
     protected String signatureRepresentation;
     protected String state;
-
 
     public AgreementAuthorization(Date date, String signatureRepresentation, String state) {
         this.date = date;
