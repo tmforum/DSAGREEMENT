@@ -1,5 +1,7 @@
 package org.tmf.dsmapi.agreement.model;
 
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,20 +18,32 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- * Created by atinsingh on 3/20/17.
- */
+/* This may end up being a ManyToMany relationship
+   Needs further refinement
+*/
 
-@Embeddable
+@Entity
+@Table(name = "CHARACTERISTIC")
 public class Characteristic {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "CHARACTERISTIC_ID")
+	protected String charId;
+
     protected String name;
     protected String value;
+
+	//@ManyToMany(mappedBy = "characteristic")
+	@ManyToMany
+	protected List<Agreement> agreementChar;
 
     public Characteristic(String name, String value) {
         this.name = name;

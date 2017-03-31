@@ -24,9 +24,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- * Created by atinsingh on 3/20/17.
- */
 @Embeddable
 public class ProductOfferingRef {
 

@@ -22,15 +22,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- * Created by atinsingh on 3/20/17.
- */
-
-@Embeddable
+@Entity
+@Table(name = "AGREEMENT_REF")
 public class AgreementRef {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "AGREEMENT_REF_ID")
+	protected String agrRefId;
+
+	@Column(name = "AGREEMENT_ID")
     protected String id;
+
     protected String name;
+
     protected String href;
 
     public AgreementRef(String id, String name, String href) {

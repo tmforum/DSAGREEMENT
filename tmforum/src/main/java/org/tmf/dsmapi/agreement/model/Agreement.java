@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -30,14 +31,14 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="AGREEMENT")
+@Table(name = "AGREEMENT")
 public class Agreement implements Serializable {
 	@Transient
     private static final long serialVersionUID = 11L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="AGREEMENT_ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "AGREEMENT_ID")
     protected String id;
 
 	@Embedded
@@ -64,31 +65,31 @@ public class Agreement implements Serializable {
 
     protected String version;
 
-	@Embedded
+	@OneToOne(targetEntity = AgreementSpecificationRef.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_AGREEMENT_SPEC_REF_AGREEMENT")
     protected AgreementSpecificationRef agreementSpecification;
 
-	@OneToMany(cascade=CascadeType.ALL)
-	@ElementCollection
-	@CollectionTable(name="AGREEMENT_ITEM", joinColumns=@JoinColumn(name="AGREEMENT_ID"))
+	// The below OneToMany and JoinColumn statements will create 
+	// the named FK in the corresponding referred table
+
+	@OneToMany(targetEntity = AgreementItem.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_AGREEMENT_ITEM_AGREEMENT")
     protected List<AgreementItem> agreementItem;
 
-	@ElementCollection
-	@CollectionTable(name="PARTY_ROLE_REF")
-	@Column(name="ENGAGED_PARTY_ROLE")
+	@OneToMany(targetEntity = PartyRoleRef.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_PARTY_ROLE_AGREEMENT")
     protected List<PartyRoleRef> engagedPartyRole;
 
-	@ElementCollection
-	@CollectionTable(name="AGREEMENT_AUTH")
-	@Column(name="AGREEMENT_AUTH")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_AGREEMENT_AUTH_AGREEMENT")
     protected List<AgreementAuthorization> agreementAuthorization;
 
-	@ElementCollection
-	@CollectionTable(name="CHARACTERISTIC")
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "agreementChar")
+	//@JoinColumn(name = "FK_CHARACTERISTIC_AGREEMENT")
     protected List<Characteristic> characteristic;
 
-	@ElementCollection
-	@CollectionTable(name="AGREEMENT_REF")
-	@Column(name="ASSOC_AGREEMENT")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_AGREEMENT_REF_AGREEMENT")
     protected List<AgreementRef> associatedAgreement;
 
     public TimePeriod getAgreementPeriod() {

@@ -29,6 +29,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+// This is an embedded class, to be embedded within other entities
+
 @Embeddable
 public class TimePeriod {
 
@@ -58,6 +60,4 @@ public class TimePeriod {
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
     }
-
-
 }

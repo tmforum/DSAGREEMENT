@@ -1,8 +1,8 @@
 package org.tmf.dsmapi.agreement.model;
 
-/**
- * Created by atinsingh on 3/20/17.
- */
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class AgreementTermOrCondition {
 
     protected  String id;

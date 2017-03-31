@@ -24,23 +24,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- * Created by atinsingh on 3/20/17.
- */
-/*
 @Entity
 @Table(name="AGREEMENT_ITEM")
-*/
-
-@Embeddable
 public class AgreementItem {
 
-/*
-	@Column(name="AGREEMENT_ID")
+	/* This field will be added automatically by JPA DDL for join
+	@Column(name="FK_AGREEMENT_ID")
 	protected String id;
-*/
+	*/
 
-	// Need table for list of product offerings
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "AGREEMENT_ITEM_ID")
+	protected String agrItemId;
+
 	@ElementCollection
 	@CollectionTable(name="PRODUCT_OFFERING")
     protected List<ProductOfferingRef> productOffering;

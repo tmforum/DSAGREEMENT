@@ -1,5 +1,7 @@
 package org.tmf.dsmapi.agreement.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,12 +24,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Embeddable
-public class AgreementSpecificationRef {
+// No PK for this table. To be added later based on performance
 
+@Entity
+@Table(name = "AGREEMENT_SPEC_REF")
+public class AgreementSpecificationRef implements Serializable {
+
+	@Column(name = "AGREEMENT_SPEC_DESC")
     protected String description;
+
     protected String href;
+
+	@Column(name = "AGREEMENT_SPEC_ID")
     protected String id;
+
     protected String name;
 
     public String getDescription() {
