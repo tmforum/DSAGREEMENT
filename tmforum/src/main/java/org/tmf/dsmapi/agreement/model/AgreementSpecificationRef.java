@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "AGREEMENT_SPEC_REF")
-public class AgreementSpecificationRef implements Serializable {
+public class AgreementSpecificationRef {
 
 	@Column(name = "AGREEMENT_SPEC_DESC")
     protected String description;
