@@ -42,7 +42,7 @@ public abstract class StateModelBase<E extends Enum<E>> implements StateModel<E>
     /**
      * @return first currentT
      */
-    @Override
+
     public Transition<E> getFirstTransition() {
         if (firstTransition == null) {
             draw();
@@ -56,7 +56,7 @@ public abstract class StateModelBase<E extends Enum<E>> implements StateModel<E>
      * @param to
      * @throws BadUsageException
      */
-    @Override
+
     public void checkTransition(E from, E to) throws BadUsageException {
         if (firstTransition == null) {
             draw();

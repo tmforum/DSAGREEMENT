@@ -158,7 +158,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
         //Verify is this patching is permitted
         verifyStatus(specification,patchObject);
         //verify that only allowed attributes are patched
-        checkPathObject(patchObject);
+        checkPatchObject(patchObject);
         patchObject.setId(id);
         //Create an object mapper
         ObjectMapper objectMapper = new ObjectMapper();
@@ -175,7 +175,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      * Check that we are only allowing patchable attributes
      * @param patchObject
      */
-    public void checkPathObject(AgreementSpecification patchObject) throws UnknownResourceException, BadUsageException{
+    public void checkPatchObject(AgreementSpecification patchObject) throws UnknownResourceException, BadUsageException{
         //Id can't be patched
         if(patchObject.getId()!=null){
             throw new BadUsageException(
