@@ -1,4 +1,4 @@
-package org.tmf.dsmapi.agreement;
+package org.tmf.dsmapi.agreementspec;
 
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;

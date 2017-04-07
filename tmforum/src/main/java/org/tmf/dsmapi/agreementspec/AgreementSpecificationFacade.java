@@ -1,4 +1,5 @@
-package org.tmf.dsmapi.agreement;
+package org.tmf.dsmapi.agreementspec;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tmf.dsmapi.agreement.model.AgreementAttachment;
