@@ -219,7 +219,7 @@ public abstract class AbstractFacade<T> {
 
     // value has format value1,value2,...,valueN
     private static boolean isMultipleOrValue(String value) {
-        return (value.indexOf(",") > -1);
+        return (value.contains(","));
     }
 
     // value has format (value1&value2&...&valueN)

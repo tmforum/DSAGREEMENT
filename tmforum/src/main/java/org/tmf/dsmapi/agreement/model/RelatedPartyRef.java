@@ -1,43 +1,22 @@
 package org.tmf.dsmapi.agreement.model;
 
-//import javax.xml.bind.annotation.XmlAccessType;
-//import javax.xml.bind.annotation.XmlAccessorType;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.CollectionTable;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 
 //@XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name = "RELATED_PARTY_REF")
 @Table(name = "RELATED_PARTY_REF")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class RelatedPartyRef implements Serializable {
+public class RelatedPartyRef {
     protected String id;
     protected String href;
     protected String name;
