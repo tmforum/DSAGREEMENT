@@ -23,15 +23,15 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
-import com.github.fge.jsonpatch.diff.JsonDiff;
+//import com.github.fge.jsonpatch.JsonPatch;
+//import com.github.fge.jsonpatch.JsonPatchException;
+//import com.github.fge.jsonpatch.diff.JsonDiff;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.utils.Jackson;
 import org.tmf.dsmapi.commons.utils.URIParser;
-import org.tmf.dsmapi.appointment.model.Agreement;
-import org.tmf.dsmapi.appointment.AgreementFacade;
+import org.tmf.dsmapi.agreement.model.Agreement;
+import org.tmf.dsmapi.agreement.AgreementFacade;
 //import org.tmf.dsmapi.appointment.event.AppointmentEventPublisherLocal;
 //import org.tmf.dsmapi.schedule.ScheduleFacade;
 
@@ -55,7 +55,16 @@ public class AgreementResource {
     public Response create(Agreement entity, @Context UriInfo info) 
 		throws BadUsageException, UnknownResourceException {
 
+		System.out.println("~~~ Calling Facade ~~~");
 		agreementFacade.create(entity);
+		System.out.println("~~~ Facade Called ~~~");
+		//System.out.println(entity.toSting());
+
+		Response response = Response.status(Response.Status.CREATED).entity(entity).build();
+                //Response response = Response.status(Response.Status.CREATED).build();
+		System.out.println("~~~ Before sending Response ~~~");
+		System.out.println("~~~ Before sending Response ~~~");
+		return response;
     }
 
 	@GET
@@ -66,7 +75,8 @@ public class AgreementResource {
 		// The function receives query parameters as below - hence we need to parse it first
 		// /agreement?fields=id,name&status=approved&engagedParty.name="So Magic Ltd"
 
-		Response response;
+		Response response = Response.status(Response.Status.NOT_FOUND).build();
+		//Response response;
 		MultivaluedMap<String, String> queryParameters = info.getQueryParameters();
 		
 		// A mutable map is created just for use of the function "getFieldsSelection".
@@ -84,15 +94,17 @@ public class AgreementResource {
 
 		if(agreement != null) {
 			if (fieldSet.isEmpty() || fieldSet.contains(URIParser.ALL_FIELDS)) {
-				response = Response.ok(appointment).build();
+				response = Response.ok(agreement).build();
 			} 
-			/*
 			else {
+				/*
+				response = Response.status(Response.Status.NOT_FOUND).build();
 				fieldSet.add(URIParser.ID_FIELD);
 				ObjectNode node = Jackson.createNode(agreement, fieldSet);
 				response = Response.ok(node).build();
+				*/
 			}
-			*/
 		}
+		return response;
 	}
 }

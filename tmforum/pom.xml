@@ -36,6 +36,8 @@
 		<artifactId>javax.ejb-api</artifactId>
 		<version>3.2</version>
 	</dependency>
+
+	<!--
 	<dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
 		<artifactId>jackson-core</artifactId>
@@ -46,6 +48,8 @@
 		<artifactId>jackson-databind</artifactId>
 		<version>2.8.6</version>
 	</dependency>
+	-->
+
 	<dependency>
 		<groupId>org.glassfish.jersey.containers</groupId>
 		<!--artifactId>jersey-container-servlet-core</artifactId-->
@@ -62,7 +66,12 @@
 		<artifactId>javax.servlet-api</artifactId>
 		<version>3.0.1</version>
 	</dependency>
-
+	<dependency>
+		<groupId>com.github.fge</groupId>
+		<artifactId>json-patch</artifactId>
+		<version>1.9</version>
+		<type>jar</type>
+	</dependency>
     <!--
             Persistence
 	-->

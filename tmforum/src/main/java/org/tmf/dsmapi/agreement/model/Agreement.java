@@ -44,8 +44,12 @@ public class Agreement implements Serializable {
 	@Embedded
     protected TimePeriod agreementPeriod;
 
+	/*
 	@Embedded
     protected TimePeriod completionPeriod;
+	*/
+	
+    protected Date completionDate;
 
     protected String description;
 
@@ -100,12 +104,12 @@ public class Agreement implements Serializable {
         this.agreementPeriod = agreementPeriod;
     }
 
-    public TimePeriod getCompletionPeriod() {
-        return completionPeriod;
+    public Date getCompletionDate() {
+        return completionDate;
     }
 
-    public void setCompletionPeriod(TimePeriod completionPeriod) {
-        this.completionPeriod = completionPeriod;
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
     }
 
     public String getDescription() {
@@ -240,7 +244,7 @@ public class Agreement implements Serializable {
     public String toString() {
         return "Agreement{" +
                 "agreementPeriod=" + agreementPeriod +
-                ", completionPeriod=" + completionPeriod +
+                ", completionDate=" + completionDate +
                 ", description='" + description + '\'' +
                 ", documentNumber=" + documentNumber +
                 ", href='" + href + '\'' +
