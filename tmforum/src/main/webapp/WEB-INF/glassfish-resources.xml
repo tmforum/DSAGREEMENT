@@ -26,9 +26,9 @@
         <property name="Password" value="tmforum"></property>
         <property name="ServerName" value="localhost"></property>
         <property name="PortNumber" value="3306"></property>
-        <property name="databaseName" value="appointmentdb"/>
+        <property name="databaseName" value="agreementdb"/>
         <!--property name="URL" value="jdbc:mysql://tmforum:tmforum/appointementdb"/-->
-        <property name="URL" value="jdbc:mysql://localhost:3306/appointmentdb"/>
+        <property name="URL" value="jdbc:mysql://localhost:3306/agreementdb"/>
         <property name="description" value="RI TMF POOL"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>

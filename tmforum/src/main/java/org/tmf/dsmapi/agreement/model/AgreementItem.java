@@ -47,10 +47,12 @@ public class AgreementItem {
     protected List<AgreementTermOrCondition> termOrConditions;
 
 
+	/*
     public AgreementItem(List<ProductOfferingRef> productOffering, List<AgreementTermOrCondition> termOrConditions) {
         this.productOffering = productOffering;
         this.termOrConditions = termOrConditions;
     }
+	*/
 
     public List<ProductOfferingRef> getProductOffering() {
         return productOffering;

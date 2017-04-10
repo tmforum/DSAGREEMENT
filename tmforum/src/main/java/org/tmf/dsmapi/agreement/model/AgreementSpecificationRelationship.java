@@ -11,7 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Entity(name = "AgreementSpecificationRelationship")
+@Entity
 @Table(name = "AGREEMENT_SPEC_RELATIONSHIP")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementSpecificationRelationship {

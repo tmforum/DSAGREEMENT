@@ -1,8 +1,5 @@
-//package org.tmf.dsmapi.agreementmanagement.agreementspecification.model;
 package org.tmf.dsmapi.agreement.model;
 
-//import javax.xml.bind.annotation.XmlAccessType;
-//import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -33,8 +30,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-//@XmlAccessorType(XmlAccessType.FIELD)
-@Entity(name = "AgreementAttachment")
+@Entity
 @Table(name = "AGREEMENT_ATTACHMENT")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementAttachment implements Serializable {

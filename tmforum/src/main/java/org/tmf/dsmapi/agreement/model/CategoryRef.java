@@ -1,8 +1,5 @@
 package org.tmf.dsmapi.agreement.model;
 
-//import javax.xml.bind.annotation.XmlAccessType;
-//import javax.xml.bind.annotation.XmlAccessorType;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +10,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-//@XmlAccessorType(XmlAccessType.FIELD)
-@Entity(name = "CategoryRef")
+@Entity
 @Table(name = "CATEGORY_REF")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class CategoryRef{

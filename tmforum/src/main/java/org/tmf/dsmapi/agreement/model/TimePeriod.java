@@ -14,10 +14,12 @@ public class TimePeriod {
     private Date starDateTime;
     private Date endDateTime;
 
+	/*
     public TimePeriod(Date starDateTime, Date endDateTime) {
         this.starDateTime = starDateTime;
         this.endDateTime = endDateTime;
     }
+	*/
 
     public String getStarDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");

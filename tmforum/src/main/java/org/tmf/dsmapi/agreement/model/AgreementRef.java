@@ -23,11 +23,13 @@ public class AgreementRef {
 
     protected String href;
 
+	/*
     public AgreementRef(String id, String name, String href) {
         this.id = id;
         this.name = name;
         this.href = href;
     }
+	*/
 
     public String getId() {
         return id;

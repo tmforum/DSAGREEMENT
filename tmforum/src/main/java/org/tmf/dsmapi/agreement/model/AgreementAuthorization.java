@@ -34,14 +34,18 @@ public class AgreementAuthorization {
 	String agrAuthId;
 
     protected Date date;
+
     protected String signatureRepresentation;
+
     protected String state;
 
+	/*
     public AgreementAuthorization(Date date, String signatureRepresentation, String state) {
         this.date = date;
         this.signatureRepresentation = signatureRepresentation;
         this.state = state;
     }
+	*/
 
     public Date getDate() {
         return date;

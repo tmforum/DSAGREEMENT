@@ -31,7 +31,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-@Entity(name = "AgreementSpecsCharacteristic")
+@Entity
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC")
 public class AgreementSpecCharacteristic implements Serializable {
 
@@ -49,8 +49,12 @@ public class AgreementSpecCharacteristic implements Serializable {
 	@Embedded
     protected TimePeriod validFor;
 
+    @Basic
+    @Column(name = "VALUE_TYPE", length = 255)
     protected String valueType;
 
+    @OneToMany(targetEntity = AgreementSpecCharacteristicValue.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "SPEC_CHAR_VALUE_SPEC_CHARACTERISTIC_ID")
     protected List<AgreementSpecCharacteristicValue> specCharacteristicValues;
 
     protected List<RelatedPartyRef> relatedParty;
@@ -62,8 +66,6 @@ public class AgreementSpecCharacteristic implements Serializable {
      * allowed object is
      * {@link Boolean}
      */
-    @Basic
-    @Column(name = "CONFIGURABLE")
     public Boolean getConfigurable() {
         return configurable;
     }
@@ -85,8 +87,6 @@ public class AgreementSpecCharacteristic implements Serializable {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "DESCRIPTION", length = 255)
     public String getDescription() {
         return description;
     }
@@ -111,8 +111,6 @@ public class AgreementSpecCharacteristic implements Serializable {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "NAME", length = 255)
     public String getName() {
         return name;
     }
@@ -158,8 +156,6 @@ public class AgreementSpecCharacteristic implements Serializable {
      * {@link String}
      */
 
-    @Basic
-    @Column(name = "VALUE_TYPE", length = 255)
     public String getValueType() {
         return valueType;
     }
@@ -184,10 +180,6 @@ public class AgreementSpecCharacteristic implements Serializable {
      * allowed object is
      * {@link AgreementSpecCharacteristicValue}
      */
-    @OneToMany(targetEntity = AgreementSpecCharacteristicValue.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "SPEC_CHAR_VALUE_SPEC_CHARACTERISTIC_ID")
     public List<AgreementSpecCharacteristicValue> getSpecCharacteristicValues() {
         if(specCharacteristicValues==null){
             specCharacteristicValues = new ArrayList<AgreementSpecCharacteristicValue>();

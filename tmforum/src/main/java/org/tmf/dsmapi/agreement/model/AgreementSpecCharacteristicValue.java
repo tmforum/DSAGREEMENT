@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-@Entity(name = "AgreementCharacteristicValue")
+@Entity
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC_VALUE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementSpecCharacteristicValue{
