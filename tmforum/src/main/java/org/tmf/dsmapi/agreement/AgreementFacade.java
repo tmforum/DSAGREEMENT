@@ -37,14 +37,16 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 
 	// Override the abstract method
 	@Override
-	protected EntityManager getEntityManager {
+	protected EntityManager getEntityManager() {
 		return em;
 	}
 
 	public void checkCreation(Agreement entity) throws BadUsageException, UnknownResourceException {
 	}
 
+	/*
 	public Agreement patchAttributs(String id, Agreement partialEntity) 
 		throws UnknownResourceException, BadUsageException {
 	}
+	*/
 }

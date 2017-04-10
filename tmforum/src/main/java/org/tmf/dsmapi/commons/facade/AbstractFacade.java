@@ -50,8 +50,8 @@ public abstract class AbstractFacade<T> {
 	// Try running with default "REQUIRED" attribute type
 	//----------------------------------------------------------
 
-	// Call create method on each entity member to persist data.
-	//----------------------------------------------------------
+	// Call "create" method on each entity member to persist data
+	//------------------------------------------------------------
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int create(List<T> entities) throws BadUsageException {
@@ -61,8 +61,8 @@ public abstract class AbstractFacade<T> {
         return entities.size();
     }
 
-	// Call EntityManager to persist data.
-	//------------------------------------
+	// This method calls the EntityManager to persist data
+	//-----------------------------------------------------
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void create(T entity) throws BadUsageException {
