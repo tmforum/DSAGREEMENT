@@ -11,16 +11,25 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-
-//@XmlAccessorType(XmlAccessType.FIELD)
-@Entity(name = "RELATED_PARTY_REF")
+@Entity
 @Table(name = "RELATED_PARTY_REF")
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class RelatedPartyRef {
+
+    @Id
+    @Column(name = "RELATED_PARTY_REF_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected String id;
+
+    @Basic
+    @Column(name = "HREF", length = 255)
     protected String href;
+
     protected String name;
+
     protected String role;
+
+	@Embedded
     protected TimePeriod validFor;
 
     public RelatedPartyRef() {
@@ -33,9 +42,6 @@ public class RelatedPartyRef {
      * allowed object is
      * {@link String}
      */
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public String getId() {
         return id;
     }
@@ -59,8 +65,6 @@ public class RelatedPartyRef {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "HREF", length = 255)
     public String getHref() {
         return href;
     }
@@ -86,8 +90,6 @@ public class RelatedPartyRef {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "NAME_")
     public String getName() {
         return name;
     }
@@ -112,8 +114,6 @@ public class RelatedPartyRef {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "ROLE_")
     public String getRole() {
         return role;
     }
@@ -138,7 +138,6 @@ public class RelatedPartyRef {
      * {@link TimePeriod}
      */
 
-    @Embedded
     public TimePeriod getValidFor() {
         return validFor;
     }

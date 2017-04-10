@@ -35,12 +35,18 @@ import javax.persistence.Transient;
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC")
 public class AgreementSpecCharacteristic implements Serializable {
 
+    @Id 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGREEMENT_SPEC_CHAR_ID")
+    protected String id; 
+
     protected Boolean configurable;
 
     protected String description;
 
     protected String name;
 
+	@Embedded
     protected TimePeriod validFor;
 
     protected String valueType;
@@ -129,7 +135,6 @@ public class AgreementSpecCharacteristic implements Serializable {
      * allowed object is
      * {@link TimePeriod}
      */
-    @Embedded
     public TimePeriod getValidFor() {
         return validFor;
     }

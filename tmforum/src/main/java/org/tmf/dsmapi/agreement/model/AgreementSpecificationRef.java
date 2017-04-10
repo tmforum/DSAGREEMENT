@@ -30,6 +30,11 @@ import javax.persistence.TemporalType;
 @Table(name = "AGREEMENT_SPEC_REF")
 public class AgreementSpecificationRef {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "AGREEMENT_SPEC_REF_PK")
+	protected String agreementSpecRefPk;
+
 	@Column(name = "AGREEMENT_SPEC_DESC")
     protected String description;
 

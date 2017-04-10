@@ -1,8 +1,5 @@
 package org.tmf.dsmapi.agreement.model;
 
-//import javax.xml.bind.annotation.XmlAccessType;
-//import javax.xml.bind.annotation.XmlAccessorType;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -14,15 +11,24 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-//@XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name = "AgreementSpecificationRelationship")
 @Table(name = "AGREEMENT_SPEC_RELATIONSHIP")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementSpecificationRelationship {
 
+    @Id
+    @Column(name = "AGREEMENT_SPEC_RELATIONSHIP_PK")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected String agreementSpecRelnPk;
+
+    @Column(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID")
     protected String id;
+
     protected String href;
+
     protected String type;
+
+	@Embedded
     protected TimePeriod validFor;
 
     public AgreementSpecificationRelationship() {
@@ -35,9 +41,6 @@ public class AgreementSpecificationRelationship {
      * allowed object is
      * {@link String}
      */
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public String getId() {
         return id;
     }
@@ -61,8 +64,6 @@ public class AgreementSpecificationRelationship {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "HREF", length = 255)
     public String getHref() {
         return href;
     }
@@ -86,8 +87,6 @@ public class AgreementSpecificationRelationship {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "TYPE",length = 255)
     public String getType() {
         return type;
     }
@@ -111,7 +110,6 @@ public class AgreementSpecificationRelationship {
      *
      * {@link TimePeriod}
      */
-    @Embedded
     public TimePeriod getValidFor() {
         return validFor;
     }

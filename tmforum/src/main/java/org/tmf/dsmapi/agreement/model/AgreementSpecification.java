@@ -22,35 +22,56 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-//@XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name = "AgreementSpecs")
 @Table(name = "AGREEMENT_SPECIFICATION")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementSpecification  {
 
-
     private static final long serialVersionUID = 11L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGREEMENT_SPEC_ID")
     protected String id;
+
     protected String href;
+
     protected String description;
 
     protected Boolean isBundle;
 
+    @Basic
+    @Column(name = "LAST_UPDATE")
+    @Temporal(TemporalType.TIMESTAMP)
     protected Date lastUpdate;
 
-    protected  AgreementStatusEnum lifecycleStatus;
+    @Basic
+    @Column(name = "LIFE_CYCLE_STATUS" , length = 255)
+    protected AgreementStatusEnum lifeCycleStatus;
+
     protected String name;
 
+	@Embedded
     protected TimePeriod validFor;
 
     protected String version;
 
+    @ManyToOne(targetEntity = CategoryRef.class, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "CATEGORY_REF_AGREEMENT_SPEC_ID")
     protected CategoryRef serviceCategory;
 
+    @OneToMany(targetEntity = AgreementSpecCharacteristic.class, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "SPEC_CHARACTERISTIC_AGREEMENT_SPEC_ID")
     protected List<AgreementSpecCharacteristic> specCharacteristics;
 
+    @OneToMany(targetEntity = AgreementAttachment.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "ATTACHMENT_AGREEMENT_SPEC_ID")
     protected List<AgreementAttachment> attachment;
 
+    @OneToMany(targetEntity = AgreementSpecificationRelationship.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID")
     protected List<AgreementSpecificationRelationship> specificationRelationship;
 
     @Transient
@@ -64,9 +85,6 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link String}
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "AGREEMENT_SPEC_ID")
     public String getId() {
         return id;
     }
@@ -92,8 +110,6 @@ public class AgreementSpecification  {
      * {@link String}
      */
 
-    @Basic
-    @Column(name = "HREF", length = 255)
     public String getHref() {
         return href;
     }
@@ -119,8 +135,6 @@ public class AgreementSpecification  {
      * {@link String}
      */
 
-    @Basic
-    @Column(name = "DESCRIPTION", length = 255)
     public String getDescription() {
         return description;
     }
@@ -142,8 +156,6 @@ public class AgreementSpecification  {
      *      {@link Boolean}
      */
 
-    @Basic
-    @Column(name = "BUNDLE")
     public Boolean getBundle() {
         return isBundle;
     }
@@ -168,9 +180,6 @@ public class AgreementSpecification  {
      * {@link String}
      *
      */
-    @Basic
-    @Column(name = "LAST_UPDATE")
-    @Temporal(TemporalType.TIMESTAMP)
     public Date getLastUpdate() {
         return lastUpdate;
     }
@@ -193,20 +202,17 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "LIFE_CYCLE_STATUS" , length = 255)
-    public AgreementStatusEnum getLifecycleStatus() {
-        return lifecycleStatus;
+    public AgreementStatusEnum getLifeCycleStatus() {
+        return lifeCycleStatus;
     }
 
     /**
      * Sets the value of propery lifecycleStatus
      * @param lifecycleSattus
      * allowed object is
-     * {@link String}
      */
-    public void setLifeCycleStatus(AgreementStatusEnum lifecycleSattus) {
-        this.lifecycleStatus = lifecycleSattus;
+    public void setLifeCycleStatus(AgreementStatusEnum lifeCycleStatus) {
+        this.lifeCycleStatus = lifeCycleStatus;
     }
 
     /**
@@ -239,7 +245,6 @@ public class AgreementSpecification  {
      * allowed object is TimePeriod
      * {@link TimePeriod}
      */
-    @Embedded
     public TimePeriod getValidFor() {
         return validFor;
     }
@@ -289,10 +294,6 @@ public class AgreementSpecification  {
      * {@link CategoryRef }
      */
 
-    @ManyToOne(targetEntity = CategoryRef.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "CATEGORY_REF_AGREEMENT_SPEC_ID")
     public CategoryRef getServiceCategory() {
         return serviceCategory;
     }
@@ -318,10 +319,6 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link AgreementSpecCharacteristic}
      */
-    @OneToMany(targetEntity = AgreementSpecCharacteristic.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "SPEC_CHARACTERISTIC_AGREEMENT_SPEC_ID")
     public List<AgreementSpecCharacteristic> getSpecCharacteristics() {
         if(specCharacteristics==null){
             specCharacteristics = new ArrayList<AgreementSpecCharacteristic>();
@@ -346,10 +343,6 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link AgreementAttachment}
      */
-    @OneToMany(targetEntity = AgreementAttachment.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "ATTACHMENT_AGREEMENT_SPEC_ID")
     public List<AgreementAttachment> getAttachment() {
         if(attachment==null){
             attachment = new ArrayList<AgreementAttachment>();
@@ -376,10 +369,6 @@ public class AgreementSpecification  {
      * {@link AgreementSpecificationRelationship}
      */
 
-    @OneToMany(targetEntity = AgreementSpecificationRelationship.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID")
     public List<AgreementSpecificationRelationship> getSpecificationRelationship() {
         if(specificationRelationship==null){
             specificationRelationship = new ArrayList<AgreementSpecificationRelationship>();
@@ -405,7 +394,7 @@ public class AgreementSpecification  {
                 ", description='" + description + '\'' +
                 ", isBundle=" + isBundle +
                 ", lastUpdate=" + lastUpdate +
-                ", lifecycleStatus='" + lifecycleStatus.toString() + '\'' +
+                ", lifeCycleStatus='" + lifeCycleStatus.toString() + '\'' +
                 ", name='" + name + '\'' +
                 ", validFor=" + validFor +
                 ", version='" + version + '\'' +

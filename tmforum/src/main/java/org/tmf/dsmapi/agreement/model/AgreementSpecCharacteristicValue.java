@@ -7,32 +7,36 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
-//@XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name = "AgreementCharacteristicValue")
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC_VALUE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementSpecCharacteristicValue{
 
+    @Id 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGREEMENT_SPEC_CHAR_VALUE_ID")
+    protected String id; 
+
     protected  Boolean _default;
+
     protected String unitOfMeasure;
+
+	@Embedded
     protected TimePeriod validFor;
+
     protected String value;
+
     protected String valueFrom;
+
     protected String valueTo;
+
     protected String valueType;
 
     public AgreementSpecCharacteristicValue() {
-    }
-
-    public AgreementSpecCharacteristicValue(Boolean _default, String unitOfMeasure, TimePeriod validFor, String value, String valueFrom, String valueTo, String valueType) {
-        this._default = _default;
-        this.unitOfMeasure = unitOfMeasure;
-        this.validFor = validFor;
-        this.value = value;
-        this.valueFrom = valueFrom;
-        this.valueTo = valueTo;
-        this.valueType = valueType;
     }
 
     /**
@@ -92,7 +96,6 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link TimePeriod}
      */
-    @Embedded
     public TimePeriod getValidFor() {
         return validFor;
     }
