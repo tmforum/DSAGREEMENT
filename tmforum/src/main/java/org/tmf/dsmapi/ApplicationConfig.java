@@ -6,9 +6,8 @@ import org.tmf.dsmapi.commons.jaxrs.JacksonFeature;
 
 @ApplicationPath("api")
 public class ApplicationConfig extends ResourceConfig {
-
     public ApplicationConfig(){
-        packages ("org.tmf.dsmapi.appointment.AgreementResource");
+        packages ("org.tmf.dsmapi.agreement.AgreementResource");
 		/*
         packages ("com.fasterxml.jackson.jaxrs.json");
         register(JacksonFeature.class);
