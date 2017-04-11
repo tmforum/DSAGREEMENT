@@ -77,14 +77,14 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
 
         //Now I have to create resource
         //if there is no status set to initialized one
-        if(specification.getLifecycleStatus()==null){
+        if(specification.getLifeCycleStatus()==null){
             specification.setLifeCycleStatus(AgreementStatusEnum.INITIALIZED);
         }else {
             //if there is status, then it should be initialized.
-            if(!specification.getLifecycleStatus().name().equalsIgnoreCase(AgreementStatusEnum.INITIALIZED.name())){
+            if(!specification.getLifeCycleStatus().name().equalsIgnoreCase(AgreementStatusEnum.INITIALIZED.name())){
                 throw new BadUsageException(
                   ExceptionType.BAD_USAGE_FLOW_TRANSITION,
-                        "AgreementSpecification LifeCycle Status "+specification.getLifecycleStatus().getValue()+"is not the first state"
+                        "AgreementSpecification LifeCycle Status "+specification.getLifeCycleStatus().getValue()+"is not the first state"
                 );
             }
         }
@@ -216,8 +216,8 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      *
      */
     public void verifyStatus(AgreementSpecification currentEntity, AgreementSpecification partialEntity) throws BadUsageException {
-        if (null != partialEntity.getLifecycleStatus() && !partialEntity.getLifecycleStatus().name().equals(currentEntity.getLifecycleStatus().name())) {
-            stateModel.checkTransition(currentEntity.getLifecycleStatus(), partialEntity.getLifecycleStatus());
+        if (null != partialEntity.getLifeCycleStatus() && !partialEntity.getLifeCycleStatus().name().equals(currentEntity.getLifeCycleStatus().name())) {
+            stateModel.checkTransition(currentEntity.getLifeCycleStatus(), partialEntity.getLifeCycleStatus());
             //publisher.statusChangedNotification(currentEntity, new Date());
         }
     }
