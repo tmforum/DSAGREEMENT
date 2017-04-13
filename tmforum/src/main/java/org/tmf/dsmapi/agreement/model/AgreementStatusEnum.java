@@ -26,7 +26,7 @@ public enum  AgreementStatusEnum {
 
     public static AgreementStatusEnum fromValue(String v) {
         for (AgreementStatusEnum c: AgreementStatusEnum.values()) {
-            if (c.value.equals(v)) {
+            if (c.value.equalsIgnoreCase(v)) {
                 return c;
             }
         }

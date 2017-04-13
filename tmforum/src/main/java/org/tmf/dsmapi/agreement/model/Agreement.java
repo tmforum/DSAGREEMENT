@@ -1,5 +1,7 @@
 package org.tmf.dsmapi.agreement.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +34,7 @@ public class Agreement implements Serializable {
     protected String id;
 
 	@Embedded
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     protected TimePeriod agreementPeriod;
 
 	/*
@@ -40,6 +43,7 @@ public class Agreement implements Serializable {
 	*/
 
 	@Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     protected Date completionDate;
 
     protected String description;
@@ -49,7 +53,8 @@ public class Agreement implements Serializable {
     protected String href;
 
     @Temporal(TemporalType.TIMESTAMP)
-    protected Date intialDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    protected Date initialDate;
 
     protected String name;
 
@@ -80,8 +85,10 @@ public class Agreement implements Serializable {
 	@JoinColumn(name = "FK_AGREEMENT_AUTH_AGREEMENT")
     protected List<AgreementAuthorization> agreementAuthorization;
 
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "agreementChar")
-	//@JoinColumn(name = "FK_CHARACTERISTIC_AGREEMENT")
+	//@ManyToMany(cascade = CascadeType.ALL, mappedBy = "agreementChar")
+
+    @OneToMany(targetEntity = Characteristic.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "FK_CHARACTERISTIC_AGREEMENT")
     protected List<Characteristic> characteristic;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -136,12 +143,12 @@ public class Agreement implements Serializable {
         this.id = id;
     }
 
-    public Date getIntialDate() {
-        return intialDate;
+    public Date getInitialDate() {
+        return initialDate;
     }
 
-    public void setIntialDate(Date intialDate) {
-        this.intialDate = intialDate;
+    public void setInitialDate(Date intialDate) {
+        this.initialDate = intialDate;
     }
 
     public String getName() {
@@ -241,7 +248,7 @@ public class Agreement implements Serializable {
                 ", documentNumber=" + documentNumber +
                 ", href='" + href + '\'' +
                 ", id='" + id + '\'' +
-                ", intialDate=" + intialDate +
+                ", intialDate=" + initialDate +
                 ", name='" + name + '\'' +
                 ", statementOfIntent='" + statementOfIntent + '\'' +
                 ", status='" + status + '\'' +

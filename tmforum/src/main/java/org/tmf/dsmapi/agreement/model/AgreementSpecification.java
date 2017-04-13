@@ -9,24 +9,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.tmf.dsmapi.commons.utils.CustomJsonDateDeSerializer;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPECS")
+@XmlRootElement
 public class AgreementSpecification  {
 
     private static final long serialVersionUID = 11L;
@@ -40,21 +29,24 @@ public class AgreementSpecification  {
 
     protected String description;
 
+
     protected Boolean isBundle;
 
 
     @Column(name = "LAST_UPDATE")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    //@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date lastUpdate;
 
     //Indicates the current lifecycle status
-    protected AgreementStatusEnum lifeCycleStatus;
+    @Enumerated(EnumType.STRING)
+    protected AgreementStatusEnum lifecycleStatus;
     //Name of the agreement specification
     protected String name;
 
 	@Embedded
+    @JsonDeserialize(as = TimePeriod.class)
     protected TimePeriod validFor;
     //Agreement specification version
     protected String version;
@@ -67,7 +59,7 @@ public class AgreementSpecification  {
     @OneToMany(targetEntity = AgreementSpecCharacteristic.class, cascade = { CascadeType.ALL })
     @JoinColumn(name = "SPEC_CHAR_AGREEMENT_SPEC_ID_FK")
     //A list of agreement spec characteristics
-    protected List<AgreementSpecCharacteristic> specCharacteristics;
+    protected List<AgreementSpecCharacteristic> specCharacteristic;
 
     @OneToMany(targetEntity = AgreementAttachment.class, cascade = {CascadeType.ALL})
     @JoinColumn(name = "ATTACHMENT_AGREEMENT_SPEC_ID_FK")
@@ -78,6 +70,13 @@ public class AgreementSpecification  {
     @JoinColumn(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID_FK")
     //A list of agreement specification relationships
     protected List<AgreementSpecificationRelationship> specificationRelationship;
+
+    //A list of related party references (RelatedPartyRef [*]). A related party defines party or party role linked to a specific entity.
+    @OneToMany(targetEntity = RelatedPartyRef.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "AGREEMENT_SPEC_RELATED_PARTY_REF")
+    protected List<RelatedPartyRef> relatedParty;
+
+
 
     @Transient
     public static long getSerialVersionUID() {
@@ -161,7 +160,7 @@ public class AgreementSpecification  {
      *      {@link Boolean}
      */
 
-    public Boolean getBundle() {
+    public Boolean getIsBundle() {
         return isBundle;
     }
 
@@ -173,7 +172,7 @@ public class AgreementSpecification  {
      *  {@link Boolean}
      */
 
-    public void setBundle(Boolean bundle) {
+    public void setIsBundle(Boolean bundle) {
         isBundle = bundle;
     }
 
@@ -185,9 +184,8 @@ public class AgreementSpecification  {
      * {@link String}
      *
      */
-    public String getLastUpdate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        return dateFormat.format(lastUpdate);
+    public Date getLastUpdate() {
+       return lastUpdate;
     }
 
     /**
@@ -197,7 +195,8 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link String}
      */
-    public void setLastUpdate(Date lastUpdate) throws ParseException {
+    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
+    public void setLastUpdate(Date lastUpdate) {
        this.lastUpdate = lastUpdate;
     }
 
@@ -208,8 +207,8 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link String}
      */
-    public AgreementStatusEnum getLifeCycleStatus() {
-        return lifeCycleStatus;
+    public AgreementStatusEnum getLifecycleStatus() {
+        return lifecycleStatus;
     }
 
     /**
@@ -217,8 +216,8 @@ public class AgreementSpecification  {
      * @param lifecycleSattus
      * allowed object is
      */
-    public void setLifeCycleStatus(AgreementStatusEnum lifeCycleStatus) {
-        this.lifeCycleStatus = lifeCycleStatus;
+    public void setLifecycleStatus(String lifecycleStatus) {
+        this.lifecycleStatus = AgreementStatusEnum.fromValue(lifecycleStatus);
     }
 
     /**
@@ -323,11 +322,11 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link AgreementSpecCharacteristic}
      */
-    public List<AgreementSpecCharacteristic> getSpecCharacteristics() {
-        if(specCharacteristics==null){
-            specCharacteristics = new ArrayList<AgreementSpecCharacteristic>();
+    public List<AgreementSpecCharacteristic> getSpecCharacteristic() {
+        if(specCharacteristic==null){
+            specCharacteristic = new ArrayList<AgreementSpecCharacteristic>();
         }
-        return specCharacteristics;
+        return specCharacteristic;
     }
 
     /**
@@ -335,8 +334,8 @@ public class AgreementSpecification  {
      *
      * @param specCharacteristics
      */
-    public void setSpecCharacteristics(List<AgreementSpecCharacteristic> specCharacteristics) {
-        this.specCharacteristics = specCharacteristics;
+    public void setSpecCharacteristic(List<AgreementSpecCharacteristic> specCharacteristic) {
+        this.specCharacteristic = specCharacteristic;
     }
 
     /**
@@ -390,6 +389,15 @@ public class AgreementSpecification  {
         this.specificationRelationship = specificationRelationship;
     }
 
+
+    public List<RelatedPartyRef> getRelatedParty() {
+        return relatedParty;
+    }
+
+    public void setRelatedParty(List<RelatedPartyRef> relatedParty) {
+        this.relatedParty = relatedParty;
+    }
+
     @Override
     public String toString() {
         return "AgreementSpecification{" +
@@ -398,12 +406,12 @@ public class AgreementSpecification  {
                 ", description='" + description + '\'' +
                 ", isBundle=" + isBundle +
                 ", lastUpdate=" + lastUpdate +
-                ", lifeCycleStatus='" + lifeCycleStatus.toString() + '\'' +
+                ", lifecycleStatus='" + lifecycleStatus.toString() + '\'' +
                 ", name='" + name + '\'' +
                 ", validFor=" + validFor +
                 ", version='" + version + '\'' +
                 ", serviceCategory=" + serviceCategory +
-                ", specCharacteristics=" + specCharacteristics +
+                ", specCharacteristics=" + specCharacteristic +
                 ", attachment=" + attachment +
                 ", specificationRelationship=" + specificationRelationship +
                 '}';

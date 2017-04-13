@@ -14,10 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC")
+@XmlRootElement
 public class AgreementSpecCharacteristic implements Serializable {
 
     @Id 
@@ -43,7 +45,9 @@ public class AgreementSpecCharacteristic implements Serializable {
     @OneToMany(targetEntity = AgreementSpecCharacteristicValue.class, cascade = {CascadeType.ALL})
     @JoinColumn(name = "SPEC_CHAR_VALUE_SPEC_CHAR_ID")
     //agreement spec characteristic values
-    protected List<AgreementSpecCharacteristicValue> specCharacteristicValues;
+    protected List<AgreementSpecCharacteristicValue> specCharacteristicValue;
+
+
 
 
     /**
@@ -167,11 +171,11 @@ public class AgreementSpecCharacteristic implements Serializable {
      * allowed object is
      * {@link AgreementSpecCharacteristicValue}
      */
-    public List<AgreementSpecCharacteristicValue> getSpecCharacteristicValues() {
-        if(specCharacteristicValues==null){
-            specCharacteristicValues = new ArrayList<AgreementSpecCharacteristicValue>();
+    public List<AgreementSpecCharacteristicValue> getSpecCharacteristicValue() {
+        if(specCharacteristicValue ==null){
+            specCharacteristicValue = new ArrayList<AgreementSpecCharacteristicValue>();
         }
-        return specCharacteristicValues;
+        return specCharacteristicValue;
     }
 
     /**
@@ -181,8 +185,8 @@ public class AgreementSpecCharacteristic implements Serializable {
      *
      *
      */
-    public void setSpecCharacteristicValues(List<AgreementSpecCharacteristicValue> specCharacteristicValues) {
-        this.specCharacteristicValues = specCharacteristicValues;
+    public void setSpecCharacteristicValue(List<AgreementSpecCharacteristicValue> specCharacteristicValues) {
+        this.specCharacteristicValue = specCharacteristicValues;
     }
 
 
@@ -194,7 +198,7 @@ public class AgreementSpecCharacteristic implements Serializable {
                 ", name='" + name + '\'' +
                 ", validFor=" + validFor +
                 ", valueType='" + valueType + '\'' +
-                ", specCharacteristicValues=" + specCharacteristicValues +
+                ", specCharacteristicValues=" + specCharacteristicValue +
                 '}';
     }
 }

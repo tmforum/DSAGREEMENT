@@ -7,11 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("all")
 @Entity
 @Table(name = "RELATED_PARTY_REF")
 //@Inheritance(strategy = InheritanceType.JOINED)
+@XmlRootElement
 public class RelatedPartyRef {
 
     @Id

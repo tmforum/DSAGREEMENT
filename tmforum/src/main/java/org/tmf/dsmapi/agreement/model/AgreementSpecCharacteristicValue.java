@@ -8,10 +8,12 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC_VALUE")
+@XmlRootElement
 public class AgreementSpecCharacteristicValue{
 
     @Id 
@@ -45,7 +47,7 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link Boolean}
      */
-    public Boolean get_default() {
+    public Boolean getdefault() {
         return _default;
     }
 
@@ -56,7 +58,7 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link Boolean}
      */
-    public void set_default(Boolean _default) {
+    public void setdefault(Boolean _default) {
         this._default = _default;
     }
 

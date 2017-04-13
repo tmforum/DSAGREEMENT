@@ -25,7 +25,7 @@ public class PartyRoleRef {
     protected String name;
 
     //The identifier of the engaged party that is linked to the PartyRole object.
-    protected String partyID;  // Should be replaced with PartyRole object.
+    protected String partyId;  // Should be replaced with PartyRole object.
 
     protected String partyName;
 
@@ -53,12 +53,12 @@ public class PartyRoleRef {
         this.name = name;
     }
 
-    public String getPartyID() {
-        return partyID;
+    public String getPartyId() {
+        return partyId;
     }
 
-    public void setPartyID(String partyID) {
-        this.partyID = partyID;
+    public void setPartyId(String partyId) {
+        this.partyId = partyId;
     }
 
     public String getPartyName() {
@@ -75,7 +75,7 @@ public class PartyRoleRef {
                 "id='" + id + '\'' +
                 ", href='" + href + '\'' +
                 ", name='" + name + '\'' +
-                ", partyID='" + partyID + '\'' +
+                ", partyID='" + partyId + '\'' +
                 ", partyName='" + partyName + '\'' +
                 '}';
     }

@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="agreement:war">
+  <artifact type="war" name="tmforum:war">
     <output-path>$PROJECT_DIR$/target</output-path>
     <root id="archive" name="agreement.war">
-      <element id="artifact" artifact-name="agreement:war exploded" />
+      <element id="artifact" artifact-name="tmforum:war exploded" />
     </root>
   </artifact>
 </component>

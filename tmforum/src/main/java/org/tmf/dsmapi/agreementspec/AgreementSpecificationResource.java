@@ -6,10 +6,7 @@ import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -36,7 +33,7 @@ public class AgreementSpecificationResource {
     /**
      *
      * @param specification
-     * @param info
+     * @param uriInfo
      * @return
      * @throws BadUsageException
      * @throws UnknownResourceException
@@ -68,18 +65,36 @@ public class AgreementSpecificationResource {
 
 
     // GET /agreementSpecification?fields=&{filtering}
-
-    public Response find(@Context UriInfo uriInfo) throws BadUsageException{
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response find( @Context UriInfo uriInfo) throws BadUsageException{
         //get all queryparams
 
-        MultivaluedMap<String,String> queryParams = uriInfo.getQueryParameters();
+        List<AgreementSpecification> agreementSpecifications = agreementSpecificationFacade.findAll();
 
-        Map<String, List<String>> entry = new HashMap();
-        for(Map.Entry<String,List<String>> listEntry : queryParams.entrySet()){
-            entry.put(listEntry.getKey(),listEntry.getValue());
+        Response response;
+        if(agreementSpecifications!=null){
+           response = Response.ok(agreementSpecifications).build();
+        }else{
+            response = Response.status(Response.Status.NOT_FOUND).build();
         }
+        return response;
+    }
 
-        return null;
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findbyID( @PathParam("id") String id, @Context UriInfo uriInfo) throws BadUsageException, UnknownResourceException{
+        //get all queryparams
 
+         AgreementSpecification specification = agreementSpecificationFacade.find(id);
+
+        Response response;
+        if(specification!=null){
+            response = Response.ok(specification).build();
+        }else{
+            response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return response;
     }
 }

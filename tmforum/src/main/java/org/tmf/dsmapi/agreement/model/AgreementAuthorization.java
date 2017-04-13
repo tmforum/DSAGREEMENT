@@ -1,5 +1,7 @@
 package org.tmf.dsmapi.agreement.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,6 +25,7 @@ public class AgreementAuthorization {
 	String agrAuthId;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     protected Date date;
 
     //Indication that represents whether the signature is a physical paper signature or a digital signature.

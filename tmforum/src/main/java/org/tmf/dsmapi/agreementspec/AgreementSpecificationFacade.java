@@ -204,7 +204,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
                     "Description can't be patched"
             );
         }
-        if(patchObject.getBundle()!=null){
+        if(patchObject.getIsBundle()!=null){
             throw new BadUsageException(
                     ExceptionType.BAD_USAGE_OPERATOR,
                     "isBundle can't be patched"
@@ -224,8 +224,8 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      *
      */
     public void verifyStatus(AgreementSpecification currentEntity, AgreementSpecification partialEntity) throws BadUsageException {
-        if (null != partialEntity.getLifeCycleStatus() && !partialEntity.getLifeCycleStatus().name().equals(currentEntity.getLifeCycleStatus().name())) {
-            stateModel.checkTransition(currentEntity.getLifeCycleStatus(), partialEntity.getLifeCycleStatus());
+        if (null != partialEntity.getLifecycleStatus() && !partialEntity.getLifecycleStatus().name().equals(currentEntity.getLifecycleStatus().name())) {
+            stateModel.checkTransition(currentEntity.getLifecycleStatus(), partialEntity.getLifecycleStatus());
             //publisher.statusChangedNotification(currentEntity, new Date());
         }
     }

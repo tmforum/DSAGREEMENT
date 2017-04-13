@@ -27,8 +27,8 @@ public class Characteristic {
     protected String value;
 
 	//@ManyToMany(mappedBy = "characteristic")
-	@ManyToMany
-	protected List<Agreement> agreementChar;
+	//@ManyToMany
+	//protected List<Agreement> agreementChar;
 
     public String getName() {
         return name;

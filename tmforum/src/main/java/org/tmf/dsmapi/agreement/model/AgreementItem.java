@@ -31,7 +31,7 @@ public class AgreementItem {
 
 	@ElementCollection
 	@CollectionTable(name="T_OR_C")
-    protected List<AgreementTermOrCondition> termOrConditions;
+    protected List<AgreementTermOrCondition> termOrCondition;
 
     public List<ProductOfferingRef> getProductOffering() {
         return productOffering;
@@ -41,19 +41,19 @@ public class AgreementItem {
         this.productOffering = productOffering;
     }
 
-    public List<AgreementTermOrCondition> getTermOrConditions() {
-        return termOrConditions;
+    public List<AgreementTermOrCondition> getTermOrCondition() {
+        return termOrCondition;
     }
 
-    public void setTermOrConditions(List<AgreementTermOrCondition> termOrConditions) {
-        this.termOrConditions = termOrConditions;
+    public void setTermOrCondition(List<AgreementTermOrCondition> termOrConditions) {
+        this.termOrCondition = termOrConditions;
     }
 
     @Override
     public String toString() {
         return "AgreementItem{" +
                 "productOffering=" + productOffering +
-                ", termOrConditions=" + termOrConditions +
+                ", termOrConditions=" + termOrCondition +
                 '}';
     }
 }

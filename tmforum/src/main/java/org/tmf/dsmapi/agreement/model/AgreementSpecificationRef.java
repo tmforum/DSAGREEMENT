@@ -6,12 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 // No PK for this table. To be added later based on performance
 
 @SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPEC_REF")
+@XmlRootElement
 public class AgreementSpecificationRef {
 
 	@Id

@@ -8,10 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPEC_RELATIONSHIP")
+@XmlRootElement
 public class AgreementSpecificationRelationship {
 
     @Id
