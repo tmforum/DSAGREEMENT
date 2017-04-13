@@ -24,7 +24,7 @@ import java.util.Map;
  */
 
 @Stateless
-@Path("/agreementSpecification")
+@Path("/agreementManagement/agreementSpecification")
 public class AgreementSpecificationResource {
 
     @EJB

@@ -1,6 +1,5 @@
 package org.tmf.dsmapi.agreement.model;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,29 +9,32 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+@SuppressWarnings("all")
 @Entity
 @Table(name = "CATEGORY_REF")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class CategoryRef{
 
+    @Id
+    @Column(name = "CATEGORY_REF_ID_PK")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    //Unique value of service category
     protected  String id;
 
+    //Unique reference of the category
     protected String href;
 
+    //Name of the category.
     protected String name;
 
+    //Category version.
     protected String version;
 
 
     public CategoryRef() {
     }
 
-    public CategoryRef(String id, String href, String name, String version) {
-        this.id = id;
-        this.href = href;
-        this.name = name;
-        this.version = version;
-    }
+
 
     /**
      * Return the ID of the object
@@ -42,9 +44,7 @@ public class CategoryRef{
      * {@link String}
      */
 
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     public String getId() {
         return id;
     }
@@ -67,8 +67,7 @@ public class CategoryRef{
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "HREF", length = 255)
+
     public String getHref() {
         return href;
     }
@@ -91,8 +90,7 @@ public class CategoryRef{
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "NAME_")
+
     public String getName() {
         return name;
     }
@@ -115,8 +113,7 @@ public class CategoryRef{
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "VERSION", length = 255)
+
     public String getVersion() {
         return version;
     }

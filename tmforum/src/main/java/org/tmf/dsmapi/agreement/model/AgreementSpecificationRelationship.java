@@ -1,19 +1,17 @@
 package org.tmf.dsmapi.agreement.model;
 
-import javax.persistence.Basic;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+@SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPEC_RELATIONSHIP")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementSpecificationRelationship {
 
     @Id
@@ -21,11 +19,15 @@ public class AgreementSpecificationRelationship {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected String agreementSpecRelnPk;
 
+
+    //Unique identifier of the related agreement specification.
     @Column(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID")
     protected String id;
 
+    //Reference of an agreement specification
     protected String href;
 
+    //Type of relationship such as, substitution or dependency
     protected String type;
 
 	@Embedded

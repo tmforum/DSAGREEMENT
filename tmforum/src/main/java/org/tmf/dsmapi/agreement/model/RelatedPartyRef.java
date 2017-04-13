@@ -1,32 +1,32 @@
 package org.tmf.dsmapi.agreement.model;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+@SuppressWarnings("all")
 @Entity
 @Table(name = "RELATED_PARTY_REF")
 //@Inheritance(strategy = InheritanceType.JOINED)
 public class RelatedPartyRef {
 
     @Id
-    @Column(name = "RELATED_PARTY_REF_ID")
+    @Column(name = "RELATED_PARTY_REF_ID_PK")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    //Unique identifier of a related party
     protected String id;
 
-    @Basic
-    @Column(name = "HREF", length = 255)
+    //Reference of the related party, could be a party reference or a party role reference.
     protected String href;
 
+    //Name of the related party.
     protected String name;
 
+    //Role of the related party
     protected String role;
 
 	@Embedded

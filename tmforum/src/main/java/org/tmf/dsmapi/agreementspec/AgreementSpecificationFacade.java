@@ -26,8 +26,9 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
 
     private Logger logger = Logger.getLogger(AgreementSpecificationFacade.class.getName());
 
-    public AgreementSpecificationFacade(Class<AgreementSpecification> entityClass) {
-        super(entityClass);
+
+    public AgreementSpecificationFacade() {
+        super(AgreementSpecification.class);
     }
 
     @PersistenceContext(unitName = "DSAgreementPU")
@@ -48,12 +49,13 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      * Going to create Entity AgreementSpefication Based on the Resource provided
      * @param specification
      * @throws BadUsageException
-     * @throws UnknownResourceException
+     *
      */
 
-    public void checkCreation(AgreementSpecification specification) throws BadUsageException, UnknownResourceException {
+    public void checkCreation(AgreementSpecification specification) throws BadUsageException {
 
         //Create a new entity object
+        /*
         AgreementSpecification agreementSpecification = null;
 
         if(specification.getId()==null||specification.getId().equals("")){
@@ -69,15 +71,17 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
                             );
                 }
             }catch (UnknownResourceException ex){
-                logger.log(Level.INFO, "Resource not found and a new resouce will be created");
-                logger.log(Level.INFO, "AgreementSpecification with id "+specification.getId()+"is being posted",ex);
+                logger.log(Level.INFO, "Resource not found and a new resource will be created");
+                logger.log(Level.INFO, "AgreementSpecification with id "+specification.getId()+" is being posted");
             }
 
         }
 
         //Now I have to create resource
         //if there is no status set to initialized one
+        logger.log(Level.INFO, "Checking for LifeCycleStatus now ....");
         if(specification.getLifeCycleStatus()==null){
+            logger.log(Level.INFO, "Setting up the LifeCycleStatus as "+ AgreementStatusEnum.INITIALIZED.toString());
             specification.setLifeCycleStatus(AgreementStatusEnum.INITIALIZED);
         }else {
             //if there is status, then it should be initialized.
@@ -90,7 +94,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
         }
 
         //now check the mandatory values
-
+        logger.log(Level.INFO, "Checking for Name as mandatory field now ....");
         //name
         if(specification.getName()==null||specification.getName().equalsIgnoreCase("")){
             throw new BadUsageException(
@@ -99,6 +103,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
         }
 
         //attachment
+        logger.log(Level.INFO, "Checking for attachment as mandatory field now ....");
         if(specification.getAttachment()==null||specification.getAttachment().isEmpty()){
             throw new BadUsageException(
               ExceptionType.BAD_USAGE_MANDATORY_FIELDS, "Atleast 1 attachment is required"
@@ -129,16 +134,18 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
 
             }
 
-
+            logger.log(Level.INFO, "Checking for Bundle as mandatory field now ....");
 
             //if isbundle true that bundled product must be there.
             if(specification.getBundle()&&(specification.getSpecificationRelationship()==null||specification.getSpecificationRelationship().isEmpty())){
                 throw new BadUsageException(
                         ExceptionType.BAD_USAGE_OPERATOR,"If isBundle is true, Specification Relationship should be provided"
                 );
+            }else{
+                logger.log(Level.INFO, "All good now I am going to create the AgreementSpecification Resource ....");
             }
 
-        }
+        }*/
 
     }
     /**
@@ -147,6 +154,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      *
      */
     //patch attribute
+    /*
     public AgreementSpecification patchObject(String id, AgreementSpecification patchObject) throws UnknownResourceException, BadUsageException {
         AgreementSpecification specification = this.find(id);
         if(specification==null){
@@ -171,7 +179,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
         return specification;
 
     }
-
+*/
     /**
      * Check that we are only allowing patchable attributes
      * @param patchObject

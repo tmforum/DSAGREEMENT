@@ -4,23 +4,22 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+@SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC_VALUE")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class AgreementSpecCharacteristicValue{
 
     @Id 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "AGREEMENT_SPEC_CHAR_VALUE_ID")
+    @Column(name = "AGREEMENT_SPEC_CHAR_VALUE_ID_PK")
     protected String id; 
 
+    @Column(name = "DEFAULT_VALUE")
     protected  Boolean _default;
 
     protected String unitOfMeasure;
@@ -46,7 +45,6 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link Boolean}
      */
-    @Column(name = "DEFAULT_VALUE")
     public Boolean get_default() {
         return _default;
     }
@@ -120,8 +118,7 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "VALUE", length = 255)
+
     public String getValue() {
         return value;
     }
@@ -144,8 +141,7 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "VALUE_FROM", length = 255)
+
     public String getValueFrom() {
         return valueFrom;
     }
@@ -168,8 +164,7 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "VALUE_TO", length = 255)
+
     public String getValueTo() {
         return valueTo;
     }
@@ -194,8 +189,7 @@ public class AgreementSpecCharacteristicValue{
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "VALUE_TYPE", length = 255)
+
     public String getValueType() {
         return valueType;
     }

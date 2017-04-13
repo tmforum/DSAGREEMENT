@@ -1,10 +1,14 @@
 package org.tmf.dsmapi.agreement.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.tmf.dsmapi.commons.utils.CustomJsonDateDeSerializer;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -12,8 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,16 +24,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+@SuppressWarnings("all")
 @Entity
-@Table(name = "AGREEMENT_SPECIFICATION")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "AGREEMENT_SPECS")
 public class AgreementSpecification  {
 
     private static final long serialVersionUID = 11L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "AGREEMENT_SPEC_ID")
+    @Column(name = "AGREEMENT_SPECS_ID_PK")
     protected String id;
 
     protected String href;
@@ -40,38 +42,41 @@ public class AgreementSpecification  {
 
     protected Boolean isBundle;
 
-    @Basic
+
     @Column(name = "LAST_UPDATE")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date lastUpdate;
 
-    @Basic
-    @Column(name = "LIFE_CYCLE_STATUS" , length = 255)
+    //Indicates the current lifecycle status
     protected AgreementStatusEnum lifeCycleStatus;
-
+    //Name of the agreement specification
     protected String name;
 
 	@Embedded
     protected TimePeriod validFor;
-
+    //Agreement specification version
     protected String version;
 
     @ManyToOne(targetEntity = CategoryRef.class, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "CATEGORY_REF_AGREEMENT_SPEC_ID")
+    @JoinColumn(name = "CAT_REF_AGREEMENT_SPEC_ID_FK")
+    //The category resource is used to group product offerings, service and resource candidates in logical containers
     protected CategoryRef serviceCategory;
 
     @OneToMany(targetEntity = AgreementSpecCharacteristic.class, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "SPEC_CHARACTERISTIC_AGREEMENT_SPEC_ID")
+    @JoinColumn(name = "SPEC_CHAR_AGREEMENT_SPEC_ID_FK")
+    //A list of agreement spec characteristics
     protected List<AgreementSpecCharacteristic> specCharacteristics;
 
-    @OneToMany(targetEntity = AgreementAttachment.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "ATTACHMENT_AGREEMENT_SPEC_ID")
+    @OneToMany(targetEntity = AgreementAttachment.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "ATTACHMENT_AGREEMENT_SPEC_ID_FK")
+    //A list of agreement attachments
     protected List<AgreementAttachment> attachment;
 
     @OneToMany(targetEntity = AgreementSpecificationRelationship.class, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID")
+    @JoinColumn(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID_FK")
+    //A list of agreement specification relationships
     protected List<AgreementSpecificationRelationship> specificationRelationship;
 
     @Transient
@@ -180,8 +185,9 @@ public class AgreementSpecification  {
      * {@link String}
      *
      */
-    public Date getLastUpdate() {
-        return lastUpdate;
+    public String getLastUpdate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        return dateFormat.format(lastUpdate);
     }
 
     /**
@@ -191,8 +197,8 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link String}
      */
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setLastUpdate(Date lastUpdate) throws ParseException {
+       this.lastUpdate = lastUpdate;
     }
 
 
@@ -222,8 +228,7 @@ public class AgreementSpecification  {
      * {@link String}
      */
 
-    @Basic
-    @Column(name = "NAME", length = 255)
+
     public String getName() {
         return name;
     }
@@ -268,8 +273,7 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link String}
      */
-    @Basic
-    @Column(name = "VERSION", length = 255)
+
     public String getVersion() {
         return version;
     }

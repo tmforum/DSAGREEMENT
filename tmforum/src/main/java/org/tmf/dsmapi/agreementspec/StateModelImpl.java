@@ -1,8 +1,6 @@
 package org.tmf.dsmapi.agreementspec;
 
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.AgreementStatusEnum;
-import org.tmf.dsmapi.commons.workflow.StateModel;
 import org.tmf.dsmapi.commons.workflow.StateModelBase;
 
 /**

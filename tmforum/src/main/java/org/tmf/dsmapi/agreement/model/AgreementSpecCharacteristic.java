@@ -1,63 +1,50 @@
 package org.tmf.dsmapi.agreement.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.CollectionTable;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
+@SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC")
 public class AgreementSpecCharacteristic implements Serializable {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "AGREEMENT_SPEC_CHAR_ID")
+    @Column(name = "AGREEMENT_SPEC_CHAR_ID_PK")
     protected String id; 
 
+    //indicates that the characteristic is configurable or not
     protected Boolean configurable;
 
+    //A narrative that explains in detail what the characteristic is
     protected String description;
 
+    //Name of the characteristic being specified
     protected String name;
 
 	@Embedded
     protected TimePeriod validFor;
 
-    @Basic
-    @Column(name = "VALUE_TYPE", length = 255)
+    //A kind of value that the characteristic can take on, such as numeric, text and so forth.
     protected String valueType;
 
     @OneToMany(targetEntity = AgreementSpecCharacteristicValue.class, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "SPEC_CHAR_VALUE_SPEC_CHARACTERISTIC_ID")
+    @JoinColumn(name = "SPEC_CHAR_VALUE_SPEC_CHAR_ID")
+    //agreement spec characteristic values
     protected List<AgreementSpecCharacteristicValue> specCharacteristicValues;
 
-    protected List<RelatedPartyRef> relatedParty;
 
     /**
      * Return if specs are configurable
@@ -198,30 +185,6 @@ public class AgreementSpecCharacteristic implements Serializable {
         this.specCharacteristicValues = specCharacteristicValues;
     }
 
-    /**
-     * Return Related parties associated with Specs Characteristic
-     * get/set will be allowed
-     * @return
-     *
-     * allowed object is
-     * {@link RelatedPartyRef}
-     */
-    @OneToMany(targetEntity = RelatedPartyRef.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "RELATED_PARTY_SPECIFICATION_CHAR_ID")
-    public List<RelatedPartyRef> getRelatedParty() {
-        return relatedParty;
-    }
-
-    /**
-     *
-     * @param relatedParty
-     *
-     */
-    public void setRelatedParty(List<RelatedPartyRef> relatedParty) {
-        this.relatedParty = relatedParty;
-    }
 
     @Override
     public String toString() {
@@ -232,7 +195,6 @@ public class AgreementSpecCharacteristic implements Serializable {
                 ", validFor=" + validFor +
                 ", valueType='" + valueType + '\'' +
                 ", specCharacteristicValues=" + specCharacteristicValues +
-                ", relatedParty=" + relatedParty +
                 '}';
     }
 }

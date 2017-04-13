@@ -2,41 +2,33 @@ package org.tmf.dsmapi.agreement.model;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.CollectionTable;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
+@SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_AUTH")
 public class AgreementAuthorization {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "AGREEMENT_AUTH_ID")
+	@Column(name = "AGREEMENT_AUTH_ID_PK")
 	String agrAuthId;
 
+    @Temporal(TemporalType.TIMESTAMP)
     protected Date date;
 
+    //Indication that represents whether the signature is a physical paper signature or a digital signature.
     protected String signatureRepresentation;
 
+    //Current status of the authorization, for example in process, approved, rejected.
     protected String state;
 
 	/*

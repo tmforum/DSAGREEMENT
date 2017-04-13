@@ -34,7 +34,6 @@ import org.tmf.dsmapi.agreement.model.Agreement;
 import org.tmf.dsmapi.agreement.AgreementFacade;
 //import org.tmf.dsmapi.appointment.event.AppointmentEventPublisherLocal;
 //import org.tmf.dsmapi.schedule.ScheduleFacade;
-
 @Stateless
 @Path("/agreementManagement/agreement")
 public class AgreementResource {

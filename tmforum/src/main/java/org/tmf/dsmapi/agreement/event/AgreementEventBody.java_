@@ -2,11 +2,23 @@ package org.tmf.dsmapi.agreement.event;
 
 import org.tmf.dsmapi.agreement.model.Agreement;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
 /**
  * Created by atinsingh on 4/5/17.
  */
+@SuppressWarnings("all")
+@Embeddable
 public class AgreementEventBody {
+    @OneToOne(targetEntity = Agreement.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "AGREEMENT_ID")
     private Agreement entity;
+
+    public AgreementEventBody() {
+    }
 
     public AgreementEventBody(Agreement entity) {
         this.entity = entity;

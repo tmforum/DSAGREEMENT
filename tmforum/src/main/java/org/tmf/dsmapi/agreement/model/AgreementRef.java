@@ -7,20 +7,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT_REF")
 public class AgreementRef {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "AGREEMENT_REF_ID")
+	@Column(name = "AGREEMENT_REF_ID_PK")
 	protected String agrRefId;
 
-	@Column(name = "AGREEMENT_ID")
+	@Column(name = "AGREEMENT_ID_FK")
+    //ID of the agreement
     protected String id;
-
+    //Name of the agreement.
     protected String name;
 
+    //HREF for agreement to pull the details
     protected String href;
 
 	/*

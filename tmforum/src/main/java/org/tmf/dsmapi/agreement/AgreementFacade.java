@@ -3,7 +3,7 @@ package org.tmf.dsmapi.agreement;
 /**
  This class serves as the "facade" that provides the persistence context to the Agreement entity
  Requests on the Agreement resource are executed via the AgreementFacade
-**/
+ **/
 
 import java.util.Date;
 import java.util.logging.Level;
@@ -45,7 +45,7 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 	}
 
 	/*
-	public Agreement patchAttributs(String id, Agreement partialEntity) 
+	public Agreement patchAttributs(String id, Agreement partialEntity)
 		throws UnknownResourceException, BadUsageException {
 	}
 	*/
