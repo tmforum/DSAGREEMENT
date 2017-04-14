@@ -22,6 +22,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.tmf.dsmapi.commons.utils.CustomJsonDateDeSerializer;
+import org.tmf.dsmapi.commons.utils.CustomJsonDateSerializer;
+
 @Entity
 @Table(name = "AGREEMENT")
 public class Agreement implements Serializable {
@@ -34,16 +39,11 @@ public class Agreement implements Serializable {
     protected String id;
 
 	@Embedded
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     protected TimePeriod agreementPeriod;
-
-	/*
-	@Embedded
-    protected TimePeriod completionPeriod;
-	*/
 
 	@Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date completionDate;
 
     protected String description;
@@ -54,6 +54,7 @@ public class Agreement implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date initialDate;
 
     protected String name;

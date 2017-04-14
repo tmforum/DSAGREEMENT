@@ -15,11 +15,6 @@ import javax.persistence.Table;
 @Table(name="AGREEMENT_ITEM")
 public class AgreementItem {
 
-	/* This field will be added automatically by JPA DDL for join
-	@Column(name="FK_AGREEMENT_ID")
-	protected String id;
-	*/
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "AGREEMENT_ITEM_ID")
