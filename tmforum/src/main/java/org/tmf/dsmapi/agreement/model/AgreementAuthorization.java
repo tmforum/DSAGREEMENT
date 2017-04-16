@@ -1,9 +1,6 @@
 package org.tmf.dsmapi.agreement.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.tmf.dsmapi.commons.utils.CustomJsonDateDeSerializer;
+import org.tmf.dsmapi.commons.utils.CustomJsonDateSerializer;
 
 
 @SuppressWarnings("all")
@@ -26,6 +28,7 @@ public class AgreementAuthorization {
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+	@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date date;
 
     //Indication that represents whether the signature is a physical paper signature or a digital signature.
@@ -33,14 +36,6 @@ public class AgreementAuthorization {
 
     //Current status of the authorization, for example in process, approved, rejected.
     protected String state;
-
-	/*
-    public AgreementAuthorization(Date date, String signatureRepresentation, String state) {
-        this.date = date;
-        this.signatureRepresentation = signatureRepresentation;
-        this.state = state;
-    }
-	*/
 
     public Date getDate() {
         return date;
