@@ -1,18 +1,18 @@
-package org.tmf.dsmapi.agreement.event;
+package org.tmf.dsmapi.agreementspec.event;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
 import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
-import org.tmf.dsmapi.agreement.model.Agreement;
+import org.tmf.dsmapi.agreement.model.AgreementSpecification;
 
+import javax.persistence.*;
+import java.util.Date;
 
-@SuppressWarnings("All")
+/**
+ * Created by atinsingh on 4/19/17.
+ */
+
 @Entity
-@Table(name="EVENT_AGREEMENT")
-
-public class AgreementEvent  {
-
+@Table(name = "EVENT_AGREEMENT_SPEC")
+public class AgreementSpecificationEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
@@ -24,7 +24,7 @@ public class AgreementEvent  {
     private AgreementEventEnum eventType;
 
     @Transient
-    private Agreement resource; //check for object
+    private AgreementSpecification resource; //check for object
 
     public String getId() {
         return id;
@@ -51,21 +51,21 @@ public class AgreementEvent  {
     }
 
 
-    public Agreement getResource() {
+    public AgreementSpecification getResource() {
         return resource;
     }
 
-    public void setResource(Agreement resource) {
+    public void setResource(AgreementSpecification resource) {
         this.resource = resource;
     }
 
 
     class EventBody {
-        private Agreement entity;
-        public Agreement getEntity() {
+        private AgreementSpecification entity;
+        public AgreementSpecification getEntity() {
             return entity;
         }
-        public EventBody(Agreement entity) {
+        public EventBody(AgreementSpecification entity) {
             this.entity = entity;
         }
     }
@@ -77,7 +77,7 @@ public class AgreementEvent  {
 
     @Override
     public String toString() {
-        return "AgreementEvent{" +
+        return "AgreementSpecificationEvent{" +
                 "id='" + id + '\'' +
                 ", eventTime=" + eventTime +
                 ", eventType=" + eventType +
