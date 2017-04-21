@@ -35,8 +35,8 @@ public class AgreementSpecification  {
 
     @Column(name = "LAST_UPDATE")
     @Temporal(TemporalType.TIMESTAMP)
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    //@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date lastUpdate;
 
     //Indicates the current lifecycle status
@@ -45,7 +45,7 @@ public class AgreementSpecification  {
     //Name of the agreement specification
     protected String name;
 
-	@Embedded
+	  @Embedded
     @JsonDeserialize(as = TimePeriod.class)
     protected TimePeriod validFor;
     //Agreement specification version
@@ -195,7 +195,7 @@ public class AgreementSpecification  {
      * allowed object is
      * {@link String}
      */
-    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
+    //@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     public void setLastUpdate(Date lastUpdate) {
        this.lastUpdate = lastUpdate;
     }

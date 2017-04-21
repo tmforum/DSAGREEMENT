@@ -19,14 +19,30 @@ import org.tmf.dsmapi.agreement.AgreementResource;
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
 import org.tmf.dsmapi.agreementspec.AgreementSpecificationResource;
 
+import javax.ws.rs.ApplicationPath;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.tmf.dsmapi.commons.jaxrs.JacksonFeature;
+
 @ApplicationPath("api")
 public class ApplicationConfig extends ResourceConfig {
     public ApplicationConfig(){
-        packages("org.tmf.dsmapi.agreement;org.tmf.dsmapi.agreementspec")
-        .register(JacksonFeature.class);
+        /**
+         * Package to load resources for Agreement and Agreement Specification
+         */
+        packages("org.tmf.dsmapi.agreement","org.tmf.dsmapi.agreementspec");
 
-        //property(SelectableEntityFilteringFeature.QUERY_PARAM_NAME, "fields");
-        //register(SelectableEntityFilteringFeature.class);
+        /**
+         * Jackson Feature to inclide the Jackson functionality from com.fasterxml.*
+         */
+        register(JacksonFeature.class);
+        /**
+         * Mapping of Exceptions as JSON response equivalent to Exception in the code
+         */
+        register(org.tmf.dsmapi.commons.jaxrs.BadUsageExceptionMapper.class);
+        register(org.tmf.dsmapi.commons.jaxrs.JacksonConfigurator.class);
+        register(org.tmf.dsmapi.commons.jaxrs.JsonMappingExceptionMapper.class);
+        register(org.tmf.dsmapi.commons.jaxrs.UnknowResourceExceptionMapper.class);
+        register(org.tmf.dsmapi.commons.jaxrs.UnknowResourceExceptionMapper.class);
+        register(org.tmf.dsmapi.hub.HubResource.class);
     }
-
 }

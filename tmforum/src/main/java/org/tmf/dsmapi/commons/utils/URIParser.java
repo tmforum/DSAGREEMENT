@@ -23,7 +23,7 @@ public class URIParser {
     public static final String ALL_FIELDS = "all";
     public static final String ID_FIELD = "id";
     private static final String QUERY_KEY_FIELD = "fields";
-    private static final String QUERY_KEY_FIELD_ESCAPE = ":";
+    private static final String QUERY_KEY_FIELD_ESCAPE = "=";
 
     private URIParser() {
     }

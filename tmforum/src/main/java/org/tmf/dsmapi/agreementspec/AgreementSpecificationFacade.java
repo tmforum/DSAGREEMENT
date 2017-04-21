@@ -46,7 +46,15 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
     }
 
     /**
-     * Going to create Entity AgreementSpefication Based on the Resource provided
+     *
+     * Function will validate the incoming JSON load for following
+     *
+     * LifeCycleStatus  = Any new POST creation should have lifecycleStatus as Initialized on null,
+     * incase of null, function will set it to Initialized.
+     *
+     * Function will check the mandatory attribute in the object, if they are missing,
+     * function will throw BadUsageException.
+     *
      * @param specification
      * @throws BadUsageException
      *
@@ -54,12 +62,14 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
 
     public void checkCreation(AgreementSpecification specification) throws BadUsageException {
 
-        //Create a new entity object
-        /*
+
+
         AgreementSpecification agreementSpecification = null;
-
+        //Check if ID for resource is coming in incoming JSON load
+        //if its missing go on and generate one, else try to find a resource with that
+        //id to ensure we are not going to create duplicate resource, else JPA will
+        //throw and error for violation of Primary key constraint.
         if(specification.getId()==null||specification.getId().equals("")){
-
             logger.log(Level.INFO,"AgreementSpecification with auto generated value will posted");
         }else {
             try {
@@ -70,32 +80,32 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
                             "Duplicate Resource Exception - AgreementSpecification with same id : "+specification.getId()+"Already Exists!"
                             );
                 }
-            }catch (UnknownResourceException ex){
-                logger.log(Level.INFO, "Resource not found and a new resource will be created");
-                logger.log(Level.INFO, "AgreementSpecification with id "+specification.getId()+" is being posted");
-            }
+                }catch (UnknownResourceException ex){
+                    logger.log(Level.INFO, "Resource not found and a new resource will be created");
+                    logger.log(Level.INFO, "AgreementSpecification with id "+specification.getId()+" is being posted");
+                }
 
         }
 
         //Now I have to create resource
         //if there is no status set to initialized one
         logger.log(Level.INFO, "Checking for LifeCycleStatus now ....");
-        if(specification.getLifeCycleStatus()==null){
+        if(specification.getLifecycleStatus()==null){
             logger.log(Level.INFO, "Setting up the LifeCycleStatus as "+ AgreementStatusEnum.INITIALIZED.toString());
-            specification.setLifeCycleStatus(AgreementStatusEnum.INITIALIZED);
+            specification.setLifecycleStatus(AgreementStatusEnum.INITIALIZED.name());
         }else {
             //if there is status, then it should be initialized.
-            if(!specification.getLifeCycleStatus().name().equalsIgnoreCase(AgreementStatusEnum.INITIALIZED.name())){
+            if(!specification.getLifecycleStatus().name().equalsIgnoreCase(AgreementStatusEnum.INITIALIZED.name())){
                 throw new BadUsageException(
                   ExceptionType.BAD_USAGE_FLOW_TRANSITION,
-                        "AgreementSpecification LifeCycle Status "+specification.getLifeCycleStatus().getValue()+"is not the first state"
+                        "AgreementSpecification LifeCycle Status "+specification.getLifecycleStatus().getValue()+"is not the first state"
                 );
             }
         }
 
         //now check the mandatory values
         logger.log(Level.INFO, "Checking for Name as mandatory field now ....");
-        //name
+        //Check for the name
         if(specification.getName()==null||specification.getName().equalsIgnoreCase("")){
             throw new BadUsageException(
                     ExceptionType.BAD_USAGE_MANDATORY_FIELDS, "Name is mandatory"
@@ -137,7 +147,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
             logger.log(Level.INFO, "Checking for Bundle as mandatory field now ....");
 
             //if isbundle true that bundled product must be there.
-            if(specification.getBundle()&&(specification.getSpecificationRelationship()==null||specification.getSpecificationRelationship().isEmpty())){
+            if(specification.getIsBundle()&&(specification.getSpecificationRelationship()==null||specification.getSpecificationRelationship().isEmpty())){
                 throw new BadUsageException(
                         ExceptionType.BAD_USAGE_OPERATOR,"If isBundle is true, Specification Relationship should be provided"
                 );
@@ -145,16 +155,25 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
                 logger.log(Level.INFO, "All good now I am going to create the AgreementSpecification Resource ....");
             }
 
-        }*/
+        }
 
     }
+
+
     /**
      *
+     * Function will patch the partial entity passed to the object.
+     * in patching we have ensure that lifeCycleStatus is not patched by skipping a cycle.
      *
      *
+     * @param id
+     * @param patchObject
+     * @return
+     * @throws UnknownResourceException
+     * @throws BadUsageException
      */
-    //patch attribute
-    /*
+
+
     public AgreementSpecification patchObject(String id, AgreementSpecification patchObject) throws UnknownResourceException, BadUsageException {
         AgreementSpecification specification = this.find(id);
         if(specification==null){
@@ -179,7 +198,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
         return specification;
 
     }
-*/
+
     /**
      * Check that we are only allowing patchable attributes
      * @param patchObject
@@ -220,8 +239,8 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
 
 
     /**
-     *
-     *
+     * Verify that lifeCycleStatus passed in the request is as per the transition defined in specification document.
+     * for the change in life cycle, we have to publish an event for subscribers of the event.
      */
     public void verifyStatus(AgreementSpecification currentEntity, AgreementSpecification partialEntity) throws BadUsageException {
         if (null != partialEntity.getLifecycleStatus() && !partialEntity.getLifecycleStatus().name().equals(currentEntity.getLifecycleStatus().name())) {
