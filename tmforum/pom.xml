@@ -86,9 +86,7 @@
 			<version>3.0</version>
 		</dependency>
 
-		<!--
-                Persistence
-        -->
+		<!-- Persistence -->
 
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
