@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.event.EventPublisher;
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
+import org.tmf.dsmapi.agreementspec.AgreementSpecificationFacade;
 import org.tmf.dsmapi.agreementspec.event.AgreementSpecificationEventPublisher;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
@@ -24,6 +25,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by atinsingh on 4/6/17.
@@ -39,8 +42,10 @@ public class AgreementSpecificationResource {
     @EJB
     EventPublisher<AgreementSpecification> eventPublisher;
 
+    public static Logger logger = Logger.getLogger(AgreementSpecificationResource.class.getName());
+
     /**
-     * Default constuctor
+     * Default constructor
      */
 
     public AgreementSpecificationResource() {
@@ -215,9 +220,9 @@ public class AgreementSpecificationResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteByID(@PathParam("id") String id){
-
-        return null;
+    public Response deleteByID(@PathParam("id") String id) throws UnknownResourceException {
+          agreementSpecificationFacade.remove(id);
+          return Response.accepted().build();
     }
 
     /**
@@ -235,13 +240,16 @@ public class AgreementSpecificationResource {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response patch(@PathParam("id") String id, AgreementSpecification patchObject) throws BadUsageException, UnknownResourceException{
+    public Response patch(@PathParam("id") String id, AgreementSpecification patchObject) throws BadUsageException, UnknownResourceException {
+
+        logger.log(Level.INFO, "Object patch request is called for the id "+id);
 
         AgreementSpecification spcification = agreementSpecificationFacade.patchObject(id,patchObject);
         Response response;
         if(spcification!=null){
             response = Response.ok(spcification).build();
         }else{
+            logger.log(Level.INFO, "No existing object with Id "+ id + "found in database");
             response = Response.status(Response.Status.NOT_FOUND).entity("No object Available for Patching").build();
         }
 

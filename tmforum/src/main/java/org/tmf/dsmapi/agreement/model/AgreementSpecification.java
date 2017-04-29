@@ -359,7 +359,11 @@ public class AgreementSpecification  {
      * @param attachment
      */
     public void setAttachment(List<AgreementAttachment> attachment) {
-        this.attachment = attachment;
+         if(this.attachment==null) {
+             this.attachment = attachment;
+         }else {
+             this.attachment.addAll(attachment);
+         }
     }
 
     /**

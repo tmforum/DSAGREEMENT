@@ -27,7 +27,7 @@ public class JacksonConfigurator implements ContextResolver<ObjectMapper> {
                 configure(DeserializationFeature.WRAP_EXCEPTIONS, true);
     }
 
-    @Override
+   // @Override
     public ObjectMapper getContext(Class<?> arg0) {
         return mapper;
     }

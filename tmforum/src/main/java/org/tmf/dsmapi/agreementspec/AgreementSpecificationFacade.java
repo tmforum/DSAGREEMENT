@@ -194,6 +194,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
         if (BeanUtils.patch(specification, patchObject, jsonNode)) {
             //publisher.valueChangedNotification(currentEntity, new Date());
         }
+        this.edit(specification);
 
         return specification;
 

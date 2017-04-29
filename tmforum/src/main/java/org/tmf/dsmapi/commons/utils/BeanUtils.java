@@ -48,7 +48,7 @@ public class BeanUtils {
 
     /**
      *
-     * @param bean
+     * @param currentBean
      * @param patchBean
      * @param node
      */
