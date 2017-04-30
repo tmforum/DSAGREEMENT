@@ -4,7 +4,7 @@ The software stack for the TMForum OpenAPI reference implementation is a standar
 * JPA 2.0 for persistence via EclipseLink
 * JAX-RS 2.0 implementation via Jersey for RESTful services
 * Jackson for processing JSON
-* AntPathFilter for filtering JSON objects (https://github.com/Antibrumm/jackson-antpathfilter)
+* [AntPathFilter](https://github.com/Antibrumm/jackson-antpathfilter) for filtering JSON objects 
 * MySQL or Apache Derby database (configurable)
 * Maven for build
 * Glassfish application server 4.0 or greater
