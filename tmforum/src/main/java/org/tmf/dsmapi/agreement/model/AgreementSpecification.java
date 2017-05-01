@@ -335,7 +335,12 @@ public class AgreementSpecification  {
      * @param specCharacteristics
      */
     public void setSpecCharacteristic(List<AgreementSpecCharacteristic> specCharacteristic) {
-        this.specCharacteristic = specCharacteristic;
+        if(this.specCharacteristic==null){
+            this.specCharacteristic = specCharacteristic;
+        }else {
+            this.specCharacteristic.addAll(specCharacteristic);
+        }
+
     }
 
     /**
@@ -390,7 +395,12 @@ public class AgreementSpecification  {
      *
      */
     public void setSpecificationRelationship(List<AgreementSpecificationRelationship> specificationRelationship) {
-        this.specificationRelationship = specificationRelationship;
+        if(this.specificationRelationship==null){
+            this.specificationRelationship = specificationRelationship;
+        }else{
+            this.specificationRelationship.addAll(specificationRelationship);
+        }
+
     }
 
 
@@ -399,7 +409,13 @@ public class AgreementSpecification  {
     }
 
     public void setRelatedParty(List<RelatedPartyRef> relatedParty) {
-        this.relatedParty = relatedParty;
+        if(this.relatedParty==null){
+            this.relatedParty = relatedParty;
+        }else {
+
+            this.relatedParty.addAll(relatedParty);
+        }
+
     }
 
     @Override

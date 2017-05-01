@@ -141,10 +141,8 @@ public class AgreementSpecificationResource {
             }else{
             // Retrieve entity
              Set<AgreementSpecification> agreementSpecifications = findByCriteria(mutableMap);
-            //modify field for filter
-            Set<String> modifiedFieldset = getFilterFields(fieldSet);
               //Apply filter on the entities
-              entity = TMFFilter.applyFilter(agreementSpecifications,modifiedFieldset);
+              entity = TMFFilter.applyFilter(agreementSpecifications,fieldSet);
         }
 
         //Construct the response.
@@ -198,9 +196,8 @@ public class AgreementSpecificationResource {
         }else{
 
 
-            Set<String> modifiedFieldset = getFilterFields(fieldSet);
             //Apply filter on the entities
-            entity = TMFFilter.applyFilter(specification,modifiedFieldset);
+            entity = TMFFilter.applyFilter(specification,fieldSet);
         }
 
         Response response;
@@ -284,52 +281,6 @@ public class AgreementSpecificationResource {
     }
 
 
-     /**
-      *
-      * This fieldSet will have sub-class or sub node as serviceCategory.id
-      * will fill not match this field, so we need to create a new Set, which will have serviceCategory and id as fields
-      * field might have assigned values as well like id=4031, we need to strip assigned value as well.
-      */
-
-
-    private Set<String> getFilterFields(Set<String> fieldSet){
-
-        Set<String> modifiedFieldset = new HashSet<String>();
-
-        for(String field:fieldSet){
-            if(StringUtils.countMatches(field,".")>0){
-                while (StringUtils.countMatches(field,".")>0){
-                    String[] subfield = StringUtils.split(field,".",2);
-                    if(subfield[0].contains("=")){
-                        String [] fieldName = StringUtils.split(subfield[0],'=');
-                        modifiedFieldset.add(fieldName[0]);
-                    }else{
-                        modifiedFieldset.add(subfield[0]);
-
-
-                    }
-                    modifiedFieldset.add(field);
-                    field = subfield[1];
-                }
-                if(field.contains("=")){
-                    String [] fieldName = StringUtils.split(field,'=');
-                    modifiedFieldset.add(fieldName[0]);
-                }else{
-                    modifiedFieldset.add(field);
-                }
-            }else {
-                if(field.contains("=")){
-                    String [] fieldName = StringUtils.split(field,'=');
-                    modifiedFieldset.add(fieldName[0]);
-                }else{
-                    modifiedFieldset.add(field);
-                }
-            }
-
-        }
-        return modifiedFieldset;
-
-    }
 
 
     // return Set of unique elements to avoid List with same elements in case of join

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebFilter(filterName = "CorsFilter", urlPatterns = {"/*"})
 public class CorsFilter implements javax.servlet.Filter {
 
-    @Override
+    //@Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse) response;
         res.addHeader("Access-Control-Allow-Origin", "*");
@@ -21,11 +21,11 @@ public class CorsFilter implements javax.servlet.Filter {
         chain.doFilter(request, response);
     }
 
-    @Override
+    //@Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
-    @Override
+    //@Override
     public void destroy() {
     }
 
