@@ -9,7 +9,7 @@ import java.util.List;
 * - Functional exceptions must be checked exceptions
 * - The FunctionalException class extends Exception class and provides a generic structure for logging exceptions
 * - Known subclasses: BadUsageException, UnknownResourceException
-* - Although not implmented in thsi application, exceptions can be logged along with the name of the class, method 
+* - Although not implmented in this application, exceptions can be logged along with the name of the class, method 
 *   and other user speficied key-value parameters.
 **/
 

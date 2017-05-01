@@ -15,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
 import org.tmf.dsmapi.commons.jaxrs.PATCH;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -180,6 +181,25 @@ public class AgreementResource {
 		}
 		return response;
 	}
+
+    /** 
+     * This function will match the url http://host:port/DSAgreement/agreementManagement/agreement/{id}
+     * function will find the entity associated with it and delete that entity
+     * @param id
+     * @return
+     */
+    @DELETE
+    @Path("{id}")
+    public Response deleteByID(@PathParam("id") String id) throws UnknownResourceException {
+
+		Response response;
+
+		// Query the requested Agreement ID via JPA
+		agreementFacade.remove(id);
+		response = Response.status(Response.Status.NO_CONTENT).build();
+
+		return response;
+    }
 
 	/**
 	 Return Set of unique elements to avoid List with same elements in case of join
