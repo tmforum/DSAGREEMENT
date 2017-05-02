@@ -40,13 +40,15 @@ public class HubResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(Hub entity) throws BadUsageException {
-        try {
-            Hub hub = hubFacade.find(entity.getId());
-            if(hub!=null){
-                throw new BadUsageException(ExceptionType.BAD_USAGE_FORMAT, "Hub with id "+entity.getId()+ "Already exists in system");
+        if(null!=entity.getId()) {
+            try {
+                Hub hub = hubFacade.find(entity.getId());
+                if (hub != null) {
+                    throw new BadUsageException(ExceptionType.BAD_USAGE_FORMAT, "Hub with id " + entity.getId() + "Already exists in system");
+                }
+            } catch (UnknownResourceException ex) {
+                logger.log(Level.INFO, "New resource will be created");
             }
-        }catch (UnknownResourceException ex){
-            logger.log(Level.INFO, "New resource will be created");
         }
 
         hubFacade.create(entity);

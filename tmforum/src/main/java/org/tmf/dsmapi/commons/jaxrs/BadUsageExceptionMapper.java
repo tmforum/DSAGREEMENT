@@ -12,7 +12,7 @@ import org.tmf.dsmapi.commons.jaxrs.JsonFault;
 
 @Provider
 public class BadUsageExceptionMapper implements ExceptionMapper<BadUsageException> {
-    @Override
+    //@Override
     public Response toResponse(BadUsageException ex) {
         JsonFault error = new JsonFault(ex.getType().getInfo(),ex.getMessage());
         return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).entity(error).build();

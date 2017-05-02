@@ -206,18 +206,18 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      */
     public void checkPatchObject(AgreementSpecification patchObject) throws UnknownResourceException, BadUsageException{
         //Id can't be patched
-        if(patchObject.getId()!=null){
+        if(patchObject.getId()!=null) {
             throw new BadUsageException(
                     ExceptionType.BAD_USAGE_OPERATOR,
                     "ID can't be patched"
                     );
         }
-        if(patchObject.getHref()!=null){
+        if(patchObject.getHref()!=null) {
             throw new BadUsageException(
                     ExceptionType.BAD_USAGE_OPERATOR,
                     "HREF can't be patched"
             );
-        }
+        } /*
         if(patchObject.getDescription()!=null){
             throw new BadUsageException(
                     ExceptionType.BAD_USAGE_OPERATOR,
@@ -225,6 +225,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
             );
         }
         if(patchObject.getIsBundle()!=null){
+            if(patchObject)
             throw new BadUsageException(
                     ExceptionType.BAD_USAGE_OPERATOR,
                     "isBundle can't be patched"
@@ -235,7 +236,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
                     ExceptionType.BAD_USAGE_OPERATOR,
                     "HREF can't be patched"
             );
-        }
+        }*/
     }
 
 

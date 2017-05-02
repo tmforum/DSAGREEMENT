@@ -28,7 +28,7 @@ public class JsonFault {
     }
 
     /**
-     * @param type the type to set
+     * @param error the type to set
      */
     public void setError(ExceptionBean error) {
         this.error = error;

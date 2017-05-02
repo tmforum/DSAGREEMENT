@@ -265,6 +265,8 @@ public class AgreementSpecificationResource {
         //Define an Object Mapper to convert object into JSON object.
         ObjectMapper mapper = new ObjectMapper();
 
+        logger.log(Level.INFO, "JSON patch request is called for the id "+id);
+
         //Convert AgreementSpecification to JSON object
         JsonNode node = mapper.convertValue(specification, JsonNode.class);
 
@@ -272,6 +274,11 @@ public class AgreementSpecificationResource {
         //now use JSONPatch library to do the diff and apply patch
         AgreementSpecification patchObject = mapper.convertValue(patchedNode, AgreementSpecification.class);
 
+        //remove the ID as it's not patchable
+        patchObject.setId(null);
+
+        //remove HREF as it's not patchable
+        patchObject.setHref(null);
         // now check if the object is patchable and apply patch.
         AgreementSpecification entity = agreementSpecificationFacade.patchObject(id,patchObject);
 
