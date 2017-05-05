@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.*;
+/*
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -21,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+*/
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -61,7 +64,8 @@ public class Agreement implements Serializable {
 
     protected String statementOfIntent;
 
-    protected String status;
+	@Enumerated(EnumType.STRING)
+    protected AgreementStatusEnum status;
 
     protected String type;
 
@@ -168,12 +172,12 @@ public class Agreement implements Serializable {
         this.statementOfIntent = statementOfIntent;
     }
 
-    public String getStatus() {
+    public AgreementStatusEnum getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = AgreementStatusEnum.fromValue(status);;
     }
 
     public String getType() {

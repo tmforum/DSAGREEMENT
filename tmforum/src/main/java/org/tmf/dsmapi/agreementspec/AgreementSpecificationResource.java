@@ -83,8 +83,8 @@ public class AgreementSpecificationResource {
             agreementSpecificationFacade.edit(specification);
 
             //Publish event for agreementspec creation;
-
-            eventPublisher.generateEventNotification(specification,new Date(), AgreementEventEnum.AgreementCreationNotification);
+            eventPublisher.generateEventNotification(specification,new Date(), 
+					AgreementEventEnum.AgreementSpecCreationNotification);
 
             //Construct back the response with 204 and return the entity created by the facade.
             response = Response.status(Response.Status.CREATED).entity(specification).build();

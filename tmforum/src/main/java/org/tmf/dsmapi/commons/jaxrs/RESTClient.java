@@ -32,6 +32,18 @@ public class RESTClient {
         }
     }
 
+	public void publishEvent(String callbackURL, String node) {
+        System.out.println("publishEvent " + node);
+        WebTarget webResource = getWebResource(callbackURL);
+        Entity entity = Entity.entity(node, MediaType.APPLICATION_JSON);
+
+        try {
+            webResource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void publishEvent(String callbackURL, ObjectNode node) {
         System.out.println("publishEvent " + node);
         WebTarget webResource = getWebResource(callbackURL);

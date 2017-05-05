@@ -35,7 +35,10 @@ import org.tmf.dsmapi.commons.utils.Jackson;
 import org.tmf.dsmapi.commons.utils.URIParser;
 import org.tmf.dsmapi.agreement.model.Agreement;
 import org.tmf.dsmapi.agreement.AgreementFacade;
+import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.commons.utils.TMFFilter;
+import org.tmf.dsmapi.agreement.event.EventPublisher;
+import org.tmf.dsmapi.agreement.event.AgreementEventPublisher;
 
 @Stateless
 @Path("/agreementManagement/agreement")
@@ -43,10 +46,10 @@ public class AgreementResource {
 
     @EJB
     AgreementFacade agreementFacade;
-/*
+
     @EJB
-    AppointmentEventPublisherLocal publisher;
-*/
+	AgreementEventPublisher eventPublisher;
+	//EventPublisher<Agreement> eventPublisher;
 
     public AgreementResource() {
     }
@@ -67,6 +70,10 @@ public class AgreementResource {
 		entity.setHref(info.getAbsolutePath() + "/" + entity.getId());
 		agreementFacade.edit(entity);
 
+		// Generate notification for the resource creation
+		eventPublisher.generateEventNotification(entity, new Date(), AgreementEventEnum.AgreementCreationNotification);
+
+		// Generate response and return
 		Response response = Response.status(Response.Status.CREATED).entity(entity).build();
 
 		return response;
@@ -99,8 +106,6 @@ public class AgreementResource {
 		Response response;
 		MultivaluedMap<String, String> queryParameters = info.getQueryParameters();
 
-		// TBD - handle the queryParameters!!
-		
 		// The mutableMap creates a Map<String, List<String>>, instead of a MultivaluedMap
 		Map<String, List<String>> mutableMap = new HashMap();
 
@@ -187,7 +192,7 @@ public class AgreementResource {
      * function will find the entity associated with it and delete that entity
      * @param id
      * @return
-     */
+    **/
     @DELETE
     @Path("{id}")
     public Response deleteByID(@PathParam("id") String id) throws UnknownResourceException {
@@ -200,6 +205,79 @@ public class AgreementResource {
 
 		return response;
     }
+
+   /** 
+    * Function will match the URL
+    *  PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
+    *  function will take Ageement Object JSON to patch the existing object.
+	*
+    *  Note: This is akin to an update using POST, rather than an actual PATCH.
+    *  For a verbatim PATCH, please use the jsonpatch version of the function.
+	*
+    * @param id
+    * @param patchObject
+    * @return
+    * @throws BadUsageException
+    * @throws UnknownResourceException
+   **/
+    @PATCH
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response patch(@PathParam("id") String id, Agreement partialEntity) 
+		throws BadUsageException, UnknownResourceException {
+
+        Agreement entity = agreementFacade.patchAttributes(id, partialEntity);
+
+        Response response;
+
+        if(entity != null){
+            response = Response.ok(entity).build();
+        } else {
+            //logger.log(Level.INFO, "No existing object with Id "+ id + "found in database");
+            response = Response.status(Response.Status.NOT_FOUND).entity("No object Available for Patching").build();
+        }
+
+		// Generate notification for the resource update
+		eventPublisher.generateEventNotification(entity, new Date(), AgreementEventEnum.AgreementCreationNotification);
+
+        return response;
+    }   
+
+/*
+    @PATCH
+    @Path("{id}")
+    @Consumes("application/json-patch+json")
+    public Response patch(@PathParam("id") String id, JsonPatch patch) throws BadUsageException, UnknownResourceException, JsonPatchException{
+
+        //Grab the entity to be patched.
+        AgreementSpecification specification = agreementSpecificationFacade.find(id);
+
+        //Define an Object Mapper to convert object into JSON object.
+        ObjectMapper mapper = new ObjectMapper();
+
+        logger.log(Level.INFO, "JSON patch request is called for the id "+id);
+
+        //Convert AgreementSpecification to JSON object
+        JsonNode node = mapper.convertValue(specification, JsonNode.class);
+
+        final JsonNode patchedNode = patch.apply(node);
+        //now use JSONPatch library to do the diff and apply patch
+        AgreementSpecification patchObject = mapper.convertValue(patchedNode, AgreementSpecification.class);
+
+        //remove the ID as it's not patchable
+        patchObject.setId(null);
+
+        //remove HREF as it's not patchable
+        patchObject.setHref(null);
+        // now check if the object is patchable and apply patch.
+        AgreementSpecification entity = agreementSpecificationFacade.patchObject(id,patchObject);
+
+        return Response.status(Response.Status.ACCEPTED).entity(entity).build();
+
+
+    }
+*/
 
 	/**
 	 Return Set of unique elements to avoid List with same elements in case of join

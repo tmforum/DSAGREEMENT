@@ -26,8 +26,4 @@ public interface EventPublisher<T> {
      * @param eventType // type of the event
      */
     void generateEventNotification(T bean, Date date, AgreementEventEnum eventType);
-
-
-
-
 }

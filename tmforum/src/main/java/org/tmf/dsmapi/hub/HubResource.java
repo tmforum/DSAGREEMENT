@@ -15,8 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by atinsingh on 4/17/17.
- */
+ The Hub resource provides services for external listeners to subscribe for changes to resources.
+ Listeners initially issue a POST request with a callback URL on which they'll be notified.
+ Listeners may also issue a DELETE request to unsubscribe following which, they will no longer be notified.
+**/
 
 @Stateless
 @Path("/agreementManagement/hub")

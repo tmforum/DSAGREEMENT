@@ -20,13 +20,21 @@ import org.tmf.dsmapi.agreement.model.Agreement;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.text.SimpleDateFormat;
-//import org.tmf.dsmapi.agreement.event.AppointmentEventPublisherLocal;
-//import org.tmf.dsmapi.commons.utils.BeanUtils;
+import org.tmf.dsmapi.commons.utils.BeanUtils;
+import org.tmf.dsmapi.agreement.event.AgreementEventPublisher;
+import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
+import org.tmf.dsmapi.agreement.model.AgreementStatusEnum;
 
 @Stateless
 public class AgreementFacade extends AbstractFacade<Agreement> {
 	@PersistenceContext(unitName = "DSAgreementPU")
 	private EntityManager em;
+
+    @EJB
+	AgreementEventPublisher eventPublisher;
+    //EventPublisher<Agreement> eventPublisher;
+
+	StateModelImpl stateModel = new StateModelImpl(AgreementStatusEnum.class);
 
 	public AgreementFacade() {
 		// Initialize the AbstractFacade to handle the Agreement Class
@@ -89,9 +97,82 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 		}
 	}
 
+    public Agreement patchAttributes(String id, Agreement partialEntity) 
+		throws UnknownResourceException, BadUsageException {
+
+		// Firstly check if the requested entity exists
+        Agreement entity = this.find(id);
+
+        if(entity == null){
+            throw new UnknownResourceException(ExceptionType.UNKNOWN_RESOURCE,
+				"Resource with ID " + id + " cannot be located");
+        }
+
+		partialEntity.setId(id);
+
+        // Verify if this patch is permitted and if so, publish a StatusChange event
+        verifyStatus(entity, partialEntity);
+
+        // Verify that only allowed attributes are patched
+        checkPatchAttributes(partialEntity);
+        //patchObject.setId(id);
+
+        // Generate a JSON object from the given partial entity
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.convertValue(partialEntity, JsonNode.class);
+
+		// May need to use edit() should BeanUtils not work
+		// Seems like the entity is not attached to the EntityManager scope at all!
+        //this.edit(specification);
+
+        if(BeanUtils.patch(entity, partialEntity, jsonNode)) {
+			eventPublisher.generateEventNotification(entity, new Date(), 
+				AgreementEventEnum.AgreementValueChangeNotification);
+        }
+
+        return entity;
+    }
+
 	/*
 	public Agreement patchAttributs(String id, Agreement partialEntity)
 		throws UnknownResourceException, BadUsageException {
 	}
 	*/
+
+	public void checkPatchAttributes(Agreement patchEntity) 
+		throws UnknownResourceException, BadUsageException {
+
+		if (null != patchEntity.getId()) {
+            throw new BadUsageException(ExceptionType.BAD_USAGE_OPERATOR, "id is not patchable");
+        }
+        if (null != patchEntity.getHref()) {
+            throw new BadUsageException(ExceptionType.BAD_USAGE_OPERATOR, "href is not patchable");
+        }
+        if (null != patchEntity.getInitialDate()) {
+            throw new BadUsageException(ExceptionType.BAD_USAGE_OPERATOR, "initialDate is not patchable");
+        }
+	}
+
+
+    /**
+     * Verify that lifeCycleStatus passed in the request is allowed and if so, 
+     * publish an event for subscribers of the event.
+    **/
+
+    public void verifyStatus(Agreement currentEntity, Agreement partialEntity) 
+		throws BadUsageException {
+
+		int statusChanged = 0;
+
+		if(null != partialEntity.getStatus() && 
+			!partialEntity.getStatus().equals(currentEntity.getStatus())) {
+
+			// Check if the status change transition is permitted
+            stateModel.checkTransition(currentEntity.getStatus(), partialEntity.getStatus());
+
+            //publisher.statusChangedNotification(currentEntity, new Date());
+			eventPublisher.generateEventNotification(currentEntity, new Date(), 
+				AgreementEventEnum.AgreementStateChangeNotification);
+        }
+    }
 }

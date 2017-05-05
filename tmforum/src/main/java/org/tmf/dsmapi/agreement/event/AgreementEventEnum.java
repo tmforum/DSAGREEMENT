@@ -6,7 +6,11 @@ public enum AgreementEventEnum {
     AgreementCreationNotification("AgreementCreationNotification"),
     AgreementValueChangeNotification("AgreementValueChangeNotification"),
     AgreementStateChangeNotification("AgreementStateChangeNotification"),
-    AgreementRemoveNotification("AgreementRemoveNotification");
+    AgreementRemoveNotification("AgreementRemoveNotification"),
+    AgreementSpecCreationNotification("AgreementSpecCreationNotification"),
+    AgreementSpecValueChangeNotification("AgreementSpecValueChangeNotification"),
+    AgreementSpecStateChangeNotification("AgreementSpecStateChangeNotification"),
+    AgreementSpecRemoveNotification("AgreementSpecRemoveNotification");
 
     private String text;
 
