@@ -38,3 +38,15 @@ The software architecture is layered, to address separation of concerns.
 **persistence.xml**, **glassfish-web.xml** and **glassfish-resources.xml** are standard but key configuration files that manage the entire application settings. You **will** have to modify these settings, based on the type of database you've chosen (MySQL or Apache Derby), login credentials for the database, applcation context path etc.
   
 All other files are _boiler plate_ implementations for parsing URLs, handling custom exceptions, security and standard configuration files. These should be **no** need to modify any of these files.
+
+### Events
+
+The application supports an event driven mechanism where listeners may subscribe to be notified of changes to resources. Each listener may submit a callback URL to the "Hub" and subscribe to changes of interest. The changes span Creation, Value Changes, State Changes and Removal activities.
+
+To support this, the following models exist:
+* Hub
+  > Hub is the repository of subscribers with their respective callback URLs.
+* Event tables for each resource (e.g. Agreement, AgreementSpec)
+  > Event tables hold the history of events for the associated resource. An event will be registered in the Event table and then each subscriber registered in the Hub will be notified of the event.
+  
+
