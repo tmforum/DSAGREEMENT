@@ -1,22 +1,26 @@
-package org.tmf.dsmapi.agreement.event;
+package org.tmf.dsmapi.event;
 
 import org.tmf.dsmapi.commons.facade.AbstractFacade;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 
+/**
+ * Created by atinsingh on 5/7/17.
+ */
 @Stateless
-public class AgreementEventFacade extends AbstractFacade<AgreementEvent> {
+public class EventFacade<T> extends AbstractFacade<T> {
 
-    public AgreementEventFacade() {
-       super(AgreementEvent.class);
-    }
 
     @PersistenceContext(unitName = "DSAgreementPU")
     protected EntityManager entityManager;
 
+
+
+    public EventFacade(){
+        super((Class<T>) Event.class);
+    }
     @Override
     protected EntityManager getEntityManager() {
         return entityManager;

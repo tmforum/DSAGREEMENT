@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import org.apache.commons.lang3.StringUtils;
 import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
-import org.tmf.dsmapi.agreement.event.EventPublisher;
+import org.tmf.dsmapi.event.EventPublisher;
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
-import org.tmf.dsmapi.agreementspec.AgreementSpecificationFacade;
-import org.tmf.dsmapi.agreementspec.event.AgreementSpecificationEventPublisher;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.jaxrs.PATCH;
@@ -218,7 +215,9 @@ public class AgreementSpecificationResource {
     @DELETE
     @Path("{id}")
     public Response deleteByID(@PathParam("id") String id) throws UnknownResourceException {
+          AgreementSpecification specification = agreementSpecificationFacade.find(id);
           agreementSpecificationFacade.remove(id);
+          eventPublisher.generateEventNotification(specification,new Date(),AgreementEventEnum.AgreementRemoveNotification);
           return Response.accepted().build();
     }
 
@@ -241,10 +240,10 @@ public class AgreementSpecificationResource {
 
         logger.log(Level.INFO, "Object patch request is called for the id "+id);
 
-        AgreementSpecification spcification = agreementSpecificationFacade.patchObject(id,patchObject);
+        AgreementSpecification specification = agreementSpecificationFacade.patchObject(id,patchObject);
         Response response;
-        if(spcification!=null){
-            response = Response.ok(spcification).build();
+        if(specification!=null){
+            response = Response.ok(specification).build();
         }else{
             logger.log(Level.INFO, "No existing object with Id "+ id + "found in database");
             response = Response.status(Response.Status.NOT_FOUND).entity("No object Available for Patching").build();

@@ -1,4 +1,6 @@
-package org.tmf.dsmapi.agreement.event;
+package org.tmf.dsmapi.event;
+
+import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 
 import javax.ejb.Local;
 import java.util.Date;
@@ -8,7 +10,7 @@ import java.util.Date;
  */
 
 @Local
-public interface EventPublisher<T> {
+public interface EventPublisherInterface<T> {
 
     //publish an event of type T
 

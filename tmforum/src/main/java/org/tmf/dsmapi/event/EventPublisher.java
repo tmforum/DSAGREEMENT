@@ -1,9 +1,6 @@
-package org.tmf.dsmapi.agreement.event;
+package org.tmf.dsmapi.event;
 
-import org.apache.commons.logging.Log;
 import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
-import org.tmf.dsmapi.agreement.event.EventPublisher;
-import org.tmf.dsmapi.agreement.model.Agreement;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.hub.Hub;
 import org.tmf.dsmapi.hub.HubFacade;
@@ -17,39 +14,36 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
-  An async function that will be called for any type of changes to an Agreement resource
-  @param bean
-**/
-
+ * Created by atinsingh on 5/7/17.
+ */
 @Stateless
 @Asynchronous
-public class AgreementEventPublisher implements EventPublisher<Agreement> {
-    @EJB
-    private AgreementEventFacade eventFacade;
+public class EventPublisher<T> {
 
+
+
+
+    @EJB
+    private EventFacade<Event<T>> eventFacade ;
     @EJB
     private HubFacade hubFacade;
 
     @EJB
-    private AgreementRESTEventPuslisher restEventPuslisher;
+    private RestEventPublisher<Event<T>> restEventPublisher;
 
-    private static Logger logger = Logger.getLogger(AgreementEventPublisher.class.getName());
+    private static Logger logger = Logger.getLogger(EventPublisher.class.getName());
 
-	// This is a blank implementation for the interface's method
-    public void publish(Agreement bean) {
-
-	}
 
     /**
      * This is overriden method to create and publish the given event
      * @param bean
-    **/
+     **/
 
-    public void publish(AgreementEvent bean) {
+    public void publish(Event<T> bean) {
 
-		// Create an event
+        // Create an event
         try {
-			eventFacade.create(bean);
+            eventFacade.create(bean);
         } catch(BadUsageException ex) {
             logger.log(Level.SEVERE, "Bad Usage", ex);
         }
@@ -59,10 +53,11 @@ public class AgreementEventPublisher implements EventPublisher<Agreement> {
 
         if(hubList != null && !hubList.isEmpty()) {
             for (Hub hub :hubList) {
-                restEventPuslisher.publish(hub, bean);
+                restEventPublisher.publish(hub,bean.getId(),bean);
             }
         }
     }
+
 
     /**
      * This function should be called for create, update, delete (All events defined in AgreementEventNum;
@@ -72,9 +67,9 @@ public class AgreementEventPublisher implements EventPublisher<Agreement> {
      * @param eventType // type of the event
      */
 
-    public void generateEventNotification(Agreement bean, Date date, AgreementEventEnum eventType) {
+    public void  generateEventNotification (T bean, Date date, AgreementEventEnum eventType) {
         //Create new event;
-        AgreementEvent event = new AgreementEvent();
+        Event<T> event = new Event<T>();
 
         //Set event date
         event.setEventTime(date);
@@ -86,4 +81,5 @@ public class AgreementEventPublisher implements EventPublisher<Agreement> {
         //publish the event
         publish(event);
     }
+
 }

@@ -1,21 +1,19 @@
 package org.tmf.dsmapi.agreement;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.DELETE;
+
+import org.tmf.dsmapi.event.EventPublisher;
 import org.tmf.dsmapi.commons.jaxrs.PATCH;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -25,31 +23,26 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 //import com.github.fge.jsonpatch.JsonPatch;
 //import com.github.fge.jsonpatch.JsonPatchException;
 //import com.github.fge.jsonpatch.diff.JsonDiff;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
-import org.tmf.dsmapi.commons.utils.Jackson;
 import org.tmf.dsmapi.commons.utils.URIParser;
 import org.tmf.dsmapi.agreement.model.Agreement;
-import org.tmf.dsmapi.agreement.AgreementFacade;
 import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.commons.utils.TMFFilter;
-import org.tmf.dsmapi.agreement.event.EventPublisher;
-import org.tmf.dsmapi.agreement.event.AgreementEventPublisher;
 
 @Stateless
 @Path("/agreementManagement/agreement")
 public class AgreementResource {
 
     @EJB
-    AgreementFacade agreementFacade;
+	AgreementFacade agreementFacade;
 
     @EJB
-	AgreementEventPublisher eventPublisher;
-	//EventPublisher<Agreement> eventPublisher;
+	EventPublisher<Agreement> eventPublisher;
+	//EventPublisherInterface<Agreement> eventPublisher;
 
     public AgreementResource() {
     }

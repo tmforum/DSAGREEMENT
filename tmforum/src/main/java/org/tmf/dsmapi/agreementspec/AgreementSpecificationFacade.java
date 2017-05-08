@@ -2,6 +2,7 @@ package org.tmf.dsmapi.agreementspec;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.AgreementAttachment;
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
 import org.tmf.dsmapi.agreement.model.AgreementStatusEnum;
@@ -10,10 +11,13 @@ import org.tmf.dsmapi.commons.exceptions.ExceptionType;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.facade.AbstractFacade;
 import org.tmf.dsmapi.commons.utils.BeanUtils;
+import org.tmf.dsmapi.event.EventPublisher;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +43,9 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      */
     StateModelImpl stateModel = new StateModelImpl(AgreementStatusEnum.class);
 
+
+    @EJB
+    EventPublisher<AgreementSpecification> eventPublisher;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -192,7 +199,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.convertValue(patchObject,JsonNode.class);
         if (BeanUtils.patch(specification, patchObject, jsonNode)) {
-            //publisher.valueChangedNotification(currentEntity, new Date());
+            eventPublisher.generateEventNotification(specification, new Date(), AgreementEventEnum.AgreementSpecValueChangeNotification);
         }
         this.edit(specification);
 
@@ -247,7 +254,7 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
     public void verifyStatus(AgreementSpecification currentEntity, AgreementSpecification partialEntity) throws BadUsageException {
         if (null != partialEntity.getLifecycleStatus() && !partialEntity.getLifecycleStatus().name().equals(currentEntity.getLifecycleStatus().name())) {
             stateModel.checkTransition(currentEntity.getLifecycleStatus(), partialEntity.getLifecycleStatus());
-            //publisher.statusChangedNotification(currentEntity, new Date());
+            eventPublisher.generateEventNotification(currentEntity, new Date(), AgreementEventEnum.AgreementStateChangeNotification);
         }
     }
 }

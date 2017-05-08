@@ -17,7 +17,9 @@ import java.util.Collection;
 **/
 
 public class TMFFilter {
-	private static String FILTER_NAME = "antPathFilter";
+    public static final String FIELD_SPILITER = ".";
+    public static final String FIELD_ASSIGNMENT = "=";
+    private static String FILTER_NAME = "antPathFilter";
 
 /**
  This function uses Jackson AntPathFiler implementation for this task.
@@ -47,11 +49,11 @@ public class TMFFilter {
         Set<String> modifiedFieldset = new HashSet<String>();
 
         for(String field:fieldSet) {
-            if(StringUtils.countMatches(field, ".") > 0) {
-                while (StringUtils.countMatches(field, ".") > 0) {
-                    String[] subfield = StringUtils.split(field,".",2);
-                    if(subfield[0].contains("=")) {
-                        String [] fieldName = StringUtils.split(subfield[0],'=');
+            if(StringUtils.countMatches(field, FIELD_SPILITER) > 0) {
+                while (StringUtils.countMatches(field, FIELD_SPILITER) > 0) {
+                    String[] subfield = StringUtils.split(field, FIELD_SPILITER,2);
+                    if(subfield[0].contains(FIELD_ASSIGNMENT)) {
+                        String [] fieldName = StringUtils.split(subfield[0],FIELD_ASSIGNMENT);
                         modifiedFieldset.add(fieldName[0]);
                     } else {
                         modifiedFieldset.add(subfield[0]);
@@ -59,15 +61,15 @@ public class TMFFilter {
                     modifiedFieldset.add(field);
                     field = subfield[1];
                 }
-                if(field.contains("=")) {
-                    String[] fieldName = StringUtils.split(field,'=');
+                if(field.contains(FIELD_ASSIGNMENT)) {
+                    String[] fieldName = StringUtils.split(field,FIELD_ASSIGNMENT);
                     modifiedFieldset.add(fieldName[0]);
                 } else {
                     modifiedFieldset.add(field);
                 }
             } else {
-                if(field.contains("=")) {
-                    String[] fieldName = StringUtils.split(field,'=');
+                if(field.contains(FIELD_ASSIGNMENT)) {
+                    String[] fieldName = StringUtils.split(field,FIELD_ASSIGNMENT);
                     modifiedFieldset.add(fieldName[0]);
                 } else {
                     modifiedFieldset.add(field);

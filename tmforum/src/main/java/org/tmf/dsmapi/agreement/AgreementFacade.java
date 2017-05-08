@@ -8,6 +8,8 @@ package org.tmf.dsmapi.agreement;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.tmf.dsmapi.event.EventPublisher;
 import org.tmf.dsmapi.commons.facade.AbstractFacade;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -19,9 +21,7 @@ import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.agreement.model.Agreement;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.text.SimpleDateFormat;
 import org.tmf.dsmapi.commons.utils.BeanUtils;
-import org.tmf.dsmapi.agreement.event.AgreementEventPublisher;
 import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.AgreementStatusEnum;
 
@@ -31,8 +31,8 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 	private EntityManager em;
 
     @EJB
-	AgreementEventPublisher eventPublisher;
-    //EventPublisher<Agreement> eventPublisher;
+	EventPublisher<Agreement> eventPublisher;
+    //EventPublisherInterface<Agreement> eventPublisher;
 
 	StateModelImpl stateModel = new StateModelImpl(AgreementStatusEnum.class);
 

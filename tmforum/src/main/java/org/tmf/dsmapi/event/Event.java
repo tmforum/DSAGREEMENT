@@ -1,8 +1,10 @@
-package org.tmf.dsmapi.agreement.event;
+package org.tmf.dsmapi.event;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.Agreement;
 
@@ -11,7 +13,7 @@ import org.tmf.dsmapi.agreement.model.Agreement;
 @Entity
 @Table(name="EVENT_AGREEMENT")
 
-public class AgreementEvent  {
+public class Event<T>  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,8 +25,10 @@ public class AgreementEvent  {
     @Enumerated(value = EnumType.STRING)
     private AgreementEventEnum eventType;
 
-    @Transient
-    private Agreement resource; //check for object
+    //@Transient
+    @JsonProperty("eventBody")
+    @Column(name = "eventBody", length = 10000)
+    private T resource; //check for object
 
     public String getId() {
         return id;
@@ -51,33 +55,33 @@ public class AgreementEvent  {
     }
 
 
-    public Agreement getResource() {
+    public T getResource() {
         return resource;
     }
 
-    public void setResource(Agreement resource) {
+    public void setResource(T resource) {
         this.resource = resource;
     }
 
 
-    class EventBody {
-        private Agreement entity;
-        public Agreement getEntity() {
-            return entity;
-        }
-        public EventBody(Agreement entity) {
-            this.entity = entity;
-        }
-    }
-
-
-    public EventBody getEvent() {
-        return new EventBody(getResource() );
-    }
+//    class EventBody {
+//        private Agreement entity;
+//        public Agreement getEntity() {
+//            return entity;
+//        }
+//        public EventBody(Agreement entity) {
+//            this.entity = entity;
+//        }
+//    }
+//
+//
+//    public EventBody getEvent() {
+//        return new EventBody(getResource() );
+//    }
 
     @Override
     public String toString() {
-        return "AgreementEvent{" +
+        return "Event{" +
                 "id='" + id + '\'' +
                 ", eventTime=" + eventTime +
                 ", eventType=" + eventType +
