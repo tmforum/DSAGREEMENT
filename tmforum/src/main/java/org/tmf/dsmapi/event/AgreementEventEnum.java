@@ -1,5 +1,5 @@
 
-package org.tmf.dsmapi.agreement.event;
+package org.tmf.dsmapi.event;
 
 public enum AgreementEventEnum {
 
@@ -19,7 +19,7 @@ public enum AgreementEventEnum {
     }
 
     /**
-     *	
+     *
      * @return
      */
     public String getText() {

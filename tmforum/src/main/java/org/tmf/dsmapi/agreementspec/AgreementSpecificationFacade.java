@@ -2,7 +2,7 @@ package org.tmf.dsmapi.agreementspec;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
+import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.AgreementAttachment;
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
 import org.tmf.dsmapi.agreement.model.AgreementStatusEnum;

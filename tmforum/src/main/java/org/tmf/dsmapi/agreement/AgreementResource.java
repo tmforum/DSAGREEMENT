@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.DELETE;
 
+import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.event.EventPublisher;
 import org.tmf.dsmapi.commons.jaxrs.PATCH;
 import javax.ws.rs.Path;
@@ -30,7 +31,6 @@ import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.utils.URIParser;
 import org.tmf.dsmapi.agreement.model.Agreement;
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
 import org.tmf.dsmapi.commons.utils.TMFFilter;
 
 @Stateless

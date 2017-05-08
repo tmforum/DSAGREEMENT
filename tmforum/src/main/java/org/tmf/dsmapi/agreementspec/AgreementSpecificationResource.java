@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
+import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.event.EventPublisher;
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;

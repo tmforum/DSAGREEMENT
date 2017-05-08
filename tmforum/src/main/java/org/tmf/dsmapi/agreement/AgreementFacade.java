@@ -22,7 +22,7 @@ import org.tmf.dsmapi.agreement.model.Agreement;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tmf.dsmapi.commons.utils.BeanUtils;
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
+import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.AgreementStatusEnum;
 
 @Stateless
