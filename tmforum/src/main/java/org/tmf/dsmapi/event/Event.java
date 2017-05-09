@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
+import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.Agreement;
 
 

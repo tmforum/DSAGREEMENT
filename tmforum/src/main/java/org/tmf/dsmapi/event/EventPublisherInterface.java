@@ -1,6 +1,6 @@
 package org.tmf.dsmapi.event;
 
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
+import org.tmf.dsmapi.event.AgreementEventEnum;
 
 import javax.ejb.Local;
 import java.util.Date;

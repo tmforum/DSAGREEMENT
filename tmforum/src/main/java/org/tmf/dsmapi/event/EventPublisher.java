@@ -1,6 +1,6 @@
 package org.tmf.dsmapi.event;
 
-import org.tmf.dsmapi.agreement.event.AgreementEventEnum;
+import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.hub.Hub;
 import org.tmf.dsmapi.hub.HubFacade;
