@@ -1,10 +1,14 @@
 package org.tmf.dsmapi.agreement.model;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+//@Embeddable
+@Entity
+@Table(name = "PRODUCT_OFFERING")
 public class ProductOfferingRef {
 
+    @Id
+    @GeneratedValue
     protected String id;
     protected String href;
     protected String name;
@@ -48,15 +52,14 @@ public class ProductOfferingRef {
     public void setBundledProductOffering(List<ProductOfferingRef> bundledProductOffering) {
         this.bundledProductOffering = bundledProductOffering;
     }
-
+    */
     @Override
     public String toString() {
         return "ProductOfferingRef{" +
                 "id='" + id + '\'' +
                 ", href='" + href + '\'' +
                 ", name='" + name + '\'' +
-                ", bundledProductOffering=" + bundledProductOffering +
                 '}';
     }
-	*/
+
 }
