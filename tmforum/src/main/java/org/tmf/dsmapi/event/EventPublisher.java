@@ -14,15 +14,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by atinsingh on 5/7/17.
- */
+* This class provides a generic Event Publisher that can publish events for any resource
+* The generateEventNotification() function is called by the Facade layer, to generate events 
+* and then notify listeners
+**/
+
 @Stateless
 @Asynchronous
 public class EventPublisher<T> {
-
-
-
-
     @EJB
     private EventFacade<Event<T>> eventFacade ;
     @EJB
@@ -33,15 +32,14 @@ public class EventPublisher<T> {
 
     private static Logger logger = Logger.getLogger(EventPublisher.class.getName());
 
-
     /**
      * This is overriden method to create and publish the given event
-     * @param bean
+     * This function is invoked by the generateEventNotification, to notify registered listeners
      **/
 
     public void publish(Event<T> bean) {
 
-        // Create an event
+        // Create an event record
         try {
             eventFacade.create(bean);
         } catch(BadUsageException ex) {
@@ -68,18 +66,15 @@ public class EventPublisher<T> {
      */
 
     public void  generateEventNotification (T bean, Date date, AgreementEventEnum eventType) {
-        //Create new event;
+        // Create new event;
         Event<T> event = new Event<T>();
 
-        //Set event date
+        // Set event attributes
         event.setEventTime(date);
-        //specify the type of event as create
         event.setEventType(eventType);
-        //set the event body
         event.setResource(bean);
 
-        //publish the event
+        // Publish the event and notify listeners
         publish(event);
     }
-
 }

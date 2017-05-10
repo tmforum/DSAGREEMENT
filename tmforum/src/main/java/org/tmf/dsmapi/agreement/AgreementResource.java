@@ -24,9 +24,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-//import com.github.fge.jsonpatch.JsonPatch;
-//import com.github.fge.jsonpatch.JsonPatchException;
-//import com.github.fge.jsonpatch.diff.JsonDiff;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.utils.URIParser;
@@ -199,20 +200,19 @@ public class AgreementResource {
 		return response;
     }
 
-   /** 
+    /** 
     * Function will match the URL
-    *  PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
-    *  function will take Ageement Object JSON to patch the existing object.
+    * PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
+    * function will take Ageement Object JSON to patch the existing object.
 	*
-    *  Note: This is akin to an update using POST, rather than an actual PATCH.
-    *  For a verbatim PATCH, please use the jsonpatch version of the function.
+    * Note: This is akin to an update using POST, rather than an actual PATCH.
+    * For a verbatim PATCH, please use the jsonpatch version of the function.
 	*
     * @param id
     * @param patchObject
-    * @return
     * @throws BadUsageException
     * @throws UnknownResourceException
-   **/
+    **/
     @PATCH
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -220,6 +220,8 @@ public class AgreementResource {
     public Response patch(@PathParam("id") String id, Agreement partialEntity) 
 		throws BadUsageException, UnknownResourceException {
 
+		// If the partialEntity property values is different from the database entity, then
+		// patch the entity and generate the appropriate notifications
         Agreement entity = agreementFacade.patchAttributes(id, partialEntity);
 
         Response response;
@@ -227,50 +229,47 @@ public class AgreementResource {
         if(entity != null){
             response = Response.ok(entity).build();
         } else {
-            //logger.log(Level.INFO, "No existing object with Id "+ id + "found in database");
             response = Response.status(Response.Status.NOT_FOUND).entity("No object Available for Patching").build();
         }
-
-		// Generate notification for the resource update
-		eventPublisher.generateEventNotification(entity, new Date(), AgreementEventEnum.AgreementCreationNotification);
 
         return response;
     }   
 
-/*
+	/** 
+    * Function will match the URL
+    * PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
+	*
+    * Note: This is an implementation of RFC 6902 for JSON patch operations, using the JSON Patch library
+	* https://github.com/java-json-tools/json-patch
+	*
+    * @param id
+    * @param patchObject
+    * @throws BadUsageException
+    * @throws UnknownResourceException
+    **/
     @PATCH
     @Path("{id}")
     @Consumes("application/json-patch+json")
-    public Response patch(@PathParam("id") String id, JsonPatch patch) throws BadUsageException, UnknownResourceException, JsonPatchException{
+    public Response patch(@PathParam("id") String id, JsonPatch patch) 
+		throws BadUsageException, UnknownResourceException, JsonPatchException{
 
-        //Grab the entity to be patched.
-        AgreementSpecification specification = agreementSpecificationFacade.find(id);
+        // Retrieve the entity to be patched.
+        Agreement entity = agreementFacade.find(id);
 
-        //Define an Object Mapper to convert object into JSON object.
+        // Convert the entity into a JSON object, for use by the JSONPatch library
         ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.convertValue(entity, JsonNode.class);
 
-        logger.log(Level.INFO, "JSON patch request is called for the id "+id);
-
-        //Convert AgreementSpecification to JSON object
-        JsonNode node = mapper.convertValue(specification, JsonNode.class);
-
+        // Invoke the JSONPatch library to perform the diff and genrate the patch entity
         final JsonNode patchedNode = patch.apply(node);
-        //now use JSONPatch library to do the diff and apply patch
-        AgreementSpecification patchObject = mapper.convertValue(patchedNode, AgreementSpecification.class);
+        Agreement partialEntity = mapper.convertValue(patchedNode, Agreement.class);
 
-        //remove the ID as it's not patchable
-        patchObject.setId(null);
-
-        //remove HREF as it's not patchable
-        patchObject.setHref(null);
-        // now check if the object is patchable and apply patch.
-        AgreementSpecification entity = agreementSpecificationFacade.patchObject(id,patchObject);
+		// If the partialEntity property values is different from the database entity, then
+		// patch the entity and generate the appropriate notifications
+        entity = agreementFacade.patchAttributes(id, partialEntity);
 
         return Response.status(Response.Status.ACCEPTED).entity(entity).build();
-
-
     }
-*/
 
 	/**
 	 Return Set of unique elements to avoid List with same elements in case of join

@@ -47,7 +47,7 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 		return em;
 	}
 
-	// Validate mandatory fields and data types
+	// Validate mandatory fields and data types during entity creation
 	public void checkCreation(Agreement entity) throws BadUsageException, UnknownResourceException {
 		Agreement ag = null;
 
@@ -97,25 +97,19 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 		}
 	}
 
+	// Verify if the entity is patchable and then patch the entity if so.
+	// The function generates appropriate events, based on the nature of the update.
     public Agreement patchAttributes(String id, Agreement partialEntity) 
 		throws UnknownResourceException, BadUsageException {
 
 		// Firstly check if the requested entity exists
         Agreement entity = this.find(id);
 
-        if(entity == null){
-            throw new UnknownResourceException(ExceptionType.UNKNOWN_RESOURCE,
-				"Resource with ID " + id + " cannot be located");
-        }
-
-		partialEntity.setId(id);
-
         // Verify if this patch is permitted and if so, publish a StatusChange event
         verifyStatus(entity, partialEntity);
 
         // Verify that only allowed attributes are patched
         checkPatchAttributes(partialEntity);
-        //patchObject.setId(id);
 
         // Generate a JSON object from the given partial entity
         ObjectMapper objectMapper = new ObjectMapper();
@@ -123,36 +117,27 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 
 		// May need to use edit() should BeanUtils not work
 		// Seems like the entity is not attached to the EntityManager scope at all!
-        //this.edit(specification);
 
+		// Validate if the patch will actually result in the entity values getting updated.
+		// If yes, then publish a Change notification and update the entity.
+		// The BeanUtils.patch will copy the input attribute values to the entity, if values differ.
         if(BeanUtils.patch(entity, partialEntity, jsonNode)) {
 			eventPublisher.generateEventNotification(entity, new Date(), 
-				AgreementEventEnum.AgreementValueChangeNotification);
+							AgreementEventEnum.AgreementValueChangeNotification);
+			this.edit(entity);
         }
 
         return entity;
     }
 
-	/*
-	public Agreement patchAttributs(String id, Agreement partialEntity)
-		throws UnknownResourceException, BadUsageException {
-	}
-	*/
-
 	public void checkPatchAttributes(Agreement patchEntity) 
 		throws UnknownResourceException, BadUsageException {
 
-		if (null != patchEntity.getId()) {
-            throw new BadUsageException(ExceptionType.BAD_USAGE_OPERATOR, "id is not patchable");
-        }
-        if (null != patchEntity.getHref()) {
-            throw new BadUsageException(ExceptionType.BAD_USAGE_OPERATOR, "href is not patchable");
-        }
-        if (null != patchEntity.getInitialDate()) {
-            throw new BadUsageException(ExceptionType.BAD_USAGE_OPERATOR, "initialDate is not patchable");
-        }
+		// Remove attributes that are not patchable
+		patchEntity.setId(null);
+        patchEntity.setHref(null);
+        patchEntity.setInitialDate(null);
 	}
-
 
     /**
      * Verify that lifeCycleStatus passed in the request is allowed and if so, 
