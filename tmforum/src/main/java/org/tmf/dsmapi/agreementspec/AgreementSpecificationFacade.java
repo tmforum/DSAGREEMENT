@@ -2,6 +2,10 @@ package org.tmf.dsmapi.agreementspec;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.diff.JsonDiff;
+import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.AgreementAttachment;
 import org.tmf.dsmapi.agreement.model.AgreementSpecification;
@@ -181,23 +185,36 @@ public class AgreementSpecificationFacade extends AbstractFacade<AgreementSpecif
      */
 
 
-    public AgreementSpecification patchObject(String id, AgreementSpecification patchObject) throws UnknownResourceException, BadUsageException {
-        AgreementSpecification specification = this.find(id);
-        if(specification==null){
-            throw  new UnknownResourceException(
-                    ExceptionType.UNKNOWN_RESOURCE,
-                    "Resource with ID "+id+"can't be located"
+    public AgreementSpecification patchObject(String id, final AgreementSpecification patchObject) throws UnknownResourceException, BadUsageException {
 
-            );
-        }
+        AgreementSpecification specification = this.find(id);
+
+
         //Verify is this patching is permitted
         verifyStatus(specification,patchObject);
         //verify that only allowed attributes are patched
         checkPatchObject(patchObject);
+
         patchObject.setId(id);
         //Create an object mapper
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.convertValue(patchObject,JsonNode.class);
+//        final JsonPatch patch = JsonDiff.asJsonPatch(objectMapper.convertValue(patchObject, JsonNode.class)
+//                ,objectMapper.convertValue(specification,JsonNode.class));
+
+        final JsonMergePatch patch = objectMapper.convertValue(patchObject, JsonMergePatch.class);
+//        try {
+//            final JsonNode jsonNode = patch.apply(objectMapper.convertValue(specification,JsonNode.class));
+//            logger.log(Level.INFO,"-------------");
+//            logger.log(Level.INFO,jsonNode.toString());
+//            specification = objectMapper.convertValue(jsonNode, AgreementSpecification.class);
+//
+//        }catch (JsonPatchException ex){
+//            logger.log(Level.INFO,ex.getMessage());
+//        }
+
+
+
         if (BeanUtils.patch(specification, patchObject, jsonNode)) {
             eventPublisher.generateEventNotification(specification, new Date(), AgreementEventEnum.AgreementSpecValueChangeNotification);
         }

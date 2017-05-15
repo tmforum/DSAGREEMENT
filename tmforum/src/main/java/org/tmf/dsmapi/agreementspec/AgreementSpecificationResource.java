@@ -241,6 +241,8 @@ public class AgreementSpecificationResource {
         logger.log(Level.INFO, "Object patch request is called for the id "+id);
 
         AgreementSpecification specification = agreementSpecificationFacade.patchObject(id,patchObject);
+
+
         Response response;
         if(specification!=null){
             response = Response.ok(specification).build();

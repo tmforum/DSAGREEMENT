@@ -24,18 +24,18 @@ public class StateModelImpl extends StateModelBase<AgreementStatusEnum> {
         /**
          * From State initialize , we can go to inProcess only
          */
-        fromFirst(AgreementStatusEnum.INITIALIZED).to(AgreementStatusEnum.IN_PROCESS);
+        fromFirst(AgreementStatusEnum.INITIALIZED).to(AgreementStatusEnum.INPROCESS);
 
         /**
          * From inprocess, it can go to Pending Update, Validated, Rejected
          */
-        from(AgreementStatusEnum.IN_PROCESS).to(AgreementStatusEnum.PENDING_UPDATE,AgreementStatusEnum.REJECTED,AgreementStatusEnum.VALIDATED);
+        from(AgreementStatusEnum.INPROCESS).to(AgreementStatusEnum.PENDING_UPDATE,AgreementStatusEnum.REJECTED,AgreementStatusEnum.VALIDATED);
 
         /**
          * From Validated and Pending Update, It can go to in Process Again
          */
-        from(AgreementStatusEnum.PENDING_UPDATE).to(AgreementStatusEnum.IN_PROCESS);
-        from(AgreementStatusEnum.VALIDATED).to(AgreementStatusEnum.IN_PROCESS);
+        from(AgreementStatusEnum.PENDING_UPDATE).to(AgreementStatusEnum.INPROCESS);
+        from(AgreementStatusEnum.VALIDATED).to(AgreementStatusEnum.INPROCESS);
 
         /**
          * From Rejected it will be closed.

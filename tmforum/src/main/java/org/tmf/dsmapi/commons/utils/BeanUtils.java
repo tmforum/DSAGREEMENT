@@ -57,25 +57,29 @@ public class BeanUtils {
         JsonNode childNode;
         Object value;
         Object patchValue;
+        Object baseValue;
         Iterator<String> it = node.fieldNames();
         boolean isModified = false;
         while (it.hasNext()) {
             name = it.next();
             patchValue = BeanUtils.getNestedProperty(patchBean, name);
+            baseValue = BeanUtils.getNestedProperty(currentBean, name);
             childNode = node.get(name);
-            if (null != patchValue) {
-                if (childNode.isArray()&& !childNode.isNull()) {
-                    for (final JsonNode nodeArray : childNode) {
+            if (patchValue != baseValue) {
+                if (null != patchValue) {
+                    if (childNode.isArray() && !childNode.isNull()) {
+                        for (final JsonNode nodeArray : childNode) {
+                            value = BeanUtils.getNestedProperty(currentBean, name);
+                            patch(value, patchValue, nodeArray);
+                            BeanUtils.setNestedProperty(currentBean, name, patchValue);
+                            isModified = true;
+                        }
+                    } else {
                         value = BeanUtils.getNestedProperty(currentBean, name);
-                        patch(value, patchValue, nodeArray);
+                        patch(value, patchValue, childNode);
                         BeanUtils.setNestedProperty(currentBean, name, patchValue);
                         isModified = true;
                     }
-                } else {
-                    value = BeanUtils.getNestedProperty(currentBean, name);
-                    patch(value, patchValue, childNode);
-                    BeanUtils.setNestedProperty(currentBean, name, patchValue);
-                    isModified = true;
                 }
             }
         }

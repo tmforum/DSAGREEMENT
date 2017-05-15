@@ -8,7 +8,7 @@ package org.tmf.dsmapi.agreement.model;
 public enum  AgreementStatusEnum {
 
     INITIALIZED("Initialized"),
-    IN_PROCESS("InProcess"),
+    INPROCESS("InProcess"),
     PENDING_UPDATE("PendingUpdate"),
     VALIDATED("Validated"),
     REJECTED("Rejected"),

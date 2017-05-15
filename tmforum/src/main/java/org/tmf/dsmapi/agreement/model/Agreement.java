@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.tmf.dsmapi.commons.utils.CustomJsonDateDeSerializer;
 import org.tmf.dsmapi.commons.utils.CustomJsonDateSerializer;
-
+@SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT")
 public class Agreement implements Serializable {
@@ -209,7 +209,12 @@ public class Agreement implements Serializable {
     }
 
     public void setAgreementItem(List<AgreementItem> agreementItem) {
-        this.agreementItem = agreementItem;
+        //check if agreementItem is null, if not null add to the existing list
+        if(this.agreementItem==null) {
+            this.agreementItem = agreementItem;
+        }else{
+            this.agreementItem.addAll(agreementItem);
+        }
     }
 
     public List<PartyRoleRef> getEngagedPartyRole() {
@@ -217,7 +222,11 @@ public class Agreement implements Serializable {
     }
 
     public void setEngagedPartyRole(List<PartyRoleRef> engagedPartyRole) {
-        this.engagedPartyRole = engagedPartyRole;
+        if(this.engagedPartyRole==null) {
+            this.engagedPartyRole = engagedPartyRole;
+        }else {
+            this.engagedPartyRole.addAll(engagedPartyRole);
+        }
     }
 
     public List<AgreementAuthorization> getAgreementAuthorization() {
@@ -225,7 +234,11 @@ public class Agreement implements Serializable {
     }
 
     public void setAgreementAuthorization(List<AgreementAuthorization> agreementAuthorization) {
-        this.agreementAuthorization = agreementAuthorization;
+        if(this.agreementAuthorization ==null) {
+            this.agreementAuthorization = agreementAuthorization;
+        }else {
+            this.agreementAuthorization.addAll(agreementAuthorization);
+        }
     }
 
     public List<Characteristic> getCharacteristic() {
@@ -233,7 +246,11 @@ public class Agreement implements Serializable {
     }
 
     public void setCharacteristic(List<Characteristic> characteristic) {
-        this.characteristic = characteristic;
+        if(this.characteristic==null) {
+            this.characteristic = characteristic;
+        }else {
+            this.characteristic.addAll(characteristic);
+        }
     }
 
     public List<AgreementRef> getAssociatedAgreement() {
@@ -241,7 +258,11 @@ public class Agreement implements Serializable {
     }
 
     public void setAssociatedAgreement(List<AgreementRef> associatedAgreement) {
-        this.associatedAgreement = associatedAgreement;
+        if (this.associatedAgreement ==null) {
+            this.associatedAgreement = associatedAgreement;
+        } else  {
+          this.associatedAgreement.addAll(associatedAgreement);
+        }
     }
 
     @Override
