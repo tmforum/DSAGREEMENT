@@ -57,23 +57,23 @@ public class AgreementSpecification {
     //The category resource is used to group product offerings, service and resource candidates in logical containers
     protected CategoryRef serviceCategory;
 
-    @OneToMany(targetEntity = AgreementSpecCharacteristic.class, cascade = {CascadeType.ALL})
+    @OneToMany(targetEntity = AgreementSpecCharacteristic.class, orphanRemoval = true, cascade = {CascadeType.ALL})
     @JoinColumn(name = "SPEC_CHAR_AGREEMENT_SPEC_ID_FK")
     //A list of agreement spec characteristics
     protected List<AgreementSpecCharacteristic> specCharacteristic;
 
-    @OneToMany(targetEntity = AgreementAttachment.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(targetEntity = AgreementAttachment.class, orphanRemoval = true,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "ATTACHMENT_AGREEMENT_SPEC_ID_FK")
     //A list of agreement attachments
     protected List<AgreementAttachment> attachment;
 
-    @OneToMany(targetEntity = AgreementSpecificationRelationship.class, cascade = {CascadeType.ALL})
+    @OneToMany(targetEntity = AgreementSpecificationRelationship.class, orphanRemoval = true,cascade = {CascadeType.ALL})
     @JoinColumn(name = "AGREEMENT_SPEC_REL_AGREEMENT_SPEC_ID_FK")
     //A list of agreement specification relationships
     protected List<AgreementSpecificationRelationship> specificationRelationship;
 
     //A list of related party references (RelatedPartyRef [*]). A related party defines party or party role linked to a specific entity.
-    @OneToMany(targetEntity = RelatedPartyRef.class, cascade = {CascadeType.ALL})
+    @OneToMany(targetEntity = RelatedPartyRef.class, orphanRemoval = true,cascade = {CascadeType.ALL})
     @JoinColumn(name = "AGREEMENT_SPEC_RELATED_PARTY_REF")
     protected List<RelatedPartyRef> relatedParty;
 
