@@ -31,7 +31,7 @@ public class RelatedPartyRef {
     //Role of the related party
     protected String role;
 
-	@Embedded
+    @Embedded
     protected TimePeriod validFor;
 
     public RelatedPartyRef() {
@@ -39,9 +39,8 @@ public class RelatedPartyRef {
 
     /**
      * Return the ID of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getId() {
@@ -50,11 +49,10 @@ public class RelatedPartyRef {
 
     /**
      * Sets id for the object
-     * @param id
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param id allowed object is
+     *           <p>
+     *           {@link String}
      */
     public void setId(String id) {
         this.id = id;
@@ -62,9 +60,8 @@ public class RelatedPartyRef {
 
     /**
      * Return the HREF of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getHref() {
@@ -74,11 +71,10 @@ public class RelatedPartyRef {
 
     /**
      * Sets id for the object
-     * @param href
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param href allowed object is
+     *             <p>
+     *             {@link String}
      */
 
     public void setHref(String href) {
@@ -87,9 +83,8 @@ public class RelatedPartyRef {
 
     /**
      * Return the Name of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getName() {
@@ -99,11 +94,10 @@ public class RelatedPartyRef {
 
     /**
      * Sets id for the object
-     * @param name
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param name allowed object is
+     *             <p>
+     *             {@link String}
      */
     public void setName(String name) {
         this.name = name;
@@ -111,9 +105,8 @@ public class RelatedPartyRef {
 
     /**
      * Return the Role of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getRole() {
@@ -123,20 +116,19 @@ public class RelatedPartyRef {
 
     /**
      * Sets id for the object
-     * @param role
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param role allowed object is
+     *             <p>
+     *             {@link String}
      */
     public void setRole(String role) {
         this.role = role;
     }
+
     /**
      * Return the TimePeriod object embedded in the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link TimePeriod}
      */
 
@@ -147,11 +139,10 @@ public class RelatedPartyRef {
 
     /**
      * Sets id for the object
-     * @param validFor
      *
-     * allowed object is
-     *
-     * {@link TimePeriod}
+     * @param validFor allowed object is
+     *                 <p>
+     *                 {@link TimePeriod}
      */
 
     public void setValidFor(TimePeriod validFor) {

@@ -21,16 +21,14 @@ import java.util.Set;
 public class RestEventPublisher<T> {
 
 
-
-
     @EJB
-    private EventFacade eventFacade  ;
+    private EventFacade eventFacade;
 
     @EJB
     private RESTClient client;
 
 
-    public  void publish(Hub hub, String id, T event) {
+    public void publish(Hub hub, String id, T event) {
 
         // Get the query param from the hub query field
         MultivaluedMap<String, String> query = URIParser.getParameters(hub.getQuery());
@@ -43,10 +41,10 @@ public class RestEventPublisher<T> {
 
         // Search matched event
         List<T> eventList
-                = eventFacade.findByCriteria(query,event.getClass());
+                = eventFacade.findByCriteria(query, event.getClass());
 
-        if(!eventList.isEmpty() && eventList!=null){
-            if(!fields.isEmpty() && !fields.contains(URIParser.ALL_FIELDS)) {
+        if (!eventList.isEmpty() && eventList != null) {
+            if (!fields.isEmpty() && !fields.contains(URIParser.ALL_FIELDS)) {
                 fields.add("id");
                 fields.add("eventTime");
                 fields.add("eventType");
@@ -54,13 +52,13 @@ public class RestEventPublisher<T> {
 
                 try {
                     client.publishEvent(hub.getCallback(), TMFFilter.applyFilter(event, fields));
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 //ObjectNode rootNode = Jackson.createNode(event,fields);
                 //client.publishEvent(hub.getCallback(),rootNode);
             } else {
-                client.publishEvent(hub.getCallback(),event);
+                client.publishEvent(hub.getCallback(), event);
             }
         }
 

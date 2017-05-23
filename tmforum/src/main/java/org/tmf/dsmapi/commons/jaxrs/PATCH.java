@@ -5,9 +5,9 @@
 package org.tmf.dsmapi.commons.jaxrs;
 
 /**
- *
  * @author pierregauthier
  */
+
 import javax.ws.rs.HttpMethod;
 import java.lang.annotation.*;
 import javax.ws.rs.NameBinding;

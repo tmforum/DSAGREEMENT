@@ -12,12 +12,12 @@ import javax.persistence.Table;
 @Table(name = "AGREEMENT_REF")
 public class AgreementRef {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "AGREEMENT_REF_ID_PK")
-	protected String agrRefId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGREEMENT_REF_ID_PK")
+    protected String agrRefId;
 
-	@Column(name = "AGREEMENT_ID_FK")
+    @Column(name = "AGREEMENT_ID_FK")
     //ID of the agreement
     protected String id;
     //Name of the agreement.

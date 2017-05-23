@@ -3,9 +3,9 @@ package org.tmf.dsmapi.commons.exceptions;
 import java.io.Serializable;
 
 /**
-* Generic class for all functional exceptions
-* Functional exceptions must be checked exceptions
-**/
+ * Generic class for all functional exceptions
+ * Functional exceptions must be checked exceptions
+ **/
 
 public class TechnicalException extends RuntimeException implements Serializable {
 
@@ -14,14 +14,14 @@ public class TechnicalException extends RuntimeException implements Serializable
     private String localisationMethod;
     private ExceptionType type = ExceptionType.TECHNICAL;
 
-	// Each constructor calls the appropriate super() function i.e. constructor for RuntimeException class
-	// The structure is identical to FunctionalException class, except for KeyValue field
+    // Each constructor calls the appropriate super() function i.e. constructor for RuntimeException class
+    // The structure is identical to FunctionalException class, except for KeyValue field
 
     public TechnicalException() {
         super();
         localisationClass = "";
         localisationMethod = "";
-    }   
+    }
 
     public TechnicalException(String message) {
         super(message);
@@ -68,5 +68,5 @@ public class TechnicalException extends RuntimeException implements Serializable
     public ExceptionType getType() {
         return type;
     }
-      
+
 }

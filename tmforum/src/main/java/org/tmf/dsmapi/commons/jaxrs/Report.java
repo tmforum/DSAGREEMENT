@@ -1,6 +1,7 @@
 package org.tmf.dsmapi.commons.jaxrs;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @XmlRootElement
@@ -10,19 +11,18 @@ public class Report {
     private String previousRows;
     private String currentRows;
     private String affectedRows;
-    
+
     /**
      *
      */
-    public Report () {
-    }    
-    
+    public Report() {
+    }
+
     /**
-     *
      * @param currentRows
      */
-    public Report (int currentRows) {
-        this.currentRows=String.valueOf(currentRows);
+    public Report(int currentRows) {
+        this.currentRows = String.valueOf(currentRows);
     }
 
     /**
@@ -66,5 +66,5 @@ public class Report {
     public void setAffectedRows(int affectedRows) {
         this.affectedRows = String.valueOf(affectedRows);
     }
-    
+
 }

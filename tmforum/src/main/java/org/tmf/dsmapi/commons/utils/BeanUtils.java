@@ -5,14 +5,15 @@
 package org.tmf.dsmapi.commons.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import org.apache.commons.beanutils.PropertyUtilsBean;
 
 /**
- *
  * @author maig7313
  */
 public class BeanUtils {
@@ -20,7 +21,6 @@ public class BeanUtils {
     private static final PropertyUtilsBean PUB = new PropertyUtilsBean();
 
     /**
-     *
      * @param bean
      * @param name
      * @return
@@ -34,7 +34,6 @@ public class BeanUtils {
     }
 
     /**
-     *
      * @param bean
      * @param name
      * @param value
@@ -47,7 +46,6 @@ public class BeanUtils {
     }
 
     /**
-     *
      * @param currentBean
      * @param patchBean
      * @param node
@@ -71,14 +69,20 @@ public class BeanUtils {
                         for (final JsonNode nodeArray : childNode) {
                             value = BeanUtils.getNestedProperty(currentBean, name);
                             patch(value, patchValue, nodeArray);
-                            BeanUtils.setNestedProperty(currentBean, name, patchValue);
-                            isModified = true;
+                            if (value != patchValue) {
+                                BeanUtils.setNestedProperty(currentBean, name, patchValue);
+                                isModified = true;
+                            }
+
                         }
                     } else {
                         value = BeanUtils.getNestedProperty(currentBean, name);
                         patch(value, patchValue, childNode);
-                        BeanUtils.setNestedProperty(currentBean, name, patchValue);
-                        isModified = true;
+                        if (value != patchValue) {
+                            BeanUtils.setNestedProperty(currentBean, name, patchValue);
+                            isModified = true;
+                        }
+
                     }
                 }
             }

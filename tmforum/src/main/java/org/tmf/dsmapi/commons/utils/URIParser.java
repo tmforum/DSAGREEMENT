@@ -15,7 +15,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 /**
- *
  * @author maig7313
  */
 public class URIParser {
@@ -28,20 +27,20 @@ public class URIParser {
     private URIParser() {
     }
 
-	// This function is an overhead - there is no need to create a "mutableMap" just to get the list of fields
-	// associated with the key "field"
+    // This function is an overhead - there is no need to create a "mutableMap" just to get the list of fields
+    // associated with the key "field"
 
     public static Set<String> getFieldsSelection(Map<String, List<String>> queryParameters) {
         Set<String> fieldSet = new HashSet<String>();
 
-		// Get the values for the key named "fields:" or "fields" i.e. the fields to be returned by the service
+        // Get the values for the key named "fields:" or "fields" i.e. the fields to be returned by the service
         if (queryParameters != null) {
             List<String> queryParameterField = queryParameters.remove(QUERY_KEY_FIELD_ESCAPE + QUERY_KEY_FIELD);
 
             if (queryParameterField == null) {
                 queryParameterField = queryParameters.remove(QUERY_KEY_FIELD);
             }
-			// The values for the requested "fields" are separated by ","
+            // The values for the requested "fields" are separated by ","
             if (queryParameterField != null && !queryParameterField.isEmpty()) {
                 String queryParameterValue = queryParameterField.get(0);
                 if (queryParameterValue != null) {

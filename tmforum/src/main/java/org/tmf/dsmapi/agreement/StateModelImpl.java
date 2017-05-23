@@ -10,6 +10,7 @@ public class StateModelImpl extends StateModelBase<AgreementStatusEnum> {
 
     /**
      * Constructor
+     *
      * @param type
      */
     public StateModelImpl(Class<AgreementStatusEnum> type) {
@@ -29,7 +30,7 @@ public class StateModelImpl extends StateModelBase<AgreementStatusEnum> {
         /**
          * From inprocess, it can go to Pending Update, Validated, Rejected
          */
-        from(AgreementStatusEnum.INPROCESS).to(AgreementStatusEnum.PENDING_UPDATE,AgreementStatusEnum.REJECTED,AgreementStatusEnum.VALIDATED);
+        from(AgreementStatusEnum.INPROCESS).to(AgreementStatusEnum.PENDING_UPDATE, AgreementStatusEnum.REJECTED, AgreementStatusEnum.VALIDATED);
 
         /**
          * From Validated and Pending Update, It can go to in Process Again

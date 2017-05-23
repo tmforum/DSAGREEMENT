@@ -17,10 +17,10 @@ public class EventFacade<T> extends AbstractFacade<T> {
     protected EntityManager entityManager;
 
 
-
-    public EventFacade(){
+    public EventFacade() {
         super((Class<T>) Event.class);
     }
+
     @Override
     protected EntityManager getEntityManager() {
         return entityManager;

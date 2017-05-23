@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN"
+        "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
 <!-- Default Derby (H2) database configuration -->
 <!-- Comment this configuration if you are using a MySql database (see below) -->
 <!--
@@ -21,7 +22,8 @@
 <!-- Uncomment the configuration below if you are using a MySql database :
         Don't forget to update the databasename property as well <databasename> -->
 <resources>
-    <jdbc-connection-pool driver-classname="" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" res-type="javax.sql.DataSource" name="ritmfpool">
+    <jdbc-connection-pool driver-classname="" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
+                          res-type="javax.sql.DataSource" name="ritmfpool">
         <property name="User" value="tmforum"></property>
         <property name="Password" value="tmforum"></property>
         <property name="ServerName" value="localhost"></property>

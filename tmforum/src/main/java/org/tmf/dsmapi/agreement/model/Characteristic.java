@@ -18,17 +18,17 @@ import javax.persistence.Table;
 @Table(name = "CHARACTERISTIC")
 public class Characteristic {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "CHARACTERISTIC_ID")
-	protected String charId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "CHARACTERISTIC_ID")
+    protected String charId;
 
     protected String name;
     protected String value;
 
-	//@ManyToMany(mappedBy = "characteristic")
-	//@ManyToMany
-	//protected List<Agreement> agreementChar;
+    //@ManyToMany(mappedBy = "characteristic")
+    //@ManyToMany
+    //protected List<Agreement> agreementChar;
 
     public String getName() {
         return name;

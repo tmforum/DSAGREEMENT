@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.tmf.dsmapi.commons.utils.CustomJsonDateDeSerializer;
@@ -16,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "AGREEMENT_SPECS")
 @XmlRootElement
-public class AgreementSpecification  {
+public class AgreementSpecification {
 
     private static final long serialVersionUID = 11L;
 
@@ -45,23 +46,23 @@ public class AgreementSpecification  {
     //Name of the agreement specification
     protected String name;
 
-	  @Embedded
+    @Embedded
     @JsonDeserialize(as = TimePeriod.class)
     protected TimePeriod validFor;
     //Agreement specification version
     protected String version;
 
-    @ManyToOne(targetEntity = CategoryRef.class, cascade = { CascadeType.ALL })
+    @ManyToOne(targetEntity = CategoryRef.class, cascade = {CascadeType.ALL})
     @JoinColumn(name = "CAT_REF_AGREEMENT_SPEC_ID_FK")
     //The category resource is used to group product offerings, service and resource candidates in logical containers
     protected CategoryRef serviceCategory;
 
-    @OneToMany(targetEntity = AgreementSpecCharacteristic.class, cascade = { CascadeType.ALL })
+    @OneToMany(targetEntity = AgreementSpecCharacteristic.class, cascade = {CascadeType.ALL})
     @JoinColumn(name = "SPEC_CHAR_AGREEMENT_SPEC_ID_FK")
     //A list of agreement spec characteristics
     protected List<AgreementSpecCharacteristic> specCharacteristic;
 
-    @OneToMany(targetEntity = AgreementAttachment.class, cascade = {CascadeType.ALL})
+    @OneToMany(targetEntity = AgreementAttachment.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "ATTACHMENT_AGREEMENT_SPEC_ID_FK")
     //A list of agreement attachments
     protected List<AgreementAttachment> attachment;
@@ -77,7 +78,6 @@ public class AgreementSpecification  {
     protected List<RelatedPartyRef> relatedParty;
 
 
-
     @Transient
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -85,8 +85,8 @@ public class AgreementSpecification  {
 
     /**
      * Return the ID property of the object
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
     public String getId() {
@@ -95,11 +95,10 @@ public class AgreementSpecification  {
 
     /**
      * Sets ID prorty of the object
-     * @param id
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param id allowed object is
+     *           <p>
+     *           {@link String}
      */
     public void setId(String id) {
         this.id = id;
@@ -107,10 +106,9 @@ public class AgreementSpecification  {
 
     /**
      * Return the HREF field of the object
-     * @return
      *
-     * allowed object is
-     *
+     * @return allowed object is
+     * <p>
      * {@link String}
      */
 
@@ -120,11 +118,10 @@ public class AgreementSpecification  {
 
     /**
      * Sets HREF property of the object
-     * @param href
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param href allowed object is
+     *             <p>
+     *             {@link String}
      */
     public void setHref(String href) {
         this.href = href;
@@ -132,10 +129,9 @@ public class AgreementSpecification  {
 
     /**
      * Returns the drescription property of the object
-     * @return
      *
-     * allowed object is
-     *
+     * @return allowed object is
+     * <p>
      * {@link String}
      */
 
@@ -145,10 +141,9 @@ public class AgreementSpecification  {
 
     /**
      * Sets the description property of the object
-     * @param description
      *
-     * allowed object is
-     * {@link String}
+     * @param description allowed object is
+     *                    {@link String}
      */
     public void setDescription(String description) {
         this.description = description;
@@ -167,9 +162,8 @@ public class AgreementSpecification  {
     /**
      * Set the value of property isBundle
      *
-     * @param bundle
-     *  allowed object is
-     *  {@link Boolean}
+     * @param bundle allowed object is
+     *               {@link Boolean}
      */
 
     public void setIsBundle(Boolean bundle) {
@@ -179,32 +173,29 @@ public class AgreementSpecification  {
     /**
      * Return the lastupdate date propery of the object
      *
-     * @return
-     * allowed object is
+     * @return allowed object is
      * {@link String}
-     *
      */
     public Date getLastUpdate() {
-       return lastUpdate;
+        return lastUpdate;
     }
 
     /**
      * Sets the lastupdate propery of the object
      *
-     * @param lastUpdate
-     * allowed object is
-     * {@link String}
+     * @param lastUpdate allowed object is
+     *                   {@link String}
      */
     //@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     public void setLastUpdate(Date lastUpdate) {
-       this.lastUpdate = lastUpdate;
+        this.lastUpdate = lastUpdate;
     }
 
 
     /**
      * Returns the lifeCycleStatus property of the object
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
     public AgreementStatusEnum getLifecycleStatus() {
@@ -213,8 +204,8 @@ public class AgreementSpecification  {
 
     /**
      * Sets the value of propery lifecycleStatus
-     * @param lifecycleSattus
-     * allowed object is
+     *
+     * @param lifecycleSattus allowed object is
      */
     public void setLifecycleStatus(String lifecycleStatus) {
         this.lifecycleStatus = AgreementStatusEnum.fromValue(lifecycleStatus);
@@ -222,8 +213,8 @@ public class AgreementSpecification  {
 
     /**
      * Returns the name property of the object
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
 
@@ -234,9 +225,9 @@ public class AgreementSpecification  {
 
     /**
      * Sets the name property of the object
-     * @param name
-     * allowed object is
-     * {@link String}
+     *
+     * @param name allowed object is
+     *             {@link String}
      */
     public void setName(String name) {
         this.name = name;
@@ -244,9 +235,8 @@ public class AgreementSpecification  {
 
     /**
      * Return the timePeriod object as property
-     * @return
      *
-     * allowed object is TimePeriod
+     * @return allowed object is TimePeriod
      * {@link TimePeriod}
      */
     public TimePeriod getValidFor() {
@@ -255,10 +245,9 @@ public class AgreementSpecification  {
 
     /**
      * Set an embedded time period object
-     * @param validFor
      *
-     * allowed object is
-     * {@link TimePeriod}
+     * @param validFor allowed object is
+     *                 {@link TimePeriod}
      */
     public void setValidFor(TimePeriod validFor) {
         this.validFor = validFor;
@@ -267,9 +256,8 @@ public class AgreementSpecification  {
 
     /**
      * Return the version property for the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -279,10 +267,9 @@ public class AgreementSpecification  {
 
     /**
      * Sets version property of the object
-     * @param version
      *
-     * allowed object is
-     * {@link String}
+     * @param version allowed object is
+     *                {@link String}
      */
     public void setVersion(String version) {
         this.version = version;
@@ -291,9 +278,8 @@ public class AgreementSpecification  {
 
     /**
      * Returns the Service Category reference for the agreeementSpeficication.
-     * @return
      *
-     * Objects of the following type(s) are allowed in the list
+     * @return Objects of the following type(s) are allowed in the list
      * {@link CategoryRef }
      */
 
@@ -305,117 +291,88 @@ public class AgreementSpecification  {
      * Sets Category REF
      *
      * @param serviceCategory
-     *
-     *
      */
     public void setServiceCategory(CategoryRef serviceCategory) {
         this.serviceCategory = serviceCategory;
     }
 
 
-
     /**
      * Gets all Agreement spefification charateristic
      *
-     * @return
-     *
-     * allowed object is
+     * @return allowed object is
      * {@link AgreementSpecCharacteristic}
      */
     public List<AgreementSpecCharacteristic> getSpecCharacteristic() {
-        if(specCharacteristic==null){
+        if (specCharacteristic == null) {
             specCharacteristic = new ArrayList<AgreementSpecCharacteristic>();
         }
         return specCharacteristic;
     }
 
     /**
-     *
-     *
      * @param specCharacteristics
      */
     public void setSpecCharacteristic(List<AgreementSpecCharacteristic> specCharacteristic) {
-        if(this.specCharacteristic==null){
-            this.specCharacteristic = specCharacteristic;
-        }else {
-            this.specCharacteristic.addAll(specCharacteristic);
-        }
-
+        this.specCharacteristic = specCharacteristic;
     }
 
     /**
      * Gets all agreement attachment object associated with agreement spefication.
      * get/set will be allowed on there objects.
      *
-     * @return
-     * allowed object is
+     * @return allowed object is
      * {@link AgreementAttachment}
      */
     public List<AgreementAttachment> getAttachment() {
-        if(attachment==null){
+        if (attachment == null) {
             attachment = new ArrayList<AgreementAttachment>();
         }
         return attachment;
     }
 
     /**
-     *
-     *
      * @param attachment
      */
     public void setAttachment(List<AgreementAttachment> attachment) {
-         if(this.attachment==null) {
-             this.attachment = attachment;
-         }else {
-             this.attachment.addAll(attachment);
-         }
+        this.attachment = attachment;
     }
 
     /**
      * Gets all AgreementSpecificationsRelationship associated with agreementspec
      * get/set will be permitted on the returned object
      *
-     * @return
-     *
-     * allowed object is
+     * @return allowed object is
      * {@link AgreementSpecificationRelationship}
      */
 
     public List<AgreementSpecificationRelationship> getSpecificationRelationship() {
-        if(specificationRelationship==null){
+        if (specificationRelationship == null) {
             specificationRelationship = new ArrayList<AgreementSpecificationRelationship>();
         }
         return specificationRelationship;
     }
 
+
+
     /**
-     *
-     *
      * @param specificationRelationship
-     *
      */
     public void setSpecificationRelationship(List<AgreementSpecificationRelationship> specificationRelationship) {
-        if(this.specificationRelationship==null){
-            this.specificationRelationship = specificationRelationship;
-        }else{
-            this.specificationRelationship.addAll(specificationRelationship);
-        }
-
+        this.specificationRelationship = specificationRelationship;
     }
 
 
+    /**
+     *
+     * @return
+     */
     public List<RelatedPartyRef> getRelatedParty() {
         return relatedParty;
     }
 
     public void setRelatedParty(List<RelatedPartyRef> relatedParty) {
-        if(this.relatedParty==null){
-            this.relatedParty = relatedParty;
-        }else {
-
-            this.relatedParty.addAll(relatedParty);
-        }
-
+        this.relatedParty = relatedParty;
     }
 
     @Override

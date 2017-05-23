@@ -14,19 +14,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "AGREEMENT_SPEC_CHARACTERISTIC_VALUE")
 @XmlRootElement
-public class AgreementSpecCharacteristicValue{
+public class AgreementSpecCharacteristicValue {
 
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "AGREEMENT_SPEC_CHAR_VALUE_ID_PK")
-    protected String id; 
+    protected String id;
 
     @Column(name = "DEFAULT_VALUE")
-    protected  Boolean _default;
+    protected Boolean _default;
 
     protected String unitOfMeasure;
 
-	@Embedded
+    @Embedded
     protected TimePeriod validFor;
 
     protected String value;
@@ -42,9 +42,8 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Return flag to determine if its a default value
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link Boolean}
      */
     public Boolean getdefault() {
@@ -53,10 +52,9 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Set flag default as true/false
-     * @param _default
      *
-     * allowed object is
-     * {@link Boolean}
+     * @param _default allowed object is
+     *                 {@link Boolean}
      */
     public void setdefault(Boolean _default) {
         this._default = _default;
@@ -64,10 +62,9 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Return the unit of measure for the object
-     * @return
      *
-     * allowed object is
-     *
+     * @return allowed object is
+     * <p>
      * {@link String}
      */
 
@@ -79,11 +76,10 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Sets the value of unit for measure
-     * @param unitOfMeasure
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param unitOfMeasure allowed object is
+     *                      <p>
+     *                      {@link String}
      */
     public void setUnitOfMeasure(String unitOfMeasure) {
         this.unitOfMeasure = unitOfMeasure;
@@ -91,9 +87,8 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Set an timeperiod for the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link TimePeriod}
      */
     public TimePeriod getValidFor() {
@@ -101,13 +96,10 @@ public class AgreementSpecCharacteristicValue{
     }
 
     /**
-     *
      * Set the time period
      *
-     * @param validFor
-     *
-     * allowed object is
-     * {@link TimePeriod}
+     * @param validFor allowed object is
+     *                 {@link TimePeriod}
      */
     public void setValidFor(TimePeriod validFor) {
         this.validFor = validFor;
@@ -115,9 +107,8 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Returns the value of the AgreementSpecificationCharacteristic
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -127,10 +118,9 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Sets the value
-     * @param value
      *
-     * allowed object is
-     * {@link String}
+     * @param value allowed object is
+     *              {@link String}
      */
     public void setValue(String value) {
         this.value = value;
@@ -138,9 +128,8 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Returns the SourceFrom  of the AgreementSpecificationCharacteristic
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -150,10 +139,9 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Set the value of from source
-     * @param valueFrom
      *
-     * allowed object is
-     * {@link String}
+     * @param valueFrom allowed object is
+     *                  {@link String}
      */
     public void setValueFrom(String valueFrom) {
         this.valueFrom = valueFrom;
@@ -161,9 +149,8 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Returns the valueTo of the AgreementSpecificationCharacteristic
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -174,10 +161,9 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Set the value of To source
-     * @param valueTo
      *
-     * allowed object is
-     * {@link String}
+     * @param valueTo allowed object is
+     *                {@link String}
      */
     public void setValueTo(String valueTo) {
         this.valueTo = valueTo;
@@ -186,9 +172,8 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Returns the valueType of the AgreementSpecificationCharacteristic
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -199,10 +184,9 @@ public class AgreementSpecCharacteristicValue{
 
     /**
      * Set the valueType of the object
-     * @param valueType
      *
-     * allowed object is
-     * {@link String}
+     * @param valueType allowed object is
+     *                  {@link String}
      */
     public void setValueType(String valueType) {
         this.valueType = valueType;

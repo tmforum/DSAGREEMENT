@@ -12,9 +12,9 @@ import javax.persistence.Table;
 @Table(name = "PARTY_ROLE_REF")
 public class PartyRoleRef {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "PARTY_ROLE_REF_PK")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "PARTY_ROLE_REF_PK")
     //Unique identifier of the product
     protected String id;
 

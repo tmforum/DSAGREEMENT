@@ -3,6 +3,7 @@ package org.tmf.dsmapi.agreement.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,24 +30,25 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.tmf.dsmapi.commons.utils.CustomJsonDateDeSerializer;
 import org.tmf.dsmapi.commons.utils.CustomJsonDateSerializer;
+
 @SuppressWarnings("all")
 @Entity
 @Table(name = "AGREEMENT")
 public class Agreement implements Serializable {
-	@Transient
+    @Transient
     private static final long serialVersionUID = 11L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "AGREEMENT_ID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGREEMENT_ID")
     protected String id;
 
-	@Embedded
+    @Embedded
     protected TimePeriod agreementPeriod;
 
-	@Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
+    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date completionDate;
 
     protected String description;
@@ -57,47 +59,47 @@ public class Agreement implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
+    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date initialDate;
 
     protected String name;
 
     protected String statementOfIntent;
 
-	@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     protected AgreementStatusEnum status;
 
     protected String type;
 
     protected String version;
 
-	@OneToOne(targetEntity = AgreementSpecificationRef.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_AGREEMENT_SPEC_REF_AGREEMENT")
+    @OneToOne(targetEntity = AgreementSpecificationRef.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "FK_AGREEMENT_SPEC_REF_AGREEMENT")
     protected AgreementSpecificationRef agreementSpecification;
 
-	// The below OneToMany and JoinColumn statements will create 
-	// the named FK in the corresponding referred table
+    // The below OneToMany and JoinColumn statements will create
+    // the named FK in the corresponding referred table
 
-	@OneToMany(targetEntity = AgreementItem.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_AGREEMENT_ITEM_AGREEMENT")
+    @OneToMany(targetEntity = AgreementItem.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "FK_AGREEMENT_ITEM_AGREEMENT")
     protected List<AgreementItem> agreementItem;
 
-	@OneToMany(targetEntity = PartyRoleRef.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_PARTY_ROLE_AGREEMENT")
+    @OneToMany(targetEntity = PartyRoleRef.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "FK_PARTY_ROLE_AGREEMENT")
     protected List<PartyRoleRef> engagedPartyRole;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_AGREEMENT_AUTH_AGREEMENT")
+    @OneToMany(targetEntity = AgreementAuthorization.class,cascade = {CascadeType.ALL})
+    @JoinColumn(name = "FK_AGREEMENT_AUTH_AGREEMENT")
     protected List<AgreementAuthorization> agreementAuthorization;
 
-	//@ManyToMany(cascade = CascadeType.ALL, mappedBy = "agreementChar")
+    //@ManyToMany(cascade = CascadeType.ALL, mappedBy = "agreementChar")
 
     @OneToMany(targetEntity = Characteristic.class, cascade = {CascadeType.ALL})
     @JoinColumn(name = "FK_CHARACTERISTIC_AGREEMENT")
     protected List<Characteristic> characteristic;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "FK_AGREEMENT_REF_AGREEMENT")
+    @OneToMany(targetEntity = AgreementRef.class , cascade = { CascadeType.ALL } )
+    @JoinColumn(name = "FK_AGREEMENT_REF_AGREEMENT")
     protected List<AgreementRef> associatedAgreement;
 
     public TimePeriod getAgreementPeriod() {
@@ -177,7 +179,8 @@ public class Agreement implements Serializable {
     }
 
     public void setStatus(String status) {
-        this.status = AgreementStatusEnum.fromValue(status);;
+        this.status = AgreementStatusEnum.fromValue(status);
+        ;
     }
 
     public String getType() {
@@ -209,12 +212,7 @@ public class Agreement implements Serializable {
     }
 
     public void setAgreementItem(List<AgreementItem> agreementItem) {
-        //check if agreementItem is null, if not null add to the existing list
-        if(this.agreementItem==null) {
-            this.agreementItem = agreementItem;
-        }else{
-            this.agreementItem.addAll(agreementItem);
-        }
+        this.agreementItem = agreementItem;
     }
 
     public List<PartyRoleRef> getEngagedPartyRole() {
@@ -222,23 +220,18 @@ public class Agreement implements Serializable {
     }
 
     public void setEngagedPartyRole(List<PartyRoleRef> engagedPartyRole) {
-        if(this.engagedPartyRole==null) {
-            this.engagedPartyRole = engagedPartyRole;
-        }else {
-            this.engagedPartyRole.addAll(engagedPartyRole);
-        }
+        this.engagedPartyRole = engagedPartyRole;
     }
 
     public List<AgreementAuthorization> getAgreementAuthorization() {
+        if(agreementAuthorization==null){
+            agreementAuthorization = new ArrayList<AgreementAuthorization>();
+        }
         return agreementAuthorization;
     }
 
     public void setAgreementAuthorization(List<AgreementAuthorization> agreementAuthorization) {
-        if(this.agreementAuthorization ==null) {
-            this.agreementAuthorization = agreementAuthorization;
-        }else {
-            this.agreementAuthorization.addAll(agreementAuthorization);
-        }
+        this.agreementAuthorization = agreementAuthorization;
     }
 
     public List<Characteristic> getCharacteristic() {
@@ -246,11 +239,7 @@ public class Agreement implements Serializable {
     }
 
     public void setCharacteristic(List<Characteristic> characteristic) {
-        if(this.characteristic==null) {
-            this.characteristic = characteristic;
-        }else {
-            this.characteristic.addAll(characteristic);
-        }
+        this.characteristic = characteristic;
     }
 
     public List<AgreementRef> getAssociatedAgreement() {
@@ -258,11 +247,7 @@ public class Agreement implements Serializable {
     }
 
     public void setAssociatedAgreement(List<AgreementRef> associatedAgreement) {
-        if (this.associatedAgreement ==null) {
-            this.associatedAgreement = associatedAgreement;
-        } else  {
-          this.associatedAgreement.addAll(associatedAgreement);
-        }
+        this.associatedAgreement = associatedAgreement;
     }
 
     @Override

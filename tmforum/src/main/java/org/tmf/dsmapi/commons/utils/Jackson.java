@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Jackson {
     private Jackson() {
     }
 
-	// Simple wrapper to create custom JSON objects based on requested fields in the GET request
+    // Simple wrapper to create custom JSON objects based on requested fields in the GET request
     public static ObjectNode createNode(Object bean, Set<String> fieldNames) {
         ObjectMapper mapper = new ObjectMapper();
         return createNode(mapper, bean, fieldNames);
@@ -47,7 +48,7 @@ public class Jackson {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
             mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);  
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             result = mapper.treeToValue(rootNode, bean.getClass());
         } catch (IOException ex) {
             Logger.getLogger(Jackson.class.getName()).log(Level.SEVERE, null, ex);

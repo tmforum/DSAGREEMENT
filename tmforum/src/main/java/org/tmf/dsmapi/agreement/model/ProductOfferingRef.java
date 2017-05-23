@@ -2,19 +2,20 @@ package org.tmf.dsmapi.agreement.model;
 
 import javax.persistence.*;
 
-//@Embeddable
-@Entity
-@Table(name = "PRODUCT_OFFERING")
+@Embeddable
+//@Entity
+//@Table(name = "PRODUCT_OFFERING")
 public class ProductOfferingRef {
 
-    @Id
-    @GeneratedValue
+    //@Id
+    //@GeneratedValue
+    //@Column(name = "PO_ID")
     protected String id;
     protected String href;
     protected String name;
 
 	/* Pending CR from Pierre. Field to be removed
-	@ElementCollection
+    @ElementCollection
 	@CollectionTable(name="BUNDLED_PRODUCT_OFFERING")
     protected List<ProductOfferingRef> bundledProductOffering;
 	*/
@@ -44,7 +45,7 @@ public class ProductOfferingRef {
     }
 
 
-	/* Pending CR from Pierre. Field to be removed
+    /* Pending CR from Pierre. Field to be removed
     public List<ProductOfferingRef> getBundledProductOffering() {
         return bundledProductOffering;
     }

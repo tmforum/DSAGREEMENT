@@ -1,11 +1,10 @@
 package org.tmf.dsmapi.agreement.model;
 
 
-
 /**
  * Created by atinsingh on 4/5/17.
  */
-public enum  AgreementStatusEnum {
+public enum AgreementStatusEnum {
 
     INITIALIZED("Initialized"),
     INPROCESS("InProcess"),
@@ -20,12 +19,8 @@ public enum  AgreementStatusEnum {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
     public static AgreementStatusEnum fromValue(String v) {
-        for (AgreementStatusEnum c: AgreementStatusEnum.values()) {
+        for (AgreementStatusEnum c : AgreementStatusEnum.values()) {
             if (c.value.equalsIgnoreCase(v)) {
                 return c;
             }
@@ -33,11 +28,14 @@ public enum  AgreementStatusEnum {
         throw new IllegalArgumentException(v);
     }
 
+    public String getValue() {
+        return value;
+    }
 
     /**
      * String value
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
     @Override

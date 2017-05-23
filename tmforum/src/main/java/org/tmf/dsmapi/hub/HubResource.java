@@ -15,24 +15,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- The Hub resource provides services for external listeners to subscribe for changes to resources.
- Listeners initially issue a POST request with a callback URL on which they'll be notified.
- Listeners may also issue a DELETE request to unsubscribe following which, they will no longer be notified.
-**/
+ * The Hub resource provides services for external listeners to subscribe for changes to resources.
+ * Listeners initially issue a POST request with a callback URL on which they'll be notified.
+ * Listeners may also issue a DELETE request to unsubscribe following which, they will no longer be notified.
+ **/
 
 @Stateless
 @Path("/agreementManagement/hub")
 public class HubResource {
 
+    private static Logger logger = Logger.getLogger(HubResource.class.getName());
     @EJB
     HubFacade hubFacade;
-    private static Logger logger = Logger.getLogger(HubResource.class.getName());
 
     public HubResource() {
     }
 
     /**
      * Add a new hub entity
+     *
      * @param entity
      * @return
      * @throws BadUsageException
@@ -42,7 +43,7 @@ public class HubResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(Hub entity) throws BadUsageException {
-        if(null!=entity.getId()) {
+        if (null != entity.getId()) {
             try {
                 Hub hub = hubFacade.find(entity.getId());
                 if (hub != null) {
@@ -60,35 +61,37 @@ public class HubResource {
 
     /**
      * Function will remove the subscribed resource,
+     *
      * @param id
      * @return
      * @throws UnknownResourceException
      */
     @DELETE
     @Path("{id}")
-    public Response delete(@PathParam("id") String id) throws UnknownResourceException{
+    public Response delete(@PathParam("id") String id) throws UnknownResourceException {
         hubFacade.remove(id);
         return Response.accepted().build();
     }
 
 
     @DELETE
-    public Response delete(){
+    public Response delete() {
         return null;
     }
 
     /**
      * Find all the subscribed hub,
      * mapped to GET http://host:port/DSAgreement/agreementManagement/hub
+     *
      * @return
      */
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response find() throws UnknownResourceException{
+    public Response find() throws UnknownResourceException {
         //find list of all hubs in the database
         List<Hub> hubList = hubFacade.findAll();
-        if(hubList==null){
+        if (hubList == null) {
             throw new UnknownResourceException(
                     ExceptionType.UNKNOWN_RESOURCE, "No active hub subscription in the database");
         }
@@ -98,6 +101,7 @@ public class HubResource {
     /**
      * Function will return the hub for id and will match following URL
      * GET http://host:port/DSAgreement/agreementManagement/hub/{id}
+     *
      * @param id
      * @return
      * @throws UnknownResourceException
@@ -105,7 +109,7 @@ public class HubResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response find(@PathParam("id") String id) throws UnknownResourceException{
+    public Response find(@PathParam("id") String id) throws UnknownResourceException {
         Hub hub = hubFacade.find(id);
         return Response.ok(hub).build();
     }

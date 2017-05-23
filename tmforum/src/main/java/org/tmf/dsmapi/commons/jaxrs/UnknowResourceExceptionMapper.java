@@ -7,6 +7,7 @@ package org.tmf.dsmapi.commons.jaxrs;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.jaxrs.JsonFault;
 
@@ -14,7 +15,7 @@ import org.tmf.dsmapi.commons.jaxrs.JsonFault;
 public class UnknowResourceExceptionMapper implements ExceptionMapper<UnknownResourceException> {
     @Override
     public Response toResponse(UnknownResourceException ex) {
-        JsonFault error = new JsonFault(ex.getType().getInfo(),ex.getMessage());
+        JsonFault error = new JsonFault(ex.getType().getInfo(), ex.getMessage());
         return Response.status(404).entity(error).build();
     }
 }

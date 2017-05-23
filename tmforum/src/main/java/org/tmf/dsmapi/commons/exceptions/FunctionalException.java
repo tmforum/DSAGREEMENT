@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Generic class for all functional exceptions. 
-* - Functional exceptions must be checked exceptions
-* - The FunctionalException class extends Exception class and provides a generic structure for logging exceptions
-* - Known subclasses: BadUsageException, UnknownResourceException
-* - Although not implmented in this application, exceptions can be logged along with the name of the class, method 
-*   and other user speficied key-value parameters.
-**/
+ * Generic class for all functional exceptions.
+ * - Functional exceptions must be checked exceptions
+ * - The FunctionalException class extends Exception class and provides a generic structure for logging exceptions
+ * - Known subclasses: BadUsageException, UnknownResourceException
+ * - Although not implmented in this application, exceptions can be logged along with the name of the class, method
+ * and other user speficied key-value parameters.
+ **/
 
 public class FunctionalException extends Exception implements Serializable {
 
@@ -21,27 +21,27 @@ public class FunctionalException extends Exception implements Serializable {
     private ExceptionType type;
     private List<KeyValue> keyValue;
 
-	// Each constructor calls the appropriate super() function i.e. constructor for Exception class
+    // Each constructor calls the appropriate super() function i.e. constructor for Exception class
 
     public FunctionalException() {
         super();
         localisationClass = "";
         localisationMethod = "";
     }
-    
+
     public FunctionalException(ExceptionType type) {
         super();
         this.type = type;
         localisationClass = "";
         localisationMethod = "";
     }
-    
+
     public FunctionalException(ExceptionType type, String message) {
         super(message);
         this.type = type;
         localisationClass = "";
         localisationMethod = "";
-    }    
+    }
 
     public FunctionalException(String message) {
         super(message);
@@ -92,26 +92,26 @@ public class FunctionalException extends Exception implements Serializable {
     public void setType(ExceptionType type) {
         this.type = type;
     }
-    
+
     public List<KeyValue> getKeyValue() {
         return keyValue;
     }
 
-	// This function adds a KeyValue object to the local KeyValue store
+    // This function adds a KeyValue object to the local KeyValue store
     public List<KeyValue> addKeyValue(KeyValue keyValue) {
-        if (this.keyValue == null)  {
+        if (this.keyValue == null) {
             this.keyValue = new ArrayList<KeyValue>();
         }
         this.keyValue.add(keyValue);
         return this.keyValue;
     }
-    
-	// This function adds the input key and value pair to the local KeyValue store
+
+    // This function adds the input key and value pair to the local KeyValue store
     public List<KeyValue> addKeyValue(String key, String value) {
-        if (this.keyValue == null)  {
+        if (this.keyValue == null) {
             this.keyValue = new ArrayList<KeyValue>();
-        }        
+        }
         this.keyValue.add(new KeyValue(key, value));
         return this.keyValue;
-    }     
+    }
 }

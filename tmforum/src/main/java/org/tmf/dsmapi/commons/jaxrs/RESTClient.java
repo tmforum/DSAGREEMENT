@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+
 import java.util.HashMap;
 import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
@@ -12,6 +13,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
@@ -32,7 +34,7 @@ public class RESTClient {
         }
     }
 
-	public void publishEvent(String callbackURL, String node) {
+    public void publishEvent(String callbackURL, String node) {
         System.out.println("publishEvent " + node);
         WebTarget webResource = getWebResource(callbackURL);
         Entity entity = Entity.entity(node, MediaType.APPLICATION_JSON);

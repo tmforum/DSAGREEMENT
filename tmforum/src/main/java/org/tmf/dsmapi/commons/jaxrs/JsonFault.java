@@ -1,6 +1,7 @@
 package org.tmf.dsmapi.commons.jaxrs;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.tmf.dsmapi.commons.exceptions.ExceptionBean;
 
@@ -18,7 +19,7 @@ public class JsonFault {
     public JsonFault(ExceptionBean error, String detail) {
         this.error = error;
         this.detail = detail;
-    }   
+    }
 
     /**
      * @return the type

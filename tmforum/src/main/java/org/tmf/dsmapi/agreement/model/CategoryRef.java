@@ -13,13 +13,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CATEGORY_REF")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class CategoryRef{
+public class CategoryRef {
 
     @Id
     @Column(name = "CATEGORY_REF_ID_PK")
     @GeneratedValue(strategy = GenerationType.AUTO)
     //Unique value of service category
-    protected  String id;
+    protected String id;
 
     //Unique reference of the category
     protected String href;
@@ -35,12 +35,10 @@ public class CategoryRef{
     }
 
 
-
     /**
      * Return the ID of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -50,11 +48,8 @@ public class CategoryRef{
     }
 
     /**
-     *
-     * @param id
-     *
-     * allowed object is
-     * {@link String}
+     * @param id allowed object is
+     *           {@link String}
      */
     public void setId(String id) {
         this.id = id;
@@ -62,9 +57,8 @@ public class CategoryRef{
 
     /**
      * Return the HREF of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -74,10 +68,9 @@ public class CategoryRef{
 
     /**
      * Set an HREF string for the object
-     * @param href
      *
-     * allowed object is
-     * {@link String}
+     * @param href allowed object is
+     *             {@link String}
      */
     public void setHref(String href) {
         this.href = href;
@@ -85,9 +78,8 @@ public class CategoryRef{
 
     /**
      * Return the Name of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -97,10 +89,9 @@ public class CategoryRef{
 
     /**
      * Set the name of object
-     * @param name
      *
-     * allowed object is
-     * {@link String}
+     * @param name allowed object is
+     *             {@link String}
      */
     public void setName(String name) {
         this.name = name;
@@ -108,9 +99,8 @@ public class CategoryRef{
 
     /**
      * Return the Version of the object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -120,10 +110,9 @@ public class CategoryRef{
 
     /**
      * Set the version of the object
-     * @param version
      *
-     * allowed object is
-     * {@link String}
+     * @param version allowed object is
+     *                {@link String}
      */
     public void setVersion(String version) {
         this.version = version;

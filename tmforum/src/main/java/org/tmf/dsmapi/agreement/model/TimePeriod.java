@@ -3,6 +3,7 @@ package org.tmf.dsmapi.agreement.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,12 +22,12 @@ import javax.xml.bind.annotation.XmlSchemaType;
 public class TimePeriod {
 
     @Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mmZ")
     @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     private Date startDateTime;
 
     @Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mmZ")
     @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     private Date endDateTime;
 
@@ -34,8 +35,9 @@ public class TimePeriod {
         return startDateTime;
 
     }
-    public void setStartDateTime(Date startDateTime)  {
-        this.startDateTime = startDateTime ;
+
+    public void setStartDateTime(Date startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
     public Date getEndDateTime() {
@@ -44,5 +46,13 @@ public class TimePeriod {
 
     public void setEndDateTime(Date endDateTime) throws ParseException {
         this.endDateTime = endDateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "TimePeriod{" +
+                "startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                '}';
     }
 }

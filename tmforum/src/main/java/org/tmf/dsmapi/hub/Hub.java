@@ -23,7 +23,7 @@ public class Hub {
     private Integer leaseSeconds;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss" )
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     private Date dateTime;
 

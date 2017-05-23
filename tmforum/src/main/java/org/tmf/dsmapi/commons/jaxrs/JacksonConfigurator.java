@@ -7,9 +7,11 @@ package org.tmf.dsmapi.commons.jaxrs;
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
@@ -19,7 +21,7 @@ import javax.ws.rs.ext.Provider;
 public class JacksonConfigurator implements ContextResolver<ObjectMapper> {
 
     private ObjectMapper mapper = new ObjectMapper();
-    
+
     public JacksonConfigurator() {
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false).
                 configure(SerializationFeature.INDENT_OUTPUT, true).
@@ -27,7 +29,7 @@ public class JacksonConfigurator implements ContextResolver<ObjectMapper> {
                 configure(DeserializationFeature.WRAP_EXCEPTIONS, true);
     }
 
-   // @Override
+    // @Override
     public ObjectMapper getContext(Class<?> arg0) {
         return mapper;
     }

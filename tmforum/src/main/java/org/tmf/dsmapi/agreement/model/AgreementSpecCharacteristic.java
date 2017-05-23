@@ -22,10 +22,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AgreementSpecCharacteristic implements Serializable {
 
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "AGREEMENT_SPEC_CHAR_ID_PK")
-    protected String id; 
+    protected String id;
 
     //indicates that the characteristic is configurable or not
     protected Boolean configurable;
@@ -36,7 +36,7 @@ public class AgreementSpecCharacteristic implements Serializable {
     //Name of the characteristic being specified
     protected String name;
 
-	@Embedded
+    @Embedded
     protected TimePeriod validFor;
 
     //A kind of value that the characteristic can take on, such as numeric, text and so forth.
@@ -48,13 +48,10 @@ public class AgreementSpecCharacteristic implements Serializable {
     protected List<AgreementSpecCharacteristicValue> specCharacteristicValue;
 
 
-
-
     /**
      * Return if specs are configurable
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link Boolean}
      */
     public Boolean getConfigurable() {
@@ -63,10 +60,9 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Set value of boolean propety configurable
-     * @param configurable
      *
-     * allowed object is
-     * {@link Boolean}
+     * @param configurable allowed object is
+     *                     {@link Boolean}
      */
     public void setConfigurable(Boolean configurable) {
         this.configurable = configurable;
@@ -74,8 +70,8 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Return description property of the object
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
     public String getDescription() {
@@ -84,10 +80,9 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Set the description for Specs Characteristic
-     * @param description
      *
-     * allowed object is
-     * {@link String}
+     * @param description allowed object is
+     *                    {@link String}
      */
     public void setDescription(String description) {
         this.description = description;
@@ -95,11 +90,10 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Return the name of cascade = {
-     CascadeType.ALL
-     }
-     * @return
+     * CascadeType.ALL
+     * }
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getName() {
@@ -108,10 +102,9 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Set the name of Specs Characteristic
-      * @param name
      *
-     * allowed object is
-     * {@link String}
+     * @param name allowed object is
+     *             {@link String}
      */
     public void setName(String name) {
         this.name = name;
@@ -119,9 +112,8 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Return the timeperiod object
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link TimePeriod}
      */
     public TimePeriod getValidFor() {
@@ -130,10 +122,9 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Set the object TimePeriod
-     * @param validFor
      *
-     * allowed object is
-     * {@link TimePeriod}
+     * @param validFor allowed object is
+     *                 {@link TimePeriod}
      */
     public void setValidFor(TimePeriod validFor) {
         this.validFor = validFor;
@@ -141,9 +132,8 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Return the value type of Specs Characteristic
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
 
@@ -153,11 +143,10 @@ public class AgreementSpecCharacteristic implements Serializable {
 
     /**
      * Set the value type of Specs Characteristic
-     * @param valueType
      *
-     * allowed object is
-     *
-     * {@link String}
+     * @param valueType allowed object is
+     *                  <p>
+     *                  {@link String}
      */
     public void setValueType(String valueType) {
         this.valueType = valueType;
@@ -166,24 +155,19 @@ public class AgreementSpecCharacteristic implements Serializable {
     /**
      * Returns the AgreeementSpecCharateristicValue for Specs Characteristic
      * get/set will be allowed
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link AgreementSpecCharacteristicValue}
      */
     public List<AgreementSpecCharacteristicValue> getSpecCharacteristicValue() {
-        if(specCharacteristicValue ==null){
+        if (specCharacteristicValue == null) {
             specCharacteristicValue = new ArrayList<AgreementSpecCharacteristicValue>();
         }
         return specCharacteristicValue;
     }
 
     /**
-     *
-     *
      * @param specCharacteristicValues
-     *
-     *
      */
     public void setSpecCharacteristicValue(List<AgreementSpecCharacteristicValue> specCharacteristicValues) {
         this.specCharacteristicValue = specCharacteristicValues;

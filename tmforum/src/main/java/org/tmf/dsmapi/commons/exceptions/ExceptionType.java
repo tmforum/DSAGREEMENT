@@ -1,13 +1,13 @@
 package org.tmf.dsmapi.commons.exceptions;
 
 /**
-* This is an enum class for the various exception codes and messages returned by the application
-**/
+ * This is an enum class for the various exception codes and messages returned by the application
+ **/
 
 public enum ExceptionType {
 
-	// Define ENUM values
-	//-------------------
+    // Define ENUM values
+    //-------------------
     BAD_USAGE_GENERIC(new ExceptionBean("4000", "Bad Usage")),
     BAD_USAGE_SEARCH_QUERY(new ExceptionBean("4001", "Search query is not valid")),
     BAD_USAGE_FLOW_TRANSITION(new ExceptionBean("4002", "Workflow, state transition is not valid")),
@@ -19,8 +19,8 @@ public enum ExceptionType {
     TECHNICAL(new ExceptionBean("9000", "Technical error")),
     UNKNOWN_RESOURCE(new ExceptionBean("4041", "Unknown resource"));
 
-	// Field & method definitions begin
-	//---------------------------------
+    // Field & method definitions begin
+    //---------------------------------
     private ExceptionBean info;
 
     ExceptionType(ExceptionBean info) {

@@ -2,12 +2,12 @@ package org.tmf.dsmapi.commons.workflow;
 
 import java.util.EnumMap;
 import java.util.Map;
+
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.ExceptionType;
 
 /**
- *
- * @param <E> 
+ * @param <E>
  * @author maig7313
  */
 @SuppressWarnings(value = "all")
@@ -18,7 +18,6 @@ public abstract class StateModelBase<E extends Enum<E>> implements StateModel<E>
     private Class<E> type;
 
     /**
-     *
      * @param type
      */
     public StateModelBase(Class<E> type) {
@@ -51,7 +50,6 @@ public abstract class StateModelBase<E extends Enum<E>> implements StateModel<E>
     }
 
     /**
-     *
      * @param from
      * @param to
      * @throws BadUsageException
@@ -72,7 +70,6 @@ public abstract class StateModelBase<E extends Enum<E>> implements StateModel<E>
     }
 
     /**
-     *
      * @param e1
      * @return
      */
@@ -88,23 +85,21 @@ public abstract class StateModelBase<E extends Enum<E>> implements StateModel<E>
     }
 
     /**
-     *
      * @return
      */
     protected Transition fromFirst() {
         firstTransition = new Transition();
         return firstTransition;
     }
-    
+
     /**
-     *
      * @param e1
      * @return
      */
     protected Transition fromFirst(E e1) {
         firstTransition = from(e1);
         return firstTransition;
-    }    
+    }
 
     /**
      *

@@ -20,21 +20,22 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.ExceptionType;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.utils.TMFDate;
 
 /**
-* @author pierregauthier
-* The AbstractFacade is a generic class that is capable of managing persistence for any resource type that
-* needs to be persisted to the database by JPA. This class provides for all JPA related CRUD functions.
-* 
-* - All subclasses that extend AbstractFacade, mainly perform input data validaton
-* - The Resource layer invokes the Resource's facade methods to persist data. This in turn invokes
-*   the AbstractFacade's non-abstract methods
-* - The class provides an abstract method for retrieving the Entity Manager, which should be overriden by a subclass
-**/
+ * @author pierregauthier
+ *         The AbstractFacade is a generic class that is capable of managing persistence for any resource type that
+ *         needs to be persisted to the database by JPA. This class provides for all JPA related CRUD functions.
+ *         <p>
+ *         - All subclasses that extend AbstractFacade, mainly perform input data validaton
+ *         - The Resource layer invokes the Resource's facade methods to persist data. This in turn invokes
+ *         the AbstractFacade's non-abstract methods
+ *         - The class provides an abstract method for retrieving the Entity Manager, which should be overriden by a subclass
+ **/
 
 public abstract class AbstractFacade<T> {
     private Class<T> entityClass;
@@ -44,14 +45,56 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
+    // value has format value1,value2,...,valueN
+    private static boolean isMultipleOrValue(String value) {
+        return (value.contains(","));
+    }
+
+    // Why mandate REQUIRES_NEW? This creates nested transactions.
+    // Try running with default "REQUIRED" attribute type
+    //----------------------------------------------------------
+
+    // Call "create" method on each entity member to persist data
+    //------------------------------------------------------------
+
+    // value has format (value1&value2&...&valueN)
+    private static boolean isMultipleAndValue(String value) {
+        return (value.startsWith("(") && value.endsWith(")"));
+    }
+
+    // This method calls the EntityManager to persist data
+    //-----------------------------------------------------
+
+    // convert String "value1,value2,...,valueN"
+    // to List [value1, value2, ..., valueN]
+    private static List<String> convertMultipleOrValueToList(String value) {
+        List<String> valueList = new ArrayList<String>();
+        String[] tokenArray = value.split(",");
+        valueList.addAll(Arrays.asList(tokenArray));
+        return valueList;
+    }
+
+    // convert String "(name1=value1&name2=value2&...&nameN=valueN)"
+    // to List of Entry [name1=value1, name2=value2, ..., nameN=valueN]
+    // Conversion is not to a Map since there can be a same name with differents values
+    private static List<Map.Entry<String, String>> convertMultipleAndValue(String multipleValue) {
+        List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>();
+        if (multipleValue.startsWith("(") && multipleValue.endsWith(")")) {
+            String[] tokenArray = multipleValue.substring(1, multipleValue.length() - 1).split("&");
+            for (String nameValue : tokenArray) {
+                String[] split = nameValue.split("=");
+                if (split.length == 2) {
+                    String name = split[0];
+                    String value = split[1];
+
+                    nameValueList.add(new AbstractMap.SimpleEntry<String, String>(name, value));
+                }
+            }
+        }
+        return nameValueList;
+    }
+
     protected abstract EntityManager getEntityManager();
-
-	// Why mandate REQUIRES_NEW? This creates nested transactions. 
-	// Try running with default "REQUIRED" attribute type
-	//----------------------------------------------------------
-
-	// Call "create" method on each entity member to persist data
-	//------------------------------------------------------------
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int create(List<T> entities) throws BadUsageException {
@@ -61,26 +104,23 @@ public abstract class AbstractFacade<T> {
         return entities.size();
     }
 
-	// This method calls the EntityManager to persist data
-	//-----------------------------------------------------
-
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void create(T entity) throws BadUsageException {
         getEntityManager().persist(entity);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public T edit(T entity) throws UnknownResourceException {
         getEntityManager().merge(entity);
         return entity;
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void remove(Object id) throws UnknownResourceException {
         T entity = getEntityManager().find(entityClass, id);
         getEntityManager().remove(getEntityManager().merge(entity));
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void removeAll() {
         List<T> all = findAll();
@@ -188,7 +228,7 @@ public abstract class AbstractFacade<T> {
         Predicate predicate;
         CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
         if (isMultipleAndValue(value)) {
-            // name=(subname1=value1&subname2=value2&...&subnameN=valueN) 
+            // name=(subname1=value1&subname2=value2&...&subnameN=valueN)
             // => name.subname1=value1 AND name.subname2=value2 AND ... AND name.subnameN=valueN
             List<Map.Entry<String, String>> subFieldNameValue = convertMultipleAndValue(value);
             List<Predicate> andPredicates = new ArrayList<Predicate>();
@@ -215,45 +255,6 @@ public abstract class AbstractFacade<T> {
             predicate = buildPredicateWithOperator(tt, name, value);
         }
         return predicate;
-    }
-
-    // value has format value1,value2,...,valueN
-    private static boolean isMultipleOrValue(String value) {
-        return (value.contains(","));
-    }
-
-    // value has format (value1&value2&...&valueN)
-    private static boolean isMultipleAndValue(String value) {
-        return (value.startsWith("(") && value.endsWith(")"));
-    }
-
-    // convert String "value1,value2,...,valueN" 
-    // to List [value1, value2, ..., valueN]
-    private static List<String> convertMultipleOrValueToList(String value) {
-        List<String> valueList = new ArrayList<String>();
-        String[] tokenArray = value.split(",");
-        valueList.addAll(Arrays.asList(tokenArray));
-        return valueList;
-    }
-
-    // convert String "(name1=value1&name2=value2&...&nameN=valueN)" 
-    // to List of Entry [name1=value1, name2=value2, ..., nameN=valueN]
-    // Conversion is not to a Map since there can be a same name with differents values
-    private static List<Map.Entry<String, String>> convertMultipleAndValue(String multipleValue) {
-        List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>();
-        if (multipleValue.startsWith("(") && multipleValue.endsWith(")")) {
-            String[] tokenArray = multipleValue.substring(1, multipleValue.length() - 1).split("&");
-            for (String nameValue : tokenArray) {
-                String[] split = nameValue.split("=");
-                if (split.length == 2) {
-                    String name = split[0];
-                    String value = split[1];
-
-                    nameValueList.add(new AbstractMap.SimpleEntry<String, String>(name, value));
-                }
-            }
-        }
-        return nameValueList;
     }
 
     // safe Enum.valueOf without exception 
@@ -320,7 +321,6 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     *
      * @param tt
      * @param name
      * @param value
@@ -381,10 +381,6 @@ public abstract class AbstractFacade<T> {
             this.value = value;
         }
 
-        public String getValue() {
-            return this.value;
-        }
-
         public static Operator fromString(String value) {
             if (value != null) {
                 for (Operator b : Operator.values()) {
@@ -394,6 +390,10 @@ public abstract class AbstractFacade<T> {
                 }
             }
             return null;
+        }
+
+        public String getValue() {
+            return this.value;
         }
     }
 }

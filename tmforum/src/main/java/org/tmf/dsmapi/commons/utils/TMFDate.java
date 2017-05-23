@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- *
  * @author maig7313
  */
 public class TMFDate {
@@ -14,16 +13,14 @@ public class TMFDate {
     private static SimpleDateFormat FORMATER;
 
     /**
-     *
      * @param date
      * @return
      */
     public static String toString(Date date) {
         return getFormater().format(date);
     }
-    
+
     /**
-     *
      * @param date
      * @return
      */
@@ -33,7 +30,7 @@ public class TMFDate {
         } catch (ParseException ex) {
             return null;
         }
-    }    
+    }
 
     private static SimpleDateFormat getFormater() {
         if (FORMATER == null) {

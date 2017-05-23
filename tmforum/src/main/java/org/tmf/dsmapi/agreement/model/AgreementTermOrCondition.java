@@ -2,16 +2,17 @@ package org.tmf.dsmapi.agreement.model;
 
 import javax.persistence.*;
 
-//@Embeddable
-@Entity
-@Table(name = "T_OR_C")
+@Embeddable
+//@Entity
+//@Table(name = "T_OR_C")
 public class AgreementTermOrCondition {
 
-    @Id
-    @GeneratedValue
-    protected  String id;
+    //@Id
+    //@GeneratedValue
+    //@Column(name = "TC_ID")
+    protected String id;
 
-    protected  String description;
+    protected String description;
 
     protected TimePeriod validFor;
 

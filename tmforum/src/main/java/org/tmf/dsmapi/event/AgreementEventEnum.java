@@ -1,4 +1,3 @@
-
 package org.tmf.dsmapi.event;
 
 public enum AgreementEventEnum {
@@ -19,15 +18,6 @@ public enum AgreementEventEnum {
     }
 
     /**
-     *
-     * @return
-     */
-    public String getText() {
-        return this.text;
-    }
-
-    /**
-     *
      * @param text
      * @return
      */
@@ -40,6 +30,13 @@ public enum AgreementEventEnum {
             }
         }
         return null;
+    }
+
+    /**
+     * @return
+     */
+    public String getText() {
+        return this.text;
     }
 
 }

@@ -1,9 +1,14 @@
+/**
+ * Generic class for Event, class can be used for anytype of event.
+ */
+
 package org.tmf.dsmapi.event;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.agreement.model.Agreement;
@@ -11,15 +16,16 @@ import org.tmf.dsmapi.agreement.model.Agreement;
 
 @SuppressWarnings("All")
 @Entity
-@Table(name="EVENT_AGREEMENT")
+@Table(name = "EVENT_AGREEMENT")
 
-public class Event<T>  {
+public class Event<T> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date eventTime;
 
     @Enumerated(value = EnumType.STRING)

@@ -16,6 +16,7 @@ public class HubFacade extends AbstractFacade<Hub> {
 
     @PersistenceContext(unitName = "DSAgreementPU")
     private EntityManager entityManager;
+
     public HubFacade() {
         super(Hub.class);
     }

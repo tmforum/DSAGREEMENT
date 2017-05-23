@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,21 +22,27 @@ import org.tmf.dsmapi.commons.utils.CustomJsonDateSerializer;
 @Table(name = "AGREEMENT_AUTH")
 public class AgreementAuthorization {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "AGREEMENT_AUTH_ID_PK")
-	String agrAuthId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGREEMENT_AUTH_ID_PK")
+    String id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
-	@JsonDeserialize(using = CustomJsonDateDeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonDeserialize(using = CustomJsonDateDeSerializer.class)
     protected Date date;
-
     //Indication that represents whether the signature is a physical paper signature or a digital signature.
     protected String signatureRepresentation;
-
     //Current status of the authorization, for example in process, approved, rejected.
     protected String state;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Date getDate() {
         return date;

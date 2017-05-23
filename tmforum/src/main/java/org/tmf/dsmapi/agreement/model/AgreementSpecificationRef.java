@@ -16,12 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AgreementSpecificationRef {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "AGREEMENT_SPEC_REF_PK")
-	protected String agreementSpecRefPk;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGREEMENT_SPEC_REF_PK")
+    protected String agreementSpecRefPk;
 
-	@Column(name = "AGREEMENT_SPEC_DESC")
+    @Column(name = "AGREEMENT_SPEC_DESC")
     //detail what the agreement specification is about.
     protected String description;
 
@@ -29,7 +29,7 @@ public class AgreementSpecificationRef {
     protected String href;
 
     //Unique identifier of the agreement specification.
-	@Column(name = "AGREEMENT_SPEC_ID_FK")
+    @Column(name = "AGREEMENT_SPEC_ID_FK")
     protected String id;
 
     @Column

@@ -31,16 +31,14 @@ public class AgreementAttachment {
     protected String url;
 
 
-
     public AgreementAttachment() {
     }
 
 
     /**
      * Return the id of attachment object
-     * @return
      *
-     * allowed Object is
+     * @return allowed Object is
      * {@link String}
      */
     public String getId() {
@@ -50,9 +48,8 @@ public class AgreementAttachment {
     /**
      * Sets id of the object
      *
-     * @param id
-     * allowed object is
-     * {@link String}
+     * @param id allowed object is
+     *           {@link String}
      */
     public void setId(String id) {
         this.id = id;
@@ -60,8 +57,8 @@ public class AgreementAttachment {
 
     /**
      * Gets HREF for the object
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
     @Column
@@ -71,9 +68,9 @@ public class AgreementAttachment {
 
     /**
      * Sets HREF in the object
-     * @param href
-     * allowed object is
-     * {@link String}
+     *
+     * @param href allowed object is
+     *             {@link String}
      */
     public void setHref(String href) {
         this.href = href;
@@ -81,8 +78,8 @@ public class AgreementAttachment {
 
     /**
      * return the type of attachement object
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
 
@@ -92,9 +89,9 @@ public class AgreementAttachment {
 
     /**
      * Set the type
-     * @param type
-     * allowed object is
-     * {@link String}
+     *
+     * @param type allowed object is
+     *             {@link String}
      */
     public void setType(String type) {
         this.type = type;
@@ -102,8 +99,8 @@ public class AgreementAttachment {
 
     /**
      * Returns the URL of the attachment
-     * @return
-     * allowed object is
+     *
+     * @return allowed object is
      * {@link String}
      */
 
@@ -113,10 +110,9 @@ public class AgreementAttachment {
 
     /**
      * Set the URL
-     * @param url
      *
-     * allowed object is
-     * {@link String}
+     * @param url allowed object is
+     *            {@link String}
      */
     public void setUrl(String url) {
         this.url = url;

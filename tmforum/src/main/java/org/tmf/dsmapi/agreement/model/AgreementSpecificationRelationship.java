@@ -32,7 +32,7 @@ public class AgreementSpecificationRelationship {
     //Type of relationship such as, substitution or dependency
     protected String type;
 
-	@Embedded
+    @Embedded
     protected TimePeriod validFor;
 
     public AgreementSpecificationRelationship() {
@@ -40,9 +40,8 @@ public class AgreementSpecificationRelationship {
 
     /**
      * Return the ID of the AgreementSpecificationRelationship
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getId() {
@@ -50,11 +49,8 @@ public class AgreementSpecificationRelationship {
     }
 
     /**
-     *
-     * @param id
-     *
-     * allowed object is
-     * {@link String}
+     * @param id allowed object is
+     *           {@link String}
      */
     public void setId(String id) {
         this.id = id;
@@ -63,9 +59,8 @@ public class AgreementSpecificationRelationship {
 
     /**
      * Return the HREF of the AgreementSpecificationRelationship
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getHref() {
@@ -74,10 +69,9 @@ public class AgreementSpecificationRelationship {
 
     /**
      * Sets HREF for the object
-     * @param href
      *
-     * allowed object is
-     * {@link String}
+     * @param href allowed object is
+     *             {@link String}
      */
     public void setHref(String href) {
         this.href = href;
@@ -86,9 +80,8 @@ public class AgreementSpecificationRelationship {
 
     /**
      * Return the Type of the AgreementSpecificationRelationship
-     * @return
      *
-     * allowed object is
+     * @return allowed object is
      * {@link String}
      */
     public String getType() {
@@ -97,10 +90,9 @@ public class AgreementSpecificationRelationship {
 
     /**
      * Set the type for the object
-     * @param type
      *
-     * allowed object is
-     * {@link String}
+     * @param type allowed object is
+     *             {@link String}
      */
     public void setType(String type) {
         this.type = type;
@@ -108,10 +100,9 @@ public class AgreementSpecificationRelationship {
 
     /**
      * Return the timeperiod of the object
-     * @return
      *
-     * allowed object is
-     *
+     * @return allowed object is
+     * <p>
      * {@link TimePeriod}
      */
     public TimePeriod getValidFor() {
@@ -120,10 +111,9 @@ public class AgreementSpecificationRelationship {
 
     /**
      * Set time period for the object
-     * @param validFor
      *
-     * allowed object is
-     * {@link String}
+     * @param validFor allowed object is
+     *                 {@link String}
      */
     public void setValidFor(TimePeriod validFor) {
         this.validFor = validFor;

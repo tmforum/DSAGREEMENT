@@ -16,6 +16,7 @@ import javax.ws.rs.DELETE;
 import org.tmf.dsmapi.event.AgreementEventEnum;
 import org.tmf.dsmapi.event.EventPublisher;
 import org.tmf.dsmapi.commons.jaxrs.PATCH;
+
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -39,11 +41,11 @@ import org.tmf.dsmapi.commons.utils.TMFFilter;
 public class AgreementResource {
 
     @EJB
-	AgreementFacade agreementFacade;
+    AgreementFacade agreementFacade;
 
     @EJB
-	EventPublisher<Agreement> eventPublisher;
-	//EventPublisherInterface<Agreement> eventPublisher;
+    EventPublisher<Agreement> eventPublisher;
+    //EventPublisherInterface<Agreement> eventPublisher;
 
     public AgreementResource() {
     }
@@ -51,207 +53,210 @@ public class AgreementResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response create(Agreement entity, @Context UriInfo info) 
-		throws BadUsageException, UnknownResourceException {
+    public Response create(Agreement entity, @Context UriInfo info)
+            throws BadUsageException, UnknownResourceException {
 
-		// Check inputs for mandatory fields and set defaults if certain inputs have not been provided
-		agreementFacade.checkCreation(entity);
+        // Check inputs for mandatory fields and set defaults if certain inputs have not been provided
+        agreementFacade.checkCreation(entity);
 
-		// Create a new "agreement" entity in the database 
-		// In-case ID is not sent in the input, the persistence layer will generate a new ID
-		// Hence post creation, set the appropriate ID in the entity link field
-		agreementFacade.create(entity);
-		entity.setHref(info.getAbsolutePath() + "/" + entity.getId());
-		agreementFacade.edit(entity);
+        // Create a new "agreement" entity in the database
+        // In-case ID is not sent in the input, the persistence layer will generate a new ID
+        // Hence post creation, set the appropriate ID in the entity link field
+        agreementFacade.create(entity);
+        entity.setHref(info.getAbsolutePath() + "/" + entity.getId());
+        agreementFacade.edit(entity);
 
-		// Generate notification for the resource creation
-		eventPublisher.generateEventNotification(entity, new Date(), AgreementEventEnum.AgreementCreationNotification);
+        // Generate notification for the resource creation
+        eventPublisher.generateEventNotification(entity, new Date(), AgreementEventEnum.AgreementCreationNotification);
 
-		// Generate response and return
-		Response response = Response.status(Response.Status.CREATED).entity(entity).build();
+        // Generate response and return
+        Response response = Response.status(Response.Status.CREATED).entity(entity).build();
 
-		return response;
+        return response;
     }
 
-    /** 
+    /**
      * This function will match the end point
      * https://host:port/DSAgreement/agreementManagement/agreement/{id}?fields=field1,field2
      * {id} is mandatory, if {id} is not passed, URL will return not found 404
+     *
      * @param id
      * @param uriInfo
      * @return
      * @throws BadUsageException
      * @throws UnknownResourceException
      * @throws Exception
-    **/
+     **/
 
-	@GET
-	@Path("/{id}")
+    @GET
+    @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-	public Response get(@PathParam("id") String id, @Context UriInfo info) throws UnknownResourceException, Exception {
-		/**
-		 The URL parameters are returned as a standard immutable JAX-RS <K,V> pair
-		 The function receives query parameters as below - hence we need to parse it first
-		 Note: We find a match by ID only - any other query criteria is discarded, other than
-		 the fields filtering
-		 URL: e.g. /agreement/{id}?fields=id,name&status=approved&engagedParty.name="So Magic Ltd"
-		**/
+    public Response get(@PathParam("id") String id, @Context UriInfo info) throws UnknownResourceException, Exception {
+        /**
+         The URL parameters are returned as a standard immutable JAX-RS <K,V> pair
+         The function receives query parameters as below - hence we need to parse it first
+         Note: We find a match by ID only - any other query criteria is discarded, other than
+         the fields filtering
+         URL: e.g. /agreement/{id}?fields=id,name&status=approved&engagedParty.name="So Magic Ltd"
+         **/
 
-		Response response;
-		MultivaluedMap<String, String> queryParameters = info.getQueryParameters();
+        Response response;
+        MultivaluedMap<String, String> queryParameters = info.getQueryParameters();
 
-		// The mutableMap creates a Map<String, List<String>>, instead of a MultivaluedMap
-		Map<String, List<String>> mutableMap = new HashMap();
+        // The mutableMap creates a Map<String, List<String>>, instead of a MultivaluedMap
+        Map<String, List<String>> mutableMap = new HashMap();
 
-		for (Map.Entry<String, List<String>> e : queryParameters.entrySet()) {
-			mutableMap.put(e.getKey(), e.getValue());
-		}
+        for (Map.Entry<String, List<String>> e : queryParameters.entrySet()) {
+            mutableMap.put(e.getKey(), e.getValue());
+        }
 
-		// Get the list of fields to be returned in the GET request
-		Set<String> fieldSet = URIParser.getFieldsSelection(mutableMap);
+        // Get the list of fields to be returned in the GET request
+        Set<String> fieldSet = URIParser.getFieldsSelection(mutableMap);
 
-		// Query the requested Agreement ID via JPA
-		Agreement agreement = agreementFacade.find(id);
+        // Query the requested Agreement ID via JPA
+        Agreement agreement = agreementFacade.find(id);
 
-		if(agreement != null) {
-			// Since all fields have been requested, no filtering is needed
-			if (fieldSet.isEmpty() || fieldSet.contains(URIParser.ALL_FIELDS)) {
-				response = Response.ok(agreement).build();
-			} 
-			// Else apply filter
-			else {
-				response = Response.ok(TMFFilter.applyFilter(agreement, fieldSet)).build();
-			}
-		} else {
-			response = Response.status(Response.Status.NOT_FOUND).build();
-		}
-		return response;
-	}
+        if (agreement != null) {
+            // Since all fields have been requested, no filtering is needed
+            if (fieldSet.isEmpty() || fieldSet.contains(URIParser.ALL_FIELDS)) {
+                response = Response.ok(agreement).build();
+            }
+            // Else apply filter
+            else {
+                response = Response.ok(TMFFilter.applyFilter(agreement, fieldSet)).build();
+            }
+        } else {
+            response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return response;
+    }
 
-    /** 
+    /**
      * This function will return a collection of agreements and match the end point
      * https://host:port/DSAgreement/agreementManagement/agreement?fields=field1,field2
+     *
      * @param uriInfo
      * @return
      * @throws BadUsageException
      * @throws UnknownResourceException
      * @throws Exception
-    **/
+     **/
 
-	@GET
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
-	public Response get(@Context UriInfo info) throws UnknownResourceException, Exception {
-		/**
-		 The URL parameters are returned as a standard immutable JAX-RS <K,V> pair
-		 The function receives query parameters as below - hence we need to parse it first
-		 Note: The match is found on the basis of the query criteria provided in the URL
-		 URL: e.g. /agreement?fields=id,name&status=approved&engagedParty.name="So Magic Ltd"
-		**/
+    public Response get(@Context UriInfo info) throws UnknownResourceException, Exception {
+        /**
+         The URL parameters are returned as a standard immutable JAX-RS <K,V> pair
+         The function receives query parameters as below - hence we need to parse it first
+         Note: The match is found on the basis of the query criteria provided in the URL
+         URL: e.g. /agreement?fields=id,name&status=approved&engagedParty.name="So Magic Ltd"
+         **/
 
-		Response response;
-		MultivaluedMap<String, String> queryParameters = info.getQueryParameters();
-		
-		// The mutableMap creates a Map<String, List<String>>, instead of a MultivaluedMap
-		Map<String, List<String>> mutableMap = new HashMap();
+        Response response;
+        MultivaluedMap<String, String> queryParameters = info.getQueryParameters();
 
-		for (Map.Entry<String, List<String>> e : queryParameters.entrySet()) {
-			mutableMap.put(e.getKey(), e.getValue());
-		}
+        // The mutableMap creates a Map<String, List<String>>, instead of a MultivaluedMap
+        Map<String, List<String>> mutableMap = new HashMap();
 
-		// Extract the list of fields to be returned in the GET request
-		// This function also removes the "fields" key. Hence the mutableMap can be passed to JPA
-		Set<String> fieldSet = URIParser.getFieldsSelection(mutableMap);
+        for (Map.Entry<String, List<String>> e : queryParameters.entrySet()) {
+            mutableMap.put(e.getKey(), e.getValue());
+        }
 
-		// Query the requested Agreement ID via JPA
-		Set<Agreement> agreementSet = findByCriteria(mutableMap);
+        // Extract the list of fields to be returned in the GET request
+        // This function also removes the "fields" key. Hence the mutableMap can be passed to JPA
+        Set<String> fieldSet = URIParser.getFieldsSelection(mutableMap);
 
-		if (fieldSet.isEmpty() || fieldSet.contains(URIParser.ALL_FIELDS)) {
-			// Since all fields have been requested, no filtering is needed
-			response = Response.ok(agreementSet).build();
-		} else {
-			// Else apply filter
-			String filteredAgreementSet = "";
+        // Query the requested Agreement ID via JPA
+        Set<Agreement> agreementSet = findByCriteria(mutableMap);
 
-			for(Agreement ag : agreementSet) {
-				filteredAgreementSet += TMFFilter.applyFilter(ag, fieldSet);
-			}
+        if (fieldSet.isEmpty() || fieldSet.contains(URIParser.ALL_FIELDS)) {
+            // Since all fields have been requested, no filtering is needed
+            response = Response.ok(agreementSet).build();
+        } else {
+            // Else apply filter
+            String filteredAgreementSet = "";
 
-			response = Response.ok(filteredAgreementSet).build();
-		}
-		return response;
-	}
+            for (Agreement ag : agreementSet) {
+                filteredAgreementSet += TMFFilter.applyFilter(ag, fieldSet);
+            }
 
-    /** 
+            response = Response.ok(filteredAgreementSet).build();
+        }
+        return response;
+    }
+
+    /**
      * This function will match the url http://host:port/DSAgreement/agreementManagement/agreement/{id}
      * function will find the entity associated with it and delete that entity
+     *
      * @param id
      * @return
-    **/
+     **/
     @DELETE
     @Path("{id}")
     public Response deleteByID(@PathParam("id") String id) throws UnknownResourceException {
 
-		Response response;
+        Response response;
 
-		// Query the requested Agreement ID via JPA
-		agreementFacade.remove(id);
-		response = Response.status(Response.Status.NO_CONTENT).build();
+        // Query the requested Agreement ID via JPA
+        agreementFacade.remove(id);
+        response = Response.status(Response.Status.NO_CONTENT).build();
 
-		return response;
+        return response;
     }
 
-    /** 
-    * Function will match the URL
-    * PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
-    * function will take Ageement Object JSON to patch the existing object.
-	*
-    * Note: This is akin to an update using POST, rather than an actual PATCH.
-    * For a verbatim PATCH, please use the jsonpatch version of the function.
-	*
-    * @param id
-    * @param patchObject
-    * @throws BadUsageException
-    * @throws UnknownResourceException
-    **/
+    /**
+     * Function will match the URL
+     * PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
+     * function will take Ageement Object JSON to patch the existing object.
+     * <p>
+     * Note: This is akin to an update using POST, rather than an actual PATCH.
+     * For a verbatim PATCH, please use the jsonpatch version of the function.
+     *
+     * @param id
+     * @param patchObject
+     * @throws BadUsageException
+     * @throws UnknownResourceException
+     **/
     @PATCH
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response patch(@PathParam("id") String id, Agreement partialEntity) 
-		throws BadUsageException, UnknownResourceException {
+    public Response patch(@PathParam("id") String id, Agreement partialEntity)
+            throws BadUsageException, UnknownResourceException {
 
-		// If the partialEntity property values is different from the database entity, then
-		// patch the entity and generate the appropriate notifications
+        // If the partialEntity property values is different from the database entity, then
+        // patch the entity and generate the appropriate notifications
         Agreement entity = agreementFacade.patchAttributes(id, partialEntity);
 
         Response response;
 
-        if(entity != null){
+        if (entity != null) {
             response = Response.ok(entity).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).entity("No object Available for Patching").build();
         }
 
         return response;
-    }   
+    }
 
-	/** 
-    * Function will match the URL
-    * PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
-	*
-    * Note: This is an implementation of RFC 6902 for JSON patch operations, using the JSON Patch library
-	* https://github.com/java-json-tools/json-patch
-	*
-    * @param id
-    * @param patchObject
-    * @throws BadUsageException
-    * @throws UnknownResourceException
-    **/
+    /**
+     * Function will match the URL
+     * PATCH http://host:port/DSAgreement/agreementManagement/agreement/{id}
+     * <p>
+     * Note: This is an implementation of RFC 6902 for JSON patch operations, using the JSON Patch library
+     * https://github.com/java-json-tools/json-patch
+     *
+     * @param id
+     * @param patchObject
+     * @throws BadUsageException
+     * @throws UnknownResourceException
+     **/
     @PATCH
     @Path("{id}")
     @Consumes("application/json-patch+json")
-    public Response patch(@PathParam("id") String id, JsonPatch patch) 
-		throws BadUsageException, UnknownResourceException, JsonPatchException{
+    public Response patch(@PathParam("id") String id, JsonPatch patch)
+            throws BadUsageException, UnknownResourceException, JsonPatchException {
 
         // Retrieve the entity to be patched.
         Agreement entity = agreementFacade.find(id);
@@ -264,16 +269,16 @@ public class AgreementResource {
         final JsonNode patchedNode = patch.apply(node);
         Agreement partialEntity = mapper.convertValue(patchedNode, Agreement.class);
 
-		// If the partialEntity property values is different from the database entity, then
-		// patch the entity and generate the appropriate notifications
+        // If the partialEntity property values is different from the database entity, then
+        // patch the entity and generate the appropriate notifications
         entity = agreementFacade.patchAttributes(id, partialEntity);
 
         return Response.status(Response.Status.ACCEPTED).entity(entity).build();
     }
 
-	/**
-	 Return Set of unique elements to avoid List with same elements in case of join
-	**/
+    /**
+     * Return Set of unique elements to avoid List with same elements in case of join
+     **/
     private Set<Agreement> findByCriteria(Map<String, List<String>> criteria) throws BadUsageException {
 
         List<Agreement> resultList = null;
