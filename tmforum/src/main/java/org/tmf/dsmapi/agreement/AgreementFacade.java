@@ -115,21 +115,6 @@ public class AgreementFacade extends AbstractFacade<Agreement> {
 
         Agreement agreement = new ObjectMerger().merge(partialEntity,entity, head);
 
-        // Generate a JSON object from the given partial entity
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        JsonNode jsonNode = objectMapper.convertValue(partialEntity, JsonNode.class);
-
-        // May need to use edit() should BeanUtils not work
-        // Seems like the entity is not attached to the EntityManager scope at all!
-
-        // Validate if the patch will actually result in the entity values getting updated.
-        // If yes, then publish a Change notification and update the entity.
-        // The BeanUtils.patch will copy the input attribute values to the entity, if values differ.
-//        if (BeanUtils.patch(entity, partialEntity, jsonNode)) {
-//
-//
-//        }
-//
         this.edit(agreement);
         if(agreement!=null){
             eventPublisher.generateEventNotification(entity, new Date(),

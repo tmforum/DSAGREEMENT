@@ -3,7 +3,7 @@
     "info": {
         "title": "Agreement Management", 
         "description": "This is Swagger UI environment generated for the TMF Agreement Management specification", 
-        "version": "2.0"
+        "version": "1.0"
     }, 
     "host": "biologeek.orange-labs.fr", 
     "basePath": "/tmf-api/agreementManagement", 
@@ -20,7 +20,8 @@
         "/agreement": {
             "get": {
                 "operationId": "listAgreement", 
-                "summary": "List or find 'Agreement' objects", 
+                "summary": "List or find 'Agreement' objects.",
+                "description": "This operation is used to retrieve Agreement information, using filtering criteria. The request may specify the list of fields to be returned in the response, along with query parameters i.e. filter, for returning specific 'Agreement' objects. e.g. /agreement?fields=id,name&status=approved&engagedParty.name=\"So Magic Ltd\"",
                 "tags": [
                     "agreement"
                 ], 
@@ -30,7 +31,7 @@
                         "required": false, 
                         "in": "query", 
                         "name": "fields", 
-                        "description": "Comma separated properties to display in response"
+                        "description": "Comma separated properties to display in the response."
                     }, 
                     {
                         "name": "agreementPeriod.endDateTime", 
@@ -209,8 +210,47 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "operationId": "createAgreement",
+                "summary": "Create a new Agreement",
+                "description": "This operation is used to create a new Agreement, along with the associated entities.",
+                "tags": [
+                    "agreement"
+                ], 
+                "parameters": [{
+                  "required": true,
+                  "in": "body",
+                  "name": "Agreement",
+                  "description": "The Agreement to be created",
+                  "schema": {
+                    "$ref": "#/definitions/Agreement"
+                  }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Ok", 
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Agreement"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
             }
-        }, 
+        },
         "/agreement/{id}": {
             "get": {
                 "operationId": "retrieveAgreement", 
@@ -256,7 +296,7 @@
                         }
                     }
                 }
-            }, 
+            },
             "patch": {
                 "operationId": "updateAgreement", 
                 "summary": "Updates partially a 'Agreement' by Id", 
@@ -313,6 +353,7 @@
             "get": {
                 "operationId": "listAgreementSpecification", 
                 "summary": "List or find 'AgreementSpecification' objects", 
+                "description": "This operation is used to retrieve Agreement Specification information, using filtering criteria. The request may specify the list of fields to be returned in the response, along with query parameters i.e. filter, for returning specific 'Agreement Specification' objects. e.g. /agreementSpecification?fields=id,name&status=approved&engagedParty.name=\"So Magic Ltd\"",
                 "tags": [
                     "agreementSpecification"
                 ], 
@@ -470,8 +511,41 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "operationId": "createAgreementSpec",
+                "summary": "Create a new Agreement Specification",
+                "description": "This operation is used to create a new Agreement Specification, along with the associated entities.",
+                "tags": [
+                    "agreementSpecification"
+                ], 
+                "parameters": [{
+                  "required": true,
+                  "in": "body",
+                  "name": "AgreementSpec",
+                  "description": "The Agreement Specification to be created",
+                  "schema": {
+                    "$ref": "#/definitions/AgreementSpecification"
+                  }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Ok", 
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/AgreementSpecification"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
             }
-        }, 
+        },
         "/agreementSpecification/{id}": {
             "get": {
                 "operationId": "retrieveAgreementSpecification", 
@@ -603,12 +677,10 @@
             "description": "An agreement represents a contract or arrangement, either written or verbal and sometimes enforceable by law, such as a service level agreement or a customer price agreement. An agreement involves a number of other business entities, such as products, services, and resources and/or their specifications.", 
             "properties": {
                 "agreementPeriod": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "The time period during which the Agreement is in effect."
+                    "$ref": "#/definitions/TimePeriod"
                 }, 
                 "completionDate": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "Date at which the agreement is completed"
+                    "$ref": "#/definitions/TimePeriod"
                 }, 
                 "description": {
                     "type": "string", 
@@ -691,12 +763,10 @@
             "description": "An agreement represents a contract or arrangement, either written or verbal and sometimes enforceable by law, such as a service level agreement or a customer price agreement. An agreement involves a number of other business entities, such as products, services, and resources and/or their specifications.\nSkipped properties: id,href", 
             "properties": {
                 "agreementPeriod": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "The time period during which the Agreement is in effect."
+                    "$ref": "#/definitions/TimePeriod"
                 }, 
                 "completionDate": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "Date at which the agreement is completed"
+                    "$ref": "#/definitions/TimePeriod"
                 }, 
                 "description": {
                     "type": "string", 
@@ -800,8 +870,7 @@
                     "description": "Name of the agreement specification"
                 }, 
                 "validFor": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "The period for which the agreement specification is valid"
+                    "$ref": "#/definitions/TimePeriod"
                 }, 
                 "version": {
                     "type": "string", 
@@ -851,7 +920,7 @@
                     "description": "An instant of time, starting at the TimePeriod"
                 }
             }
-        }, 
+        },
         "AgreementSpecificationRef": {
             "type": "object", 
             "description": "AgreementSpecification reference. An AgreementSpecification represents a template of an agreement that can be used when establishing partnerships.", 
@@ -1006,8 +1075,7 @@
                     "description": "Unique number assigned for reference."
                 }, 
                 "validFor": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "The period of time during which the term or condition of the agreement applies."
+                    "$ref": "#/definitions/TimePeriod"
                 }
             }
         }, 
@@ -1074,8 +1142,7 @@
                     "description": "Name of the characteristic being specified."
                 }, 
                 "validFor": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "The period for which the specification characteristic is valid"
+                    "$ref": "#/definitions/TimePeriod"
                 }, 
                 "valueType": {
                     "type": "string", 
@@ -1110,8 +1177,7 @@
                     "description": "Role of the related party."
                 }, 
                 "validFor": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "Validity period of the related party"
+                    "$ref": "#/definitions/TimePeriod"
                 }
             }
         }, 
@@ -1154,8 +1220,7 @@
                     "description": "Type of relationship such as, substitution or dependency."
                 }, 
                 "validFor": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "The period for which the relationship is valid"
+                    "$ref": "#/definitions/TimePeriod"
                 }
             }
         }, 
@@ -1172,8 +1237,7 @@
                     "description": "Unit of measure for the characteristic, such as minutes, gigabytes (GB) and so on."
                 }, 
                 "validFor": {
-                    "$ref": "#/definitions/TimePeriod", 
-                    "description": "The period of time for which a value is applicable"
+                    "$ref": "#/definitions/TimePeriod"
                 }, 
                 "value": {
                     "type": "string", 
