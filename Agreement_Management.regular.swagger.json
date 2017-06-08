@@ -299,7 +299,7 @@
             },
             "patch": {
                 "operationId": "updateAgreement", 
-                "summary": "Updates partially a 'Agreement' by Id", 
+                "summary": "Partially updates an 'Agreement' by Id", 
                 "tags": [
                     "agreement"
                 ], 
@@ -340,6 +340,38 @@
                             "$ref": "#/definitions/Error"
                         }
                     }, 
+                    "500": {
+                        "description": "Internal Server Error", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "deleteAgreement",
+                "summary": "Delete an existing Agreement",
+                "description": "This operation is used to delete an existing Agreement object, along with the associated entities.",
+                "tags": [
+                    "agreement"
+                ], 
+                "parameters": [{
+                  "required": true,
+                  "in": "path",
+                  "name": "id",
+                  "type": "string",
+                  "description": "Identifier of the Agreement"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error", 
                         "schema": {
@@ -584,6 +616,89 @@
                             "$ref": "#/definitions/Error"
                         }
                     }, 
+                    "500": {
+                        "description": "Internal Server Error", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "updateAgreementSpecification", 
+                "summary": "Partially updtes an 'Agreement Specification' by Id", 
+                "tags": [
+                    "agreementSpecification"
+                ], 
+                "parameters": [
+                    {
+                        "required": true, 
+                        "type": "string",
+                        "name": "id", 
+                        "in": "path", 
+                        "description": "Identifier of the Agreement Specification"
+                    }, 
+                    {
+                        "schema": {
+                            "$ref": "#/definitions/Agreement_Update"
+                        }, 
+                        "required": true, 
+                        "in": "body", 
+                        "name": "agreementSpecification", 
+                        "description": "The Agreement Specification to be updated"
+                    }
+                ], 
+                "responses": {
+                    "201": {
+                        "description": "Updated", 
+                        "schema": {
+                            "$ref": "#/definitions/AgreementSpecification"
+                        }
+                    }, 
+                    "400": {
+                        "description": "Bad Request", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }, 
+                    "404": {
+                        "description": "Not Found", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }, 
+                    "500": {
+                        "description": "Internal Server Error", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "deleteAgreementSpecification",
+                "summary": "Delete an existing Agreement Specification",
+                "description": "This operation is used to delete an existing Agreement Specification object, along with the associated entities.",
+                "tags": [
+                    "agreementSpecification"
+                ], 
+                "parameters": [{
+                  "required": true,
+                  "in": "path",
+                  "name": "id",
+                  "type": "string",
+                  "description": "Identifier of the Agreement Specification"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request", 
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error", 
                         "schema": {
