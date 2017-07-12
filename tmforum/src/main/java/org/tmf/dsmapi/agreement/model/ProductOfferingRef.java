@@ -7,9 +7,9 @@ import javax.persistence.*;
 //@Table(name = "PRODUCT_OFFERING")
 public class ProductOfferingRef {
 
-    //@Id
-    //@GeneratedValue
-    //@Column(name = "PO_ID")
+   // @Id
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PO_ID")
     protected String id;
     protected String href;
     protected String name;

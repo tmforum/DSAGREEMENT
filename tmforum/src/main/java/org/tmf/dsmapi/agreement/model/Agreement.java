@@ -55,6 +55,7 @@ public class Agreement implements Serializable {
     //Statement fo Intent for an Agreement
     protected String statementOfIntent;
 
+
     //Life cycle status of agreement - of Initialized , InProcess, Completed, Rejected
     @Enumerated(EnumType.STRING)
     protected AgreementStatusEnum status;
