@@ -1,0 +1,34 @@
+{
+  "id": "8174956b-c59c-74f5-4080-a770df9bb760",
+  "name": "DSMAgreement",
+  "values": [
+    {
+      "enabled": true,
+      "key": "host",
+      "value": "localhost:8080",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "auth",
+      "value": "user:user",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "agreementBasePath",
+      "value": "{{auth}}@{{host}}/DSAgreement/api/agreementManagement",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "testName",
+      "value": "tmf-hub-004",
+      "type": "text"
+    }
+  ],
+  "timestamp": 1499880136109,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2017-07-14T13:39:27.206Z",
+  "_postman_exported_using": "Postman/5.0.2"
+}

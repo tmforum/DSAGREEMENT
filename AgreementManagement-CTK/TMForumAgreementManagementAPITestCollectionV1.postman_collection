@@ -1,0 +1,1135 @@
+{
+	"variables": [],
+	"info": {
+		"name": "agreement",
+		"_postman_id": "d5b4c1e1-0755-f80c-12b4-4a0732ac82dd",
+		"description": "Requests collections for API agreement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/agreement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 201'] = responseCode.code === 201;",
+							"tests['Response contains ID ' + dataOut.id.toString() ] = dataOut.id.toString() !== '';",
+							"tests['Response contains HREF' + dataOut.href.toString() ] = dataOut.href.toString() !== '';",
+							"tests['Response contains  status '+ dataOut.status.toString()] = dataOut.status.toString() !== '';",
+							"tests['Response contains  Name ' + dataOut.name.toString()] = dataOut.name.toString() !== '';",
+							"",
+							"postman.setGlobalVariable('agrementID', dataOut.id.toString());",
+							"postman.setGlobalVariable('lastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('lastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"var dataIn = JSON.parse(request.data);",
+							"console.log('request ' + dataIn);",
+							"console.log('request type' + typeof(dataIn));",
+							"",
+							"if (typeof(dataOut.agreementItem) !== 'undefined' && dataOut.agreementItem.length > 0) {",
+							"    var items = dataOut.agreementItem;",
+							"    for (var i = 0; i < items.length; i++) {",
+							"        tests['Response contains items Product Offering '] = typeof(items[i].productOffering) !== 'undefined';",
+							"        validateProduct(items[i].productOffering);",
+							"        tests['Response contains items termOrCondition '] = typeof(items[i].termOrCondition) !== 'undefined';",
+							"        validateTnC(items[i].termOrCondition);",
+							"    }",
+							"}",
+							"if (typeof(dataOut.engagedPartyRole) !== 'undefined' && dataOut.engagedPartyRole.length > 0) {",
+							"    var items = dataOut.engagedPartyRole;",
+							"    for (var i = 0; i < items.length; i++) {",
+							"        tests['Response contains items engagedPartyRole ID  '] = items[i].id.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole HREF  '] = items[i].href.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole name  '] = items[i].name.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole partyID  '] = items[i].partyId.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole partyName  '] = items[i].partyName.toString() !== '';",
+							"        ",
+							"    }",
+							"}",
+							"",
+							"function validateProduct(productArray) {",
+							"    if(productArray.length>0 && typeof(productArray)!==undefined){",
+							"        productArray.forEach(function(element) {",
+							"            //tests['Product Array  contains Id ']=element.id.toString() !=='';",
+							"            tests['Product Array contains HREF']=element.href.toString() !=='';",
+							"            tests['Product Array contains name']=element.name.toString() !=='';",
+							"",
+							"        }, this);",
+							"    }",
+							"}",
+							"function validateTnC(tnCArray) {",
+							"    if(tnCArray.length>0 && typeof(tnCArray)!==undefined){",
+							"        tnCArray.forEach(function(element) {",
+							"           // tests['TnC Array  contains Id ']=element.id.toString() !=='';",
+							"            tests['TnC Array contains description']=element.description.toString() !=='';",
+							"            tests['TnC Array contains Period']=element.validFor.toString() !=='';",
+							"",
+							"        }, this);",
+							"    }",
+							"}",
+							"tests['Response contains type ' + dataOut.type.toString()] = dataOut.type.toString() !== '';",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreement-001\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreement",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n    \"name\": \"Summer Contract Agreement\", \r\n    \"type\": \"commercial\", \r\n    \"agreementItem\": [\r\n        {\r\n            \"productOffering\": [\r\n                {\r\n                    \"href\": \"https://host:port/productOffering/productOffering/8841\", \r\n                    \"name\": \"My Quick BB Offer\", \r\n                    \"bundledProductOffering\": [\r\n                        {\r\n                            \"href\": \"https://host:port/productOffering/bundledProductOffering/3871\", \r\n                            \"name\": \"Robust Offer\", \r\n                            \"bundledProductOffering\": []\r\n                        }\r\n                    ]\r\n                }\r\n            ], \r\n            \"termOrCondition\": [\r\n                {\r\n                    \"description\": \"This  agreement term or condition ...\", \r\n                    \"validFor\": {\r\n                        \"startDateTime\": \"2016-03-19T00:00\", \r\n                        \"endDateTime\": \"2016-10-19T00:00\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ], \r\n    \"engagedPartyRole\": [\r\n        {\r\n            \"href\": \"https://host:port/partyRole/partyRole/5144\", \r\n            \"name\": \"Supplier\", \r\n            \"partyId\": \"438\", \r\n            \"partyName\": \"Magic Tools Company\"\r\n        }\r\n    ]\r\n   \r\n}"
+				},
+				"description": "Creates a 'Agreement'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreementSpecification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 201'] = responseCode.code === 201;",
+							"tests['Response contains ID ' + dataOut.id.toString()] = dataOut.id.toString() !== '';",
+							"tests['Response contains HREF '+ dataOut.href.toString() ] = dataOut.href.toString() !== '';",
+							"tests['Response contains  lifecycleStatus '+ dataOut.lifecycleStatus.toString() ] = dataOut.lifecycleStatus.toString() !== '';",
+							"tests['Response contains  Name '+ dataOut.name.toString() ] = dataOut.name.toString() !== '';",
+							"tests['Response contains  isBundle '+ dataOut.isBundle.toString()] = dataOut.isBundle.toString() !== '';",
+							"",
+							"postman.setGlobalVariable('specID', dataOut.id.toString());",
+							"postman.setGlobalVariable('speclastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('speclastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"var dataIn = JSON.parse(request.data);",
+							"console.log('request ' + dataIn);",
+							"console.log('request type' + typeof(dataIn));",
+							"",
+							"if (typeof(dataOut.attachment) !== 'undefined' && dataOut.attachment.length > 0) {",
+							"    var items = dataOut.attachment;",
+							"    for (var i = 0; i < items.length; i++) {",
+							"        tests['Response contains attachment id '+items[i].id] = items[i].id !== '';",
+							"        tests['Response contains attachment href '+items[i].href] = items[i].href !== '';",
+							"        tests['Response contains attachment type '+items[i].type] = items[i].type !== '';",
+							"        tests['Response contains attachment url '+items[i].url] = items[i].url !== '';",
+							"        ",
+							"    }",
+							"}",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreementspecification-001\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreementSpecification",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"This agreement specification defines the environment protection rules to be followed by each party.\", \n    \"href\": \"https://host:port/onboardingManagement/agreementSpecification/4015\", \n    \"id\": \"4015\", \n    \"isBundle\": false, \n    \"lastUpdate\": \"2016-03-23T00:00\", \n    \"lifecycleStatus\": \"initialized\", \n    \"name\": \"General Agreement Specification\", \n    \"validFor\": {\n        \"startDateTime\": \"2016-03-26T00:00\", \n        \"endDateTime\": \"2016-10-19T00:00\"\n    }, \n    \"version\": \"3.0\", \n    \"serviceCategory\": {\n        \"href\": \"https://host:port/productOffering/category/1717\", \n        \"id\": \"1717\", \n        \"name\": \"Secure Home\", \n        \"version\": \"1.5\"\n    }, \n    \"specCharacteristic\": [\n        {\n            \"configurable\": true, \n            \"description\": \"This  agreement spec characteristic ...\", \n            \"name\": \"Screen color\", \n            \"validFor\": {\n                \"startDateTime\": \"2016-03-19T00:00\", \n                \"endDateTime\": \"2016-10-19T00:00\"\n            }, \n            \"valueType\": \"string\", \n            \"specCharacteristicValue\": [\n                {\n                    \"default\": true, \n                    \"unitOfMeasure\": \"MB\", \n                    \"validFor\": {\n                        \"startDateTime\": \"2016-03-22T00:00\", \n                        \"endDateTime\": \"2016-10-19T00:00\"\n                    }, \n                    \"value\": \"pink\", \n                    \"valueFrom\": \"\", \n                    \"valueTo\": \"\", \n                    \"valueType\": \"string\"\n                }\n            ]\n        }\n    ], \n    \"relatedParty\": [\n        {\n            \"href\": \"https://host:port/partyManagement/organization/9077\", \n            \"id\": \"9077\", \n            \"name\": \"Richard Cole\", \n            \"role\": \"seller\", \n            \"validFor\": {\n                \"startDateTime\": \"2016-03-25T00:00\", \n                \"endDateTime\": \"2016-10-19T00:00\"\n            }\n        }\n    ], \n    \"attachment\": [\n        {\n            \"href\": \"http://hostname:port/documentManagement/attachment/22\", \n            \"id\": \"22\", \n            \"type\": \"Document\", \n            \"url\": \"http://yyyyy\"\n        }\n    ], \n    \"specificationRelationship\": [\n        {\n            \"href\": \"https://host:port/agreements/agreementSpecificationRelationship/5871\", \n            \"id\": \"5871\", \n            \"type\": \"dependency\", \n            \"validFor\": {\n                \"startDateTime\": \"2016-03-19T00:00\", \n                \"endDateTime\": \"2016-10-19T00:00\"\n            }\n        }\n    ]\n}"
+				},
+				"description": "Creates a 'AgreementSpecification'"
+			},
+			"response": []
+		},
+		{
+			"name": "/hub/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 204'] = responseCode.code === 204;",
+							"tests['Response contains ID ' + dataOut.id.toString()] = dataOut.id.toString() !== '';",
+							"tests['Response contains callback '+ dataOut.callback.toString() ] = dataOut.callback.toString() !== '';",
+							"//tests['Response contains  query '+ dataOut.query.toString() ] = dataOut.query.toString() !== '';",
+							"",
+							"postman.setGlobalVariable('hubID', dataOut.id.toString());",
+							"postman.setGlobalVariable('hublastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('hublastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"var dataIn = JSON.parse(request.data);",
+							"",
+							"tests['Request contains mandatory callback '+ dataIn.callback.toString() ] = dataIn.callback.toString() !== '';",
+							"",
+							"console.log('request ' + dataIn);",
+							"console.log('request type' + typeof(dataIn));",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-hub-001\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/hub/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"leaseSeconds\" : 300000,\r\n  \"dateTime\" :\"2016-03-26T00:00\",\r\n  \"callback\" : \"http://localhost:8080/DSAgreement/api/notifyMe\",\r\n  \"query\" : null\r\n}"
+				},
+				"description": "Create a listner on hub'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreement (list)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"",
+							"if (typeof(dataOut) !== 'undefined' && dataOut.length > 0) {",
+							"    for (var i = 0; i < dataOut.length; i++) {",
+							"       tests['Response contains ID ' + dataOut[i].id.toString()] = dataOut[i].id.toString() !== '';",
+							"       tests['Response contains ID ' + dataOut[i].name.toString()] = dataOut[i].name.toString() !== '';",
+							"    }",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreement-002\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{agreementBasePath}}/agreement?fields=id,name",
+					"host": [
+						"{{agreementBasePath}}"
+					],
+					"path": [
+						"agreement"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "id,name",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "List or find 'Agreement' items"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreement/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"tests['Response contains ID ' + dataOut.id.toString() ] = dataOut.id.toString() !== '';",
+							"tests['Response contains HREF' + dataOut.href.toString() ] = dataOut.href.toString() !== '';",
+							"tests['Response contains  status '+ dataOut.status.toString()] = dataOut.status.toString() !== '';",
+							"tests['Response contains  Name ' + dataOut.name.toString()] = dataOut.name.toString() !== '';",
+							"",
+							"postman.setGlobalVariable('lastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"",
+							"if (typeof(dataOut.agreementItem) !== 'undefined' && dataOut.agreementItem.length > 0) {",
+							"    var items = dataOut.agreementItem;",
+							"    for (var i = 0; i < items.length; i++) {",
+							"        tests['Response contains items Product Offering '] = typeof(items[i].productOffering) !== 'undefined';",
+							"        validateProduct(items[i].productOffering);",
+							"        tests['Response contains items termOrCondition '] = typeof(items[i].termOrCondition) !== 'undefined';",
+							"        validateTnC(items[i].termOrCondition);",
+							"    }",
+							"}",
+							"if (typeof(dataOut.engagedPartyRole) !== 'undefined' && dataOut.engagedPartyRole.length > 0) {",
+							"    var items = dataOut.engagedPartyRole;",
+							"    for (var i = 0; i < items.length; i++) {",
+							"        tests['Response contains items engagedPartyRole ID  '] = items[i].id.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole HREF  '] = items[i].href.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole name  '] = items[i].name.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole partyID  '] = items[i].partyId.toString() !== '';",
+							"        tests['Response contains items engagedPartyRole partyName  '] = items[i].partyName.toString() !== '';",
+							"        ",
+							"    }",
+							"}",
+							"",
+							"function validateProduct(productArray) {",
+							"    if(productArray.length>0 && typeof(productArray)!==undefined){",
+							"        productArray.forEach(function(element) {",
+							"            //tests['Product Array  contains Id ']=element.id.toString() !=='';",
+							"            tests['Product Array contains HREF']=element.href.toString() !=='';",
+							"            tests['Product Array contains name']=element.name.toString() !=='';",
+							"",
+							"        }, this);",
+							"    }",
+							"}",
+							"function validateTnC(tnCArray) {",
+							"    if(tnCArray.length>0 && typeof(tnCArray)!==undefined){",
+							"        tnCArray.forEach(function(element) {",
+							"           // tests['TnC Array  contains Id ']=element.id.toString() !=='';",
+							"            tests['TnC Array contains description']=element.description.toString() !=='';",
+							"            tests['TnC Array contains Period']=element.validFor.toString() !=='';",
+							"",
+							"        }, this);",
+							"    }",
+							"}",
+							"tests['Response contains type ' + dataOut.type.toString()] = dataOut.type.toString() !== '';",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreement-003\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreement/{{agrementID}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Retrieves a 'Agreement'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreement/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"tests['Response contains ID ' + dataOut.id.toString() ] = dataOut.id.toString() !== '';",
+							"",
+							"postman.setGlobalVariable('agrementID', dataOut.id.toString());",
+							"postman.setGlobalVariable('lastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('lastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"var dataIn = JSON.parse(request.data);",
+							"console.log('request ' + dataIn);",
+							"console.log('request type' + typeof(dataIn));",
+							"tests['Request & Response is same as patched object agreementPeriod '] = dataIn.statementOfIntent===dataOut.statementOfIntent;",
+							"tests['Response & Reponse contains  Name '+ dataOut.name.toString()] = dataIn.name.toString() === dataOut.name.toString();",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreement-004\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreement/{{agrementID}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"agreementPeriod\": {\r\n        \"startDateTime\": \"2016-03-20T00:00\", \r\n        \"endDateTime\": \"2016-10-19T00:00\"\r\n    }, \r\n    \"completionDate\": \"2016-10-16\", \r\n    \"description\": \"This  agreement ...\", \r\n    \"documentNumber\": 14, \r\n    \"initialDate\": \"2015-10-16\", \r\n    \"name\": \"Winter Contract Agreement\", \r\n    \"statementOfIntent\": \"Agreement on minimum prices\", \r\n    \"type\": \"commercial\", \r\n    \"version\": \"1.5\", \r\n    \"agreementSpecification\": {\r\n        \"description\": \"This agreement specification defines the environment protection rules to be followed by each party.\", \r\n        \"href\": \"https://host:port/onboardingManagement/agreementSpecification/2587\", \r\n        \"id\": \"2587\", \r\n        \"name\": \"General Agreement Specification\"\r\n    }, \r\n    \"agreementItem\": [\r\n        {\r\n            \"productOffering\": [\r\n                {\r\n                    \"href\": \"https://host:port/productOffering/productOffering/3827\", \r\n                    \"id\": \"3827\", \r\n                    \"name\": \"Virtual Storage Medium\", \r\n                    \"bundledProductOffering\": [\r\n                        {\r\n                            \"href\": \"https://host:port/productOffering/bundledProductOffering/9540\", \r\n                            \"id\": \"9540\", \r\n                            \"name\": \"Magic Offer\", \r\n                            \"bundledProductOffering\": []\r\n                        }\r\n                    ]\r\n                }\r\n            ], \r\n            \"termOrCondition\": [\r\n                {\r\n                    \"description\": \"This  agreement term or condition ...\", \r\n                    \"id\": \"2268\", \r\n                    \"validFor\": {\r\n                        \"startDateTime\": \"2016-03-20T00:00\", \r\n                        \"endDateTime\": \"2016-10-19T00:00\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    ], \r\n    \"engagedPartyRole\": [\r\n        {\r\n            \"href\": \"https://host:port/partyRole/partyRole/1493\", \r\n            \"id\": \"1493\", \r\n            \"name\": \"Supplier\", \r\n            \"partyId\": \"506\", \r\n            \"partyName\": \"Magic Tools Company\"\r\n        }\r\n    ], \r\n    \"agreementAuthorization\": [\r\n        {\r\n            \"date\": \"2016-03-23T00:00\", \r\n            \"signatureRepresentation\": \"Mr Hyde\", \r\n            \"state\": \"process\"\r\n        }\r\n    ], \r\n    \"characteristic\": [\r\n        \r\n            {\r\n                \"name\": \"country\", \r\n                \"value\": \"Canada\"\r\n            }, \r\n            {\r\n                \"name\": \"confidentialLevel\", \r\n                \"value\": \"low\"\r\n            }\r\n        \r\n    ], \r\n    \"associatedAgreement\": [\r\n        \r\n            {\r\n                \"name\": \"General Partnership Agreement\", \r\n                \"id\": \"98765453\"\r\n            }\r\n        \r\n    ]\r\n}"
+				},
+				"description": "Updates partially a 'Agreement'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreement/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 202'] = responseCode.code === 202;",
+							"tests['Response contains ID ' + dataOut.id.toString() ] = dataOut.id.toString() !== '';",
+							"",
+							"",
+							"",
+							"postman.setGlobalVariable('lastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('lastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"var dataIn = JSON.parse(request.data);",
+							"",
+							"",
+							"if (typeof(dataIn) !== 'undefined' && dataIn.length > 0) {",
+							"        var operation = dataIn[0].op;",
+							"        var dataObj = dataIn[0].value;",
+							"        var path = dataIn[0].path.substr(1,dataIn[0].path.length-3);",
+							"        tests['Response contains  Name ' + dataOut[path].length ] = true=== true;",
+							"        if(operation.toString()===\"add\"){",
+							"               if(Array.isArray(dataOut[path])){",
+							"               var obj = dataOut[path];",
+							"               //tests['Object is added is same as object passed'] = Object.is(dataObj,obj[obj.length-1])==true;",
+							"               tests['Object added with signatureRepresentation is same as object passed signatureRepresentation'] = dataObj.signatureRepresentation.toString() === obj[obj.length-1].signatureRepresentation.toString();",
+							"               tests['Object added with state is same as object passed state'] = dataObj.state.toString() === obj[obj.length-1].state.toString();",
+							"             }",
+							"     }",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreement-005\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreement/{{agrementID}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"op\" : \"add\",\r\n        \"path\" : \"/agreementAuthorization/-\",\r\n        \"value\" : \r\n                {\r\n                    \"date\": \"2016-03-23T00:00\", \r\n                    \"signatureRepresentation\": \"Mr Atin Singh\", \r\n                    \"state\": \"process\"\r\n                }\r\n          \r\n    }\r\n]"
+				},
+				"description": "Updates partially a 'Agreement'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreement/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests['Status code is 204'] = responseCode.code === 204;",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreement-006\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreement/{{agrementID}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"description": "Deletes a 'Agreement'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreementSpecification (list)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"",
+							"if (typeof(dataOut) !== 'undefined' && dataOut.length > 0) {",
+							"    for (var i = 0; i < dataOut.length; i++) {",
+							"       tests['Response contains ID ' + dataOut[i].id.toString()] = dataOut[i].id.toString() !== '';",
+							"       tests['Response contains ID ' + dataOut[i].name.toString()] = dataOut[i].name.toString() !== '';",
+							"    }",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreementspec-002\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{agreementBasePath}}/agreementSpecification?fields=id,name",
+					"host": [
+						"{{agreementBasePath}}"
+					],
+					"path": [
+						"agreementSpecification"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "id,name",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "List or find 'AgreementSpecification' items"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreementSpecification/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"tests['Response contains ID ' + dataOut.id.toString()] = dataOut.id.toString() !== '';",
+							"tests['Response contains HREF '+ dataOut.href.toString() ] = dataOut.href.toString() !== '';",
+							"tests['Response contains  lifecycleStatus '+ dataOut.lifecycleStatus.toString() ] = dataOut.lifecycleStatus.toString() !== '';",
+							"tests['Response contains  Name '+ dataOut.name.toString() ] = dataOut.name.toString() !== '';",
+							"tests['Response contains  isBundle '+ dataOut.isBundle.toString()] = dataOut.isBundle.toString() !== '';",
+							"",
+							"postman.setGlobalVariable('specID', dataOut.id.toString());",
+							"postman.setGlobalVariable('speclastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('speclastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"",
+							"if (typeof(dataOut.attachment) !== 'undefined' && dataOut.attachment.length > 0) {",
+							"    var items = dataOut.attachment;",
+							"    for (var i = 0; i < items.length; i++) {",
+							"        tests['Response contains attachment id '+items[i].id] = items[i].id !== '';",
+							"        tests['Response contains attachment href '+items[i].href] = items[i].href !== '';",
+							"        tests['Response contains attachment type '+items[i].type] = items[i].type !== '';",
+							"        tests['Response contains attachment url '+items[i].url] = items[i].url !== '';",
+							"        ",
+							"    }",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreementspec-003\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreementSpecification/{{specID}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Retrieves a 'AgreementSpecification'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreementSpecification/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"tests['Response contains ID ' + dataOut.id.toString() ] = dataOut.id.toString() !== '';",
+							"",
+							"postman.setGlobalVariable('agrementID', dataOut.id.toString());",
+							"postman.setGlobalVariable('lastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('lastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"var dataIn = JSON.parse(request.data);",
+							"console.log('request ' + dataIn);",
+							"console.log('request type' + typeof(dataIn));",
+							"tests['Request & Response is same as patched object agreementPeriod '] = dataIn.description===dataOut.description;",
+							"tests['Response & Reponse contains  Name '+ dataOut.name.toString()] = dataIn.name.toString() === dataOut.name.toString();",
+							"",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreementspec-004\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreementSpecification/{{specID}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"This agreement specification defines the environment protection rules to be followed by each party.\", \n    \"isBundle\": false, \n    \"lastUpdate\": \"2016-03-23T00:00\", \n    \"name\": \"Purchase Agreement Specification\", \n    \"validFor\": {\n        \"startDateTime\": \"2016-03-23T00:00\", \n        \"endDateTime\": \"2016-10-19T00:00\"\n    }, \n    \"version\": \"2.1\", \n    \"specCharacteristic\": [\n        {\n            \"configurable\": true, \n            \"description\": \"This  agreement spec characteristic ...\", \n            \"name\": \"Phone color\", \n            \"validFor\": {\n                \"startDateTime\": \"2016-03-25T00:00\", \n                \"endDateTime\": \"2016-10-19T00:00\"\n            }, \n            \"valueType\": \"integer\", \n            \"specCharacteristicValue\": [\n                {\n                    \"default\": true, \n                    \"unitOfMeasure\": \"Hz\", \n                    \"validFor\": {\n                        \"startDateTime\": \"2016-03-23T00:00\", \n                        \"endDateTime\": \"2016-10-19T00:00\"\n                    }, \n                    \"value\": \"yellow\", \n                    \"valueFrom\": \"\", \n                    \"valueTo\": \"\", \n                    \"valueType\": \"string\"\n                }\n            ]\n        }\n    ], \n    \"relatedParty\": [\n        {\n            \"href\": \"https://host:port/partyManagement/organization/7961\", \n            \"id\": \"7961\", \n            \"name\": \"Jimmy Doe\", \n            \"role\": \"seller\", \n            \"validFor\": {\n                \"startDateTime\": \"2016-03-20T00:00\", \n                \"endDateTime\": \"2016-10-19T00:00\"\n            }\n        }\n    ], \n    \"attachment\": [\n        {\n            \"href\": \"http://hostname:port/documentManagement/attachment/44\", \n            \"id\": \"44\", \n            \"type\": \"Video\", \n            \"url\": \"http://xxxxx\"\n        }\n    ], \n    \"specificationRelationship\": [\n        {\n            \"href\": \"https://host:port/agreements/agreementSpecificationRelationship/5671\", \n            \"id\": \"5671\", \n            \"type\": \"dependency\", \n            \"validFor\": {\n                \"startDateTime\": \"2016-03-23T00:00\", \n                \"endDateTime\": \"2016-10-19T00:00\"\n            }\n        }\n    ]\n}"
+				},
+				"description": "Updates partially a 'AgreementSpecification'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreementSpecification/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 202'] = responseCode.code === 202;",
+							"tests['Response contains ID ' + dataOut.id.toString() ] = dataOut.id.toString() !== '';",
+							"tests['Response contains HREF' + dataOut.href.toString() ] = dataOut.href.toString() !== '';",
+							"tests['Response contains  lifecycleStatus '+ dataOut.lifecycleStatus.toString()] = dataOut.lifecycleStatus.toString() !== '';",
+							"",
+							"",
+							"postman.setGlobalVariable('lastResponse' + postman.getEnvironmentVariable('testName'), dataOut);",
+							"postman.setGlobalVariable('lastRequest' + postman.getEnvironmentVariable('testName'), request.data);",
+							"",
+							"var dataIn = JSON.parse(request.data);",
+							"",
+							"",
+							"if (typeof(dataIn) !== 'undefined' && dataIn.length > 0) {",
+							"        var operation = dataIn[0].op;",
+							"        var dataObj = dataIn[0].value;",
+							"        var path = dataIn[0].path.substr(1,dataIn[0].path.length-3);",
+							"        tests['Response contains  Name ' + dataOut[path].length ] = true=== true;",
+							"        if(operation.toString()===\"add\"){",
+							"               if(Array.isArray(dataOut[path])){",
+							"               var obj = dataOut[path];",
+							"               //tests['Object is added is same as object passed'] = Object.is(dataObj,obj[obj.length-1])==true;",
+							"               tests['Object added with Id is same as object passed ID'] = dataObj.id.toString() === obj[obj.length-1].id.toString();",
+							"               tests['Object added with type is same as object passed Type'] = dataObj.type.toString() === obj[obj.length-1].type.toString();",
+							"             }",
+							"     }",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreementspec-005\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/agreementSpecification/{{specID}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{ \"op\" : \"add\", \"path\" : \"/attachment/-\",\"value\":{\"href\":\"http://hostname:port/documentManagement/attachment/57\", \"id\": \"57\",\"type\": \"Video\",\"url\": \"http://xxxxx\"}}]"
+				},
+				"description": "Updates partially a 'AgreementSpecification'"
+			},
+			"response": []
+		},
+		{
+			"name": "/agreementSpecification/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests['Status code is 204'] = responseCode.code === 204;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-agreementspec-006\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{agreementBasePath}}/agreementSpecification/:id",
+					"host": [
+						"{{agreementBasePath}}"
+					],
+					"path": [
+						"agreementSpecification",
+						":id"
+					],
+					"query": [],
+					"variable": [
+						{
+							"description": "",
+							"key": "id",
+							"value": "1"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"description": "Deletes a 'AgreementSpecification'"
+			},
+			"response": []
+		},
+		{
+			"name": "/hub/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"",
+							"if (typeof(dataOut) !== 'undefined' && dataOut.length > 0) {",
+							"    for (var i = 0; i < dataOut.length; i++) {",
+							"       tests['Response contains ID ' + dataOut[i].id.toString()] = dataOut[i].id.toString() !== '';",
+							"       tests['Response contains ID ' + dataOut[i].callback.toString()] = dataOut[i].callback.toString() !== '';",
+							"    }",
+							"}",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-hub-002\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/hub/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Return all listern from hub'"
+			},
+			"response": []
+		},
+		{
+			"name": "/hub/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var dataOut = JSON.parse(responseBody);",
+							"tests['Content-Type is present ' + postman.getResponseHeader('Content-type')] = postman.getResponseHeader('Content-type');",
+							"tests['Status code is 200'] = responseCode.code === 200;",
+							"tests['Response contains ID ' + dataOut.id.toString()] = dataOut.id.toString() !== '';",
+							"tests['Response contains ID ' + dataOut.callback.toString()] = dataOut.callback.toString() !== '';"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-hub-003\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/hub/{{hubID}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"description": "Return particular listner details from hub'"
+			},
+			"response": []
+		},
+		{
+			"name": "/hub/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests['Status code is 202'] = responseCode.code === 202;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-hub-004\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/hub/{{hubID}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"description": "Delete a listner from hub'"
+			},
+			"response": []
+		},
+		{
+			"name": "/hub/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests['Status code is 202'] = responseCode.code === 202;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"testName\",  \"tmf-hub-003\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{agreementBasePath}}/hub/",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"description": "Delete all listner from hub'"
+			},
+			"response": []
+		}
+	]
+}
